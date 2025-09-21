@@ -39,3 +39,4 @@ test-results/
 playwright/.cache
 
 storybook-static/
+.vercel

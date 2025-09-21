@@ -2,6 +2,7 @@
 	"name": "@pm-ext/auto-link",
 	"version": "0.0.1",
 	"sideEffects": false,
+	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -11,7 +12,6 @@
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"type": "module",
 	"scripts": {
 		"build": "rm -rf dist && rslib build",
 		"dev": "rslib build -w",
