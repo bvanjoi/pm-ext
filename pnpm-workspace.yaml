@@ -1,0 +1,5 @@
+packages:
+  - "packages/pm-auto-link"
+  - "packages/pm-basic-setup"
+  - "packages/storybook"
+  - "tools/json-format"

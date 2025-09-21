@@ -1,0 +1,32 @@
+{
+	"name": "@pm-ext/basic-setup",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.mjs"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"build": "rm -rf dist && rslib build",
+		"dev": "rslib build -w",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix"
+	},
+	"dependencies": {
+		"prosemirror-commands": "^1.2.1",
+		"prosemirror-history": "^1.2.2",
+		"prosemirror-keymap": "^1.2.1",
+		"prosemirror-model": "^1.25.3",
+		"prosemirror-state": "^1.4.3",
+		"prosemirror-view": "^1.41.1"
+	},
+	"devDependencies": {
+		"@rslib/core": "^0.13.3",
+		"typescript": "^5.9.2"
+	}
+}

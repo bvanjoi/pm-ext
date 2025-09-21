@@ -1,0 +1,10 @@
+{
+	"name": "@tools/json-format",
+	"version": "0.0.1",
+	"private": true,
+	"sideEffects": false,
+	"type": "module",
+	"devDependencies": {
+		"sort-package-json": "^3.4.0"
+	}
+}

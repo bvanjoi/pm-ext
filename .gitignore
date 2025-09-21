@@ -1,0 +1,41 @@
+.history
+.DS_Store
+node_modules/
+dist/
+coverage/
+
+# Log files
+*.log
+
+# huksy
+.husky
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# output
+dist
+lib
+
+# Rush temporary files
+common/deploy/
+common/temp/
+common/autoinstallers/*/.npmrc
+**/.rush/temp/
+test-results/
+
+.turbo/
+
+# TypeScript
+*.tsbuildinfo
+
+# Playwright cache
+playwright/.cache
+
+storybook-static/
