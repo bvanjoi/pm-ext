@@ -68,10 +68,10 @@ export const AUTO_LINK_PLUGIN: PluginSpec<any> = {
 		}
 		let tr = newState.tr
 		const linkMark = newState.schema.marks.link
-		for (const { node } of nodes) {
+		for (const { node, pos: start } of nodes) {
 			node.descendants((n, pos) => {
 				if (n.marks.find(m => m.type === linkMark && m.attrs.isAuto)) {
-					tr = tr.removeMark(pos, pos + node.nodeSize, linkMark)
+					tr = tr.removeMark(start + pos, start + pos + n.nodeSize, linkMark)
 				}
 			})
 		}

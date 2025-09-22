@@ -32,7 +32,7 @@ function schema(props: Props) {
 		content: 'block+',
 		toDOM: () => ['div', 0],
 	}
-	const paragraphSchema: NodeSpec = {
+	const pSchema: NodeSpec = {
 		group: 'block',
 		content: 'inline*',
 		toDOM: () => ['p', 0],
@@ -43,7 +43,7 @@ function schema(props: Props) {
 	return new Schema({
 		nodes: {
 			doc: docSchema,
-			paragraph: paragraphSchema,
+			p: pSchema,
 			text: textSchema,
 			...props.nodes,
 		} as const,
