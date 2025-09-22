@@ -1,10 +1,9 @@
+import { expect, test } from '@playwright/test'
 import { AUTO_LINK_PLUGIN, AUTO_LINK_SPEC } from '@pm-ext/auto-link'
 import { pmState } from '@pm-ext/basic-setup'
 import { JSDOM } from 'jsdom'
-import { DOMParser } from 'prosemirror-model'
+import { DOMParser, type Node as PMNode, type Schema } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
 
 interface Props {
 	initHtml?: string
@@ -36,45 +35,74 @@ function asserts(value: unknown): asserts value {
 	}
 }
 
+function expectAutoLink(schema: Schema, node: PMNode, expectLink: string) {
+	const linkMark = schema.marks.link
+	const mark = node.marks.find(mark => mark.type === linkMark)
+	asserts(mark)
+	expect(mark.attrs.href).toBe(expectLink)
+	expect(mark.attrs.isAuto).toBe(true)
+}
+
 test('basic auto link', () => {
 	const s = state({
 		initHtml: '<p>a.co</p>',
 	})
-	equal(s.doc.textContent, 'a.co')
+	// <p>a.co</p>
+	expect(s.doc.toString()).toBe('doc(p("a.co"))')
 	{
 		const tr = s.tr.insertText('m', 5)
 		const s1 = s.apply(tr)
 		// <p><a href="a.com">a.com</a></p>
-		equal(s1.doc.textContent, 'a.com')
+		expect(s1.doc.toString()).toBe('doc(p(link("a.com")))')
 		const n1 = s1.doc.nodeAt(1)
 		asserts(n1)
 		asserts(n1.marks.length === 1)
-		const linkMark = n1.marks[0]
-		equal(linkMark.attrs.href, 'a.com')
-		equal(linkMark.attrs.isAuto, true)
+		expectAutoLink(s1.schema, n1, 'a.com')
 
 		{
 			const tr = s1.tr.delete(5, 6)
 			const s2 = s1.apply(tr)
 			// <p>a.co</p>
-			equal(s2.doc.textContent, 'a.co')
+			expect(s2.doc.toString()).toBe('doc(p("a.co"))')
 			const n2 = s2.doc.nodeAt(1)
 			asserts(n2)
-			equal(n2.marks.length, 0)
+			expect(n2.marks.length).toBe(0)
 
 			{
 				// insert again
 				const tr = s2.tr.insertText('m', 5)
 				const s3 = s2.apply(tr)
+				// <p><a href="a.com">a.com</a></p>
+				expect(s3.doc.toString()).toBe('doc(p(link("a.com")))')
 				const n1 = s3.doc.nodeAt(1)
 				asserts(n1)
 				asserts(n1.marks.length === 1)
-				const linkMark = n1.marks[0]
-				equal(linkMark.attrs.href, 'a.com')
-				equal(linkMark.attrs.isAuto, true)
+				expectAutoLink(s3.schema, n1, 'a.com')
 			}
 		}
 	}
 })
 
-test.run()
+test('auto link with whitespace', () => {
+	const s = state({
+		initHtml: '<p>a b.co</p>',
+	})
+	expect(s.doc.toString()).toBe('doc(p("a b.co"))')
+	{
+		const tr = s.tr.insertText('m', 7)
+		const s1 = s.apply(tr)
+		// <p>a <a href="b.com">b.com</a></p>
+		expect(s1.doc.toString()).toBe('doc(p("a ", link("b.com")))')
+		const n1 = s1.doc.nodeAt(3)
+		asserts(n1)
+		asserts(n1.marks.length === 1)
+		expectAutoLink(s1.schema, n1, 'b.com')
+
+		{
+			const tr = s1.tr.delete(7, 8)
+			const s2 = s1.apply(tr)
+			// <p>a b.co</p>
+			expect(s2.doc.toString()).toBe('doc(p("a b.co"))')
+		}
+	}
+})

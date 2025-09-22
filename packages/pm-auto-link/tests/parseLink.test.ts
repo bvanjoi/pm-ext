@@ -1,26 +1,25 @@
+import { expect, test } from '@playwright/test'
 import { createAutoLinkParser } from '@pm-ext/auto-link'
-import { test } from 'uvu'
-import { equal } from 'uvu/assert'
 
 test('autoLinkParse', () => {
 	const p = createAutoLinkParser()
 
 	function equalEmptyLink(input: string) {
-		equal(p(input), [])
+		expect(p(input)).toStrictEqual([])
 	}
 
 	function equalSingleLink(input: string, start: number, end: number) {
 		const res = p(input)
-		equal(res.length, 1)
-		equal(res[0].start, start)
-		equal(res[0].end, end)
+		expect(res.length).toBe(1)
+		expect(res[0].start).toBe(start)
+		expect(res[0].end).toBe(end)
 	}
 
 	function equalMultipleLink(
 		input: string,
 		links: { start: number; end: number }[],
 	) {
-		equal(p(input), links)
+		expect(p(input)).toStrictEqual(links)
 	}
 
 	equalEmptyLink('.com')
@@ -56,5 +55,3 @@ test('autoLinkParse', () => {
 	equalSingleLink('a.com#a啊?b', 0, 7)
 	equalSingleLink('a.com/b/c?d#e!f', 0, 15)
 })
-
-test.run()
