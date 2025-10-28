@@ -1,33 +1,32 @@
 {
-	"name": "@pm-ext/auto-link",
+	"name": "@pm-ext/img",
 	"version": "0.0.1",
 	"sideEffects": false,
-	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
+			"default": "./dist/index.mjs"
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.js",
+	"main": "./dist/index.mjs",
 	"types": "./dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && rslib build",
 		"dev": "rslib build -w",
 		"format:check": "biome format",
-		"format:fix": "biome format --fix",
-		"test": "playwright test"
+		"format:fix": "biome format --fix"
 	},
-	"devDependencies": {
-		"@playwright/test": "^1.56.1",
-		"@pm-ext/basic-setup": "workspace:*",
-		"@rslib/core": "^0.16.1",
-		"@types/jsdom": "^27.0.0",
-		"jsdom": "^27.0.1",
+	"dependencies": {
+		"prosemirror-commands": "^1.7.1",
+		"prosemirror-history": "^1.4.1",
+		"prosemirror-keymap": "^1.2.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
-		"prosemirror-transform": "^1.10.4",
+		"prosemirror-view": "^1.41.3"
+	},
+	"devDependencies": {
+		"@rslib/core": "^0.16.1",
 		"typescript": "^5.9.3"
 	}
 }

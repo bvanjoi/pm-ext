@@ -16,6 +16,7 @@ function AutoLinkPMEditor() {
 }
 
 const meta: Meta = {
+	title: 'auto link',
 	component: AutoLinkPMEditor,
 }
 

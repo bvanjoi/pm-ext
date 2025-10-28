@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "target": "esnext",
+    "module": "esnext",
     "strict": true,
-    "target": "es2015",
     "moduleResolution": "bundler"
   },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

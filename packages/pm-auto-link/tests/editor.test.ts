@@ -10,6 +10,17 @@ interface Props {
 	pos?: number
 }
 
+function docFromHtml(
+	schema: Schema,
+	html: string,
+	options?: { window: { document: globalThis.Document } },
+): PMNode {
+	const document = options ? options.window.document : window.document
+	const div = document.createElement('div')
+	div.innerHTML = html
+	return DOMParser.fromSchema(schema).parse(div)
+}
+
 function state(props: Props = {}) {
 	const initHtml = props.initHtml
 	return pmState({
@@ -18,12 +29,7 @@ function state(props: Props = {}) {
 		},
 		plugins: [new Plugin(AUTO_LINK_PLUGIN)],
 		doc: initHtml
-			? schema => {
-					const dom = new JSDOM()
-					const div = dom.window.document.createElement('div')
-					div.innerHTML = initHtml
-					return DOMParser.fromSchema(schema).parse(div)
-				}
+			? schema => docFromHtml(schema, initHtml, { window: new JSDOM().window })
 			: undefined,
 		selection: props.pos,
 	})

@@ -32,5 +32,5 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 		}
 	}, [props])
 
-	return <div ref={domRef} id={`pm-ext-${id}`} />
+	return <div ref={domRef} id={id} />
 }

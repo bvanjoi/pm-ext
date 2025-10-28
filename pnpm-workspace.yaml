@@ -1,5 +1,6 @@
 packages:
   - "packages/pm-auto-link"
   - "packages/pm-basic-setup"
+  - "packages/pm-img"
   - "packages/storybook"
   - "tools/json-format"
