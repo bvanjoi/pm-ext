@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "moduleResolution": "bundler",
+    "declaration": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+	"name": "@pm-ext/e2e-helper",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"scripts": {
+		"build": "rm -rf dist && esbuild ./src/index.ts --bundle --outdir=dist --platform=browser && npm run build:type",
+		"build:type": "tsc --emitDeclarationOnly --outDir dist",
+		"dev": "esbuild ./src/index.ts --bundle --outdir=dist --platform=browser --watch",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix"
+	},
+	"dependencies": {
+		"prosemirror-commands": "^1.7.1",
+		"prosemirror-history": "^1.4.1",
+		"prosemirror-keymap": "^1.2.3",
+		"prosemirror-model": "^1.25.4",
+		"prosemirror-state": "^1.4.4",
+		"prosemirror-view": "^1.41.3",
+		"@pm-ext/basic-setup": "workspace:*",
+		"esbuild": "^0.25.11"
+	},
+	"devDependencies": {
+		"typescript": "^5.9.3"
+	}
+}

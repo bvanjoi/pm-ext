@@ -1,39 +1,6 @@
 import { expect, test } from '@playwright/test'
-import { AUTO_LINK_PLUGIN, AUTO_LINK_SPEC } from '@pm-ext/auto-link'
-import { pmState } from '@pm-ext/basic-setup'
-import { JSDOM } from 'jsdom'
-import { DOMParser, type Node as PMNode, type Schema } from 'prosemirror-model'
-import { Plugin } from 'prosemirror-state'
-
-interface Props {
-	initHtml?: string
-	pos?: number
-}
-
-function docFromHtml(
-	schema: Schema,
-	html: string,
-	options?: { window: { document: globalThis.Document } },
-): PMNode {
-	const document = options ? options.window.document : window.document
-	const div = document.createElement('div')
-	div.innerHTML = html
-	return DOMParser.fromSchema(schema).parse(div)
-}
-
-function state(props: Props = {}) {
-	const initHtml = props.initHtml
-	return pmState({
-		marks: {
-			link: AUTO_LINK_SPEC,
-		},
-		plugins: [new Plugin(AUTO_LINK_PLUGIN)],
-		doc: initHtml
-			? schema => docFromHtml(schema, initHtml, { window: new JSDOM().window })
-			: undefined,
-		selection: props.pos,
-	})
-}
+import type { Node as PMNode, Schema } from 'prosemirror-model'
+import { state } from './utils'
 
 function asserts(value: unknown): asserts value {
 	if (value == null || value === false) {
@@ -49,7 +16,7 @@ function expectAutoLink(schema: Schema, node: PMNode, expectLink: string) {
 	expect(mark.attrs.isAuto).toBe(true)
 }
 
-test('basic auto link', () => {
+test('auto link should works', () => {
 	const s = state({
 		initHtml: '<p>a.co</p>',
 	})
