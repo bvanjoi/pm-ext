@@ -6,6 +6,7 @@
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
 	},
+	"types": "./dist/index.d.ts",
 	"main": "./dist/index.js",
 	"scripts": {
 		"build": "rm -rf dist && esbuild ./src/index.ts --bundle --outdir=dist --platform=browser && npm run build:type",

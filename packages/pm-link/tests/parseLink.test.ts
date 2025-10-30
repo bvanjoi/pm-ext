@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { createAutoLinkParser } from '@pm-ext/auto-link'
+import { createAutoLinkParser } from '@pm-ext/link'
 
 test('autoLinkParse', () => {
 	const p = createAutoLinkParser()

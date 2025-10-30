@@ -1,13 +1,22 @@
-import type { MarkSpec } from 'prosemirror-model'
+import type { AttributeSpec, MarkSpec } from 'prosemirror-model'
 
 export { createAutoLinkParser } from './parseLink'
 export { AUTO_LINK_PLUGIN } from './plugin'
 
-export const AUTO_LINK_SPEC: MarkSpec = {
+export type LinkSpecAttrs = {
+	href: AttributeSpec
+	auto: AttributeSpec
+}
+
+export type LinkMarkSpec = MarkSpec & {
+	attrs: LinkSpecAttrs
+}
+
+export const LINK_SPEC: LinkMarkSpec = {
 	attrs: {
 		href: {},
-		isAuto: {
-			default: true,
+		auto: {
+			default: false,
 		},
 	},
 	inclusive: false,

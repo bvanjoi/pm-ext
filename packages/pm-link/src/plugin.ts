@@ -49,7 +49,7 @@ export const AUTO_LINK_PLUGIN: PluginSpec<any> = {
 		const linkMark = newState.schema.marks.link
 		for (const { node, pos: start } of nodes) {
 			node.descendants((n, pos) => {
-				if (n.marks.find(m => m.type === linkMark && m.attrs.isAuto)) {
+				if (n.marks.find(m => m.type === linkMark && m.attrs.auto)) {
 					tr = tr.removeMark(start + pos, start + pos + n.nodeSize, linkMark)
 				}
 			})
@@ -63,6 +63,7 @@ export const AUTO_LINK_PLUGIN: PluginSpec<any> = {
 					pos + item.end,
 					linkMark.create({
 						href: node.textContent.slice(item.start, item.end),
+						auto: true,
 					}),
 				)
 			}

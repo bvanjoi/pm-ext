@@ -1,20 +1,8 @@
 import fs from 'node:fs/promises'
-import { AUTO_LINK_PLUGIN, AUTO_LINK_SPEC } from '@pm-ext/auto-link'
-import { pmState } from '@pm-ext/basic-setup'
+import { docFromHtml, pmState } from '@pm-ext/basic-setup'
+import { AUTO_LINK_PLUGIN, LINK_SPEC } from '@pm-ext/link'
 import { JSDOM } from 'jsdom'
-import { DOMParser, type Node as PMNode, type Schema } from 'prosemirror-model'
 import { Plugin } from 'prosemirror-state'
-
-function docFromHtml(
-	schema: Schema,
-	html: string,
-	options?: { window: { document: globalThis.Document } },
-): PMNode {
-	const document = options ? options.window.document : window.document
-	const div = document.createElement('div')
-	div.innerHTML = html
-	return DOMParser.fromSchema(schema).parse(div)
-}
 
 interface Props {
 	initHtml?: string
@@ -25,7 +13,7 @@ export function state(props: Props = {}) {
 	const initHtml = props.initHtml
 	return pmState({
 		marks: {
-			link: AUTO_LINK_SPEC,
+			link: LINK_SPEC,
 		},
 		plugins: [new Plugin(AUTO_LINK_PLUGIN)],
 		doc: initHtml
@@ -35,13 +23,13 @@ export function state(props: Props = {}) {
 	})
 }
 
-export async function html(props: Props): Promise<string> {
+export async function pageHtml(props: Props): Promise<string> {
 	let filePath = import.meta.resolve('@pm-ext/e2e-helper')
 	if (filePath.startsWith('file://')) {
 		filePath = filePath.slice(7)
 	}
 	const content = await fs.readFile(filePath, 'utf-8')
-	const p = JSON.stringify(props);
+	const p = JSON.stringify(props)
 	return `
 <!DOCTYPE html>
 <html lang="en">

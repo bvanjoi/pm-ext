@@ -13,7 +13,7 @@ function expectAutoLink(schema: Schema, node: PMNode, expectLink: string) {
 	const mark = node.marks.find(mark => mark.type === linkMark)
 	asserts(mark)
 	expect(mark.attrs.href).toBe(expectLink)
-	expect(mark.attrs.isAuto).toBe(true)
+	expect(mark.attrs.auto).toBe(true)
 }
 
 test('auto link should works', () => {

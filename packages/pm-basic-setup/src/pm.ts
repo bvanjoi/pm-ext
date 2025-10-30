@@ -73,14 +73,14 @@ export function pmState(props: Props) {
 
 	let selection: Selection | undefined
 	if (doc) {
-		if (typeof props.selection === 'number') {
-			selection = TextSelection.create(doc, props.selection)
-		} else if (props.selection) {
-			selection = TextSelection.create(
-				doc,
-				props.selection.start,
-				props.selection.end,
-			)
+		let sel = props.selection
+		if (typeof sel === 'number') {
+			if (sel > doc.content.size) {
+				sel = doc.content.size
+			}
+			selection = TextSelection.create(doc, sel)
+		} else if (sel) {
+			selection = TextSelection.create(doc, sel.start, sel.end)
 		}
 	}
 

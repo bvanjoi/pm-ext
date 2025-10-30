@@ -1,5 +1,5 @@
 {
-	"name": "@pm-ext/auto-link",
+	"name": "@pm-ext/link",
 	"version": "0.0.1",
 	"sideEffects": false,
 	"type": "module",
