@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
   },
   "include": [
     "src/**/*.ts"

@@ -1,0 +1,70 @@
+{
+  "common": {
+    "language": "语言",
+    "search": "搜索...",
+    "noResults": "未找到结果",
+    "docs": "文档",
+    "basics": "基础",
+    "previously": "上一章",
+    "nextUp": "下一章"
+  },
+  "navigation": {
+    "prosemirror": "Prosemirror",
+    "collaborativeEditing": "协作编辑",
+    "customNodes": "自定义节点",
+    "formatting": "文本格式化",
+    "images": "图像",
+    "installation": "安装",
+    "links": "链接",
+    "lists": "列表",
+    "overview": "概述",
+    "plugins": "插件",
+    "textEditor": "文本编辑器"
+  },
+  "editor": {
+    "bold": "加粗",
+    "italic": "斜体",
+    "underline": "下划线",
+    "code": "代码",
+    "heading1": "标题 1",
+    "heading2": "标题 2",
+    "heading3": "标题 3",
+    "bulletList": "项目列表",
+    "orderedList": "编号列表",
+    "blockquote": "引用",
+    "codeBlock": "代码块",
+    "link": "链接",
+    "image": "图像",
+    "undo": "撤销",
+    "redo": "重做",
+    "clear": "清除格式"
+  },
+  "examples": {
+    "formatting": {
+      "title": "文本格式化",
+      "description": "学习如何应用各种文本格式选项，包括加粗、斜体、下划线等。",
+      "preview": "预览",
+      "code": "代码",
+      "react": "React",
+      "vue": "Vue",
+      "copy": "复制",
+      "copied": "已复制!"
+    },
+    "lists": {
+      "title": "列表",
+      "description": "使用 Prosemirror 创建和管理有序和无序列表。"
+    },
+    "links": {
+      "title": "链接",
+      "description": "在编辑器内容中添加和管理超链接。"
+    },
+    "images": {
+      "title": "图像",
+      "description": "在编辑器中插入和管理图像。"
+    },
+    "textEditor": {
+      "title": "文本编辑器",
+      "description": "具有所有格式化功能的完整文本编辑器示例。"
+    }
+  }
+}

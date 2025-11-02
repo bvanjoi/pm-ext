@@ -4,7 +4,8 @@
     "module": "esnext",
     "strict": true,
     "moduleResolution": "bundler",
-    "declaration": true
+    "declaration": true,
+    "composite": true,
   },
   "include": [
     "src/**/*.ts"

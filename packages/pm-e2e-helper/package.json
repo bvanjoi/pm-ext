@@ -16,14 +16,14 @@
 		"format:fix": "biome format --fix"
 	},
 	"dependencies": {
+		"@pm-ext/basic-setup": "workspace:*",
+		"esbuild": "^0.25.12",
 		"prosemirror-commands": "^1.7.1",
 		"prosemirror-history": "^1.4.1",
 		"prosemirror-keymap": "^1.2.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
-		"prosemirror-view": "^1.41.3",
-		"@pm-ext/basic-setup": "workspace:*",
-		"esbuild": "^0.25.11"
+		"prosemirror-view": "^1.41.3"
 	},
 	"devDependencies": {
 		"typescript": "^5.9.3"

@@ -1,0 +1,11 @@
+.ProseMirror:focus {
+  outline: none;
+}
+
+:root {
+  --ProseMirror-link-text-color: oklch(0.529 0.23 264.376);
+}
+
+.ProseMirror a {
+  color: var(--ProseMirror-link-text-color);
+}

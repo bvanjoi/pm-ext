@@ -31,6 +31,7 @@ common/autoinstallers/*/.npmrc
 test-results/
 
 .turbo/
+.next/
 
 # TypeScript
 *.tsbuildinfo

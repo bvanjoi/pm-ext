@@ -23,13 +23,13 @@
 		"@playwright/test": "^1.56.1",
 		"@pm-ext/basic-setup": "workspace:*",
 		"@pm-ext/e2e-helper": "workspace:*",
-		"@rslib/core": "^0.16.1",
+		"@rslib/core": "^0.17.0",
 		"@types/jsdom": "^27.0.0",
-		"jsdom": "^27.0.1",
-		"prosemirror-view": "^1.41.3",
+		"jsdom": "^27.1.0",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.4",
+		"prosemirror-view": "^1.41.3",
 		"typescript": "^5.9.3"
 	}
 }
