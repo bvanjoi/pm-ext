@@ -1,7 +1,9 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata } from 'next'
-import './globals.css'
 import { Sidebar } from '@/components/sidebar'
+
+import './globals.css'
+
 
 export const metadata: Metadata = {
 	title: 'v0 App',
@@ -14,6 +16,7 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	console.log(456)
 	return (
 		<html lang="en">
 			<body className={'font-sans antialiased'}>

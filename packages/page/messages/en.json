@@ -1,70 +1,39 @@
 {
-  "common": {
-    "language": "Language",
-    "search": "Search...",
-    "noResults": "No results found",
-    "docs": "Docs",
-    "basics": "Basics",
-    "previously": "Previously",
-    "nextUp": "Next up"
-  },
-  "navigation": {
-    "prosemirror": "Prosemirror",
-    "collaborativeEditing": "Collaborative Editing",
-    "customNodes": "Custom Nodes",
-    "formatting": "Formatting",
-    "images": "Images",
-    "installation": "Installation",
-    "links": "Links",
-    "lists": "Lists",
-    "overview": "Overview",
-    "plugins": "Plugins",
-    "textEditor": "Text Editor"
-  },
-  "editor": {
-    "bold": "Bold",
-    "italic": "Italic",
-    "underline": "Underline",
-    "code": "Code",
-    "heading1": "Heading 1",
-    "heading2": "Heading 2",
-    "heading3": "Heading 3",
-    "bulletList": "Bullet List",
-    "orderedList": "Ordered List",
-    "blockquote": "Blockquote",
-    "codeBlock": "Code Block",
-    "link": "Link",
-    "image": "Image",
-    "undo": "Undo",
-    "redo": "Redo",
-    "clear": "Clear Formatting"
-  },
-  "examples": {
-    "formatting": {
-      "title": "Text Formatting",
-      "description": "Learn how to apply various text formatting options including bold, italic, underline, and more.",
-      "preview": "Preview",
-      "code": "Code",
-      "react": "React",
-      "vue": "Vue",
-      "copy": "Copy",
-      "copied": "Copied!"
-    },
-    "lists": {
-      "title": "Lists",
-      "description": "Create and manage ordered and unordered lists with Prosemirror."
-    },
-    "links": {
-      "title": "Links",
-      "description": "Add and manage hyperlinks in your editor content."
-    },
-    "images": {
-      "title": "Images",
-      "description": "Insert and manage images within your editor."
-    },
-    "textEditor": {
-      "title": "Text Editor",
-      "description": "A complete text editor example with all formatting capabilities."
-    }
-  }
+		"commonConfirm": "Confirm",
+		"commonLanguage": "Language",
+		"commonSearch": "Search...",
+		"commonNoResults": "No results found",
+		"commonDocs": "Docs",
+		"commonBasics": "Basics",
+		"commonPreviously": "Previously",
+		"commonNextUp": "Next up",
+
+		"navigationProsemirror": "Prosemirror",
+		"navigationCollaborativeEditing": "Collaborative Editing",
+		"navigationCustomNodes": "Custom Nodes",
+		"navigationFormatting": "Formatting",
+		"navigationImages": "Images",
+		"navigationInstallation": "Installation",
+		"navigationLinks": "Links",
+		"navigationLists": "Lists",
+		"navigationOverview": "Overview",
+		"navigationPlugins": "Plugins",
+		"navigationTextEditor": "Text Editor",
+
+		"editorBold": "Bold",
+		"editorItalic": "Italic",
+		"editorUnderline": "Underline",
+		"editorCode": "Code",
+		"editorHeading1": "Heading 1",
+		"editorHeading2": "Heading 2",
+		"editorHeading3": "Heading 3",
+		"editorBulletList": "Bullet List",
+		"editorOrderedList": "Ordered List",
+		"editorBlockquote": "Blockquote",
+		"editorCodeBlock": "Code Block",
+		"editorLink": "Link",
+		"editorImage": "Image",
+		"editorUndo": "Undo",
+		"editorRedo": "Redo",
+		"editorClear": "Clear Formatting"
 }

@@ -23,7 +23,7 @@
 		"@playwright/test": "^1.56.1",
 		"@pm-ext/basic-setup": "workspace:*",
 		"@pm-ext/e2e-helper": "workspace:*",
-		"@rslib/core": "^0.17.0",
+		"@rslib/core": "^0.17.1",
 		"@types/jsdom": "^27.0.0",
 		"jsdom": "^27.1.0",
 		"prosemirror-model": "^1.25.4",

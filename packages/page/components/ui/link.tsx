@@ -1,11 +1,19 @@
-import type React from "react"
-import NextLink from "next/link"
-import { cn } from "@/lib/utils"
+import NextLink from 'next/link'
+import type React from 'react'
+import { cn } from '@/lib/utils'
 
 interface LinkProps extends React.ComponentProps<typeof NextLink> {
-  className?: string
+	className?: string
 }
 
 export function Link({ className, ...props }: LinkProps) {
-  return <NextLink className={cn("text-primary hover:underline transition-colors", className)} {...props} />
+	return (
+		<NextLink
+			className={cn(
+				'text-primary hover:underline transition-colors',
+				className,
+			)}
+			{...props}
+		/>
+	)
 }

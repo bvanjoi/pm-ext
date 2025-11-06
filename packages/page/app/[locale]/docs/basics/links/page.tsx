@@ -4,6 +4,7 @@ import { AUTO_LINK_PLUGIN, LINK_SPEC } from '@pm-ext/link'
 import Link from 'next/link'
 import { Plugin } from 'prosemirror-state'
 import { useTranslation } from 'react-i18next'
+import { LinkPopover } from '@/components/ui/linkPopover'
 import { ProsemirrorEditor } from '../../../../../components/pm'
 
 function LinkPMEditor() {
@@ -43,20 +44,7 @@ export default function LinksExample() {
 				<div className="space-y-4">
 					<div className="border border-border rounded-lg overflow-hidden bg-card">
 						<div className="border-b border-border bg-background p-3 flex flex-wrap gap-2">
-							<button
-								type="button"
-								// onClick={addLink}
-								className="px-3 py-1 text-xs font-medium rounded bg-muted hover:bg-muted-foreground/20 transition-colors cursor-pointer"
-							>
-								{t('editor.link')}
-							</button>
-							<button
-								type="button"
-								// onClick={removeLink}
-								className="px-3 py-1 text-xs font-medium rounded bg-muted hover:bg-muted-foreground/20 transition-colors cursor-pointer"
-							>
-								Remove Link
-							</button>
+							<LinkPopover />
 						</div>
 
 						<LinkPMEditor />

@@ -37,7 +37,7 @@ test-results/
 *.tsbuildinfo
 
 # Playwright cache
-playwright/.cache
+**/playwright/.cache
 
 storybook-static/
 .vercel
