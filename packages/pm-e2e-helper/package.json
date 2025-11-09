@@ -17,7 +17,7 @@
 	},
 	"dependencies": {
 		"@pm-ext/basic-setup": "workspace:*",
-		"esbuild": "^0.25.12",
+		"esbuild": "^0.26.0",
 		"prosemirror-commands": "^1.7.1",
 		"prosemirror-history": "^1.4.1",
 		"prosemirror-keymap": "^1.2.3",
