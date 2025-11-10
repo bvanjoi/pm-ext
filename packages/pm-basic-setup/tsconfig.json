@@ -4,6 +4,8 @@
     "module": "esnext",
     "strict": true,
     "moduleResolution": "bundler",
+    "composite": true,
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*.ts"

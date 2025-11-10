@@ -3,10 +3,20 @@
     "target": "es2022",
     "module": "es2022",
     "strict": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "composite": true,
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../pm-basic-setup/tsconfig.json"
+    },
+    {
+      "path": "../pm-e2e-helper/tsconfig.json"
+    },
   ]
 }

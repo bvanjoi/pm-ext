@@ -1,21 +1,65 @@
 'use client'
 
 import { AUTO_LINK_PLUGIN, LINK_SPEC } from '@pm-ext/link'
+import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
 import Link from 'next/link'
 import { Plugin } from 'prosemirror-state'
+import type { EditorView } from 'prosemirror-view'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { LinkPopover } from '@/components/ui/linkPopover'
 import { ProsemirrorEditor } from '../../../../../components/pm'
+import { assertValue } from '../../../../../utils'
+
+function Menu() {
+	const pmView = useProseMirror()
+
+	return (
+		<div className="border-b border-border bg-background p-3 flex flex-wrap gap-2">
+			<LinkPopover
+				onConfirm={(href, text) => {
+					assertValue(pmView)
+					if (!(href && text)) {
+						return
+					}
+					const linkMark = pmView.state.schema.marks.link.create({ href })
+					const textNode = pmView.state.schema.text(text, [linkMark])
+					const tr = pmView.state.tr.replaceSelectionWith(textNode)
+					pmView.dispatch(tr)
+				}}
+			/>
+		</div>
+	)
+}
 
 function LinkPMEditor() {
+	const [view, setView] = React.useState<EditorView | undefined>()
+
 	return (
-		<ProsemirrorEditor
-			marks={{
-				link: LINK_SPEC,
-			}}
-			plugins={[new Plugin(AUTO_LINK_PLUGIN)]}
-			initHtml="<p>Here is link example!</p>"
-		/>
+		<>
+			<ProseMirrorProvider view={view}>
+				<Menu />
+			</ProseMirrorProvider>
+			<ProsemirrorEditor
+				marks={{
+					link: LINK_SPEC,
+				}}
+				plugins={[new Plugin(AUTO_LINK_PLUGIN)]}
+				initHtml="<p>Here is link example!</p>"
+				initView={v => {
+					if (!view) {
+						setView(v)
+					} else {
+						assertValue(view === v)
+					}
+				}}
+				destroyView={() => {
+					if (view) {
+						setView(undefined)
+					}
+				}}
+			/>
+		</>
 	)
 }
 
@@ -43,10 +87,6 @@ export default function LinksExample() {
 			<div className="max-w-5xl mx-auto px-6 py-12 space-y-8">
 				<div className="space-y-4">
 					<div className="border border-border rounded-lg overflow-hidden bg-card">
-						<div className="border-b border-border bg-background p-3 flex flex-wrap gap-2">
-							<LinkPopover />
-						</div>
-
 						<LinkPMEditor />
 					</div>
 				</div>

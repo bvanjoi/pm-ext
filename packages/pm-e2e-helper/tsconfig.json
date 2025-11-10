@@ -6,8 +6,14 @@
     "moduleResolution": "bundler",
     "declaration": true,
     "composite": true,
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../pm-basic-setup/tsconfig.json"
+    }
   ]
 }

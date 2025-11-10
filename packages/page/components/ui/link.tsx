@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 import type React from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils'
 
 interface LinkProps extends React.ComponentProps<typeof NextLink> {
 	className?: string

@@ -4,7 +4,6 @@ import { Sidebar } from '@/components/sidebar'
 
 import './globals.css'
 
-
 export const metadata: Metadata = {
 	title: 'v0 App',
 	description: 'Created with v0',
@@ -16,7 +15,6 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	console.log(456)
 	return (
 		<html lang="en">
 			<body className={'font-sans antialiased'}>

@@ -1,7 +1,7 @@
 'use client'
 
 import { type ReactNode, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils'
 import { CodeBlock } from './code-block'
 
 interface CodeBlockToggleProps {

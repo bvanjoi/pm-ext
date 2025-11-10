@@ -4,11 +4,12 @@
     "module": "es2022",
     "strict": true,
     "moduleResolution": "bundler",
+    "jsx": "react",
     "composite": true,
     "rootDir": "./src"
   },
   "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts"
+    "src",
+    "tests",
   ]
 }

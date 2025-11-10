@@ -26,6 +26,9 @@ importers:
       '@pm-ext/link':
         specifier: workspace:*
         version: link:../pm-link
+      '@pm-ext/react':
+        specifier: workspace:*
+        version: link:../pm-react
       '@radix-ui/react-accordion':
         specifier: 1.2.12
         version: 1.2.12(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -227,7 +230,10 @@ importers:
         version: 5.9.3
 
   packages/pm-basic-setup:
-    dependencies:
+    devDependencies:
+      '@rslib/core':
+        specifier: ^0.17.1
+        version: 0.17.1(typescript@5.9.3)
       prosemirror-commands:
         specifier: ^1.7.1
         version: 1.7.1
@@ -246,10 +252,6 @@ importers:
       prosemirror-view:
         specifier: ^1.41.3
         version: 1.41.3
-    devDependencies:
-      '@rslib/core':
-        specifier: ^0.17.1
-        version: 0.17.1(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -286,7 +288,10 @@ importers:
         version: 5.9.3
 
   packages/pm-img:
-    dependencies:
+    devDependencies:
+      '@rslib/core':
+        specifier: ^0.17.1
+        version: 0.17.1(typescript@5.9.3)
       prosemirror-commands:
         specifier: ^1.7.1
         version: 1.7.1
@@ -305,10 +310,6 @@ importers:
       prosemirror-view:
         specifier: ^1.41.3
         version: 1.41.3
-    devDependencies:
-      '@rslib/core':
-        specifier: ^0.17.1
-        version: 0.17.1(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -345,6 +346,39 @@ importers:
       prosemirror-view:
         specifier: ^1.41.3
         version: 1.41.3
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/pm-react:
+    devDependencies:
+      '@rslib/core':
+        specifier: ^0.17.1
+        version: 0.17.1(typescript@5.9.3)
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      '@types/react-dom':
+        specifier: ^19.2.2
+        version: 19.2.2(@types/react@19.2.2)
+      prosemirror-model:
+        specifier: ^1.25.4
+        version: 1.25.4
+      prosemirror-state:
+        specifier: ^1.4.4
+        version: 1.4.4
+      prosemirror-transform:
+        specifier: ^1.10.4
+        version: 1.10.4
+      prosemirror-view:
+        specifier: ^1.41.3
+        version: 1.41.3
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.0(react@19.2.0)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

@@ -27,7 +27,7 @@ export interface Props {
 	selection?: number | { start: number; end: number }
 }
 
-function schema(props: Props) {
+function schema(props: Props): Schema {
 	const docSchema: NodeSpec = {
 		content: 'block+',
 		toDOM: () => ['div', 0],
@@ -53,7 +53,7 @@ function schema(props: Props) {
 	})
 }
 
-export function pmState(props: Props) {
+export function pmState(props: Props): EditorState {
 	const s = schema(props)
 	// const tempDom = window.document.createElement('div')
 	// tempDom.innerHTML = props.initHtml || ''
@@ -93,11 +93,11 @@ export function pmState(props: Props) {
 	return state
 }
 
-export function pmView(
-	props: Props & { container: HTMLDivElement },
+export function pmViewFromState(
+	state: EditorState,
+	container: HTMLDivElement,
 ): EditorView {
-	const state = pmState(props)
-	const view = new EditorView(props.container, {
+	const view = new EditorView(container, {
 		state,
 		dispatchTransaction: tr => {
 			const next = view.state.apply(tr)
@@ -105,4 +105,10 @@ export function pmView(
 		},
 	})
 	return view
+}
+
+export function pmView(
+	props: Props & { container: HTMLDivElement },
+): EditorView {
+	return pmViewFromState(pmState(props), props.container)
 }

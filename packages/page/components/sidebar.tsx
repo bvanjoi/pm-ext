@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils'
+import { initI18n } from '../i18n/init'
 import { LanguageSwitcher } from './language-switcher'
-import { initI18n } from '../i18n/init';
 
 // TODO: move this into preload
-initI18n();
+initI18n()
 
 export function Sidebar() {
 	const { t, i18n } = useTranslation()
@@ -32,7 +32,7 @@ export function Sidebar() {
 			<div className="sticky top-0 z-50 bg-card border-b border-border px-6 py-6">
 				<div className="flex items-center justify-between mb-4">
 					<Link href={`/${locale}`} className="font-bold text-lg">
-						{t('navigationProsemirror')}
+						Prosemirror
 					</Link>
 					<LanguageSwitcher />
 				</div>

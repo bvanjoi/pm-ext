@@ -2,7 +2,7 @@
 
 import { setBlockType, toggleMark } from 'prosemirror-commands'
 import type { EditorView } from 'prosemirror-view'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils'
 
 interface FormattingToolbarProps {
 	view: EditorView | null

@@ -1,15 +1,16 @@
 {
-	"name": "@pm-ext/basic-setup",
+	"name": "@pm-ext/react",
 	"version": "0.0.1",
 	"sideEffects": false,
+	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"default": "./dist/index.mjs"
+			"default": "./dist/index.js"
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.mjs",
+	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && rslib build",
@@ -19,20 +20,22 @@
 	},
 	"devDependencies": {
 		"@rslib/core": "^0.17.1",
-		"typescript": "^5.9.3",
-		"prosemirror-commands": "^1.7.1",
-		"prosemirror-history": "^1.4.1",
-		"prosemirror-keymap": "^1.2.3",
+		"@types/react": "^19.2.2",
+		"@types/react-dom": "^19.2.2",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
-		"prosemirror-view": "^1.41.3"
+		"prosemirror-transform": "^1.10.4",
+		"prosemirror-view": "^1.41.3",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0",
+		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {
-		"prosemirror-commands": "^1.0.0",
-		"prosemirror-history": "^1.0.0",
-		"prosemirror-keymap": "^1.0.0",
 		"prosemirror-model": "^1.0.0",
 		"prosemirror-state": "^1.0.0",
-		"prosemirror-view": "^1.0.0"
+		"prosemirror-transform": "^1.0.0",
+		"prosemirror-view": "^1.0.0",
+		"react": ">=16.9.0",
+		"react-dom": ">=16.9.0"
 	}
 }

@@ -4,4 +4,5 @@ packages:
   - "packages/pm-e2e-helper"
   - "packages/pm-img"
   - "packages/pm-link"
+  - "packages/pm-react"
   - "tools/json-format"

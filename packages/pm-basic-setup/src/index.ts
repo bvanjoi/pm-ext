@@ -1,2 +1,2 @@
 export { docFromHtml } from './docForHtml'
-export { pmState, pmView } from './pm'
+export { pmState, pmView, pmViewFromState } from './pm'
