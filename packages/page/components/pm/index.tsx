@@ -12,6 +12,7 @@ import * as React from 'react'
 import './style.css'
 import 'prosemirror-view/style/prosemirror.css'
 import type { EditorView } from 'prosemirror-view'
+import { assertValue } from '../../utils'
 
 interface ProsemirrorEditorProps {
 	nodes?: {
@@ -23,6 +24,8 @@ interface ProsemirrorEditorProps {
 	plugins?: Plugin[]
 	initHtml?: string
 
+	mounted: boolean
+	view?: EditorView
 	initView?: (view: EditorView) => void
 	destroyView?: () => void
 }
@@ -31,7 +34,11 @@ function createState(props: ProsemirrorEditorProps): EditorState {
 	const { nodes, marks, plugins, initHtml } = props
 	let doc: ((schema: Schema) => PMNode) | undefined
 	if (initHtml) {
-		doc = (schema: Schema) => docFromHtml(schema, initHtml)
+		doc = (schema: Schema) => {
+			const ret = docFromHtml(schema, initHtml)
+			assertValue(ret)
+			return ret
+		}
 	}
 	return pmState({
 		nodes,
@@ -46,26 +53,27 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 	const domRef = React.useRef<HTMLDivElement>(null)
 	const id = React.useId()
 
-	const state = React.useMemo(() => createState(props), [props])
+	const { mounted, initView, destroyView, view } = props
+	const state = createState(props)
 
 	React.useEffect(() => {
 		if (!domRef.current) {
 			return
 		}
-		const view = pmViewFromState(state, domRef.current)
-		view.focus()
 
-		if (props.initView) {
-			props.initView(view)
+		if (!view && !mounted && initView) {
+			const v = pmViewFromState(state, domRef.current)
+			v.focus()
+			initView(v)
 		}
 
 		return () => {
-			view.destroy()
-			if (props.destroyView) {
-				props.destroyView()
+			if (view && mounted && destroyView) {
+				view.destroy()
+				destroyView()
 			}
 		}
-	}, [])
+	}, [mounted, state, view, initView, destroyView])
 
 	return <div ref={domRef} id={id} className="max-w-none p-6 min-h-64" />
 }

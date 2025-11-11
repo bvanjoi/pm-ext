@@ -10,3 +10,7 @@ export function assertValue(value: unknown): asserts value {
 		throw new Error(`value is falsy: ${value}`)
 	}
 }
+
+export function unreachable(): never {
+	throw new Error('unreachable')
+}
