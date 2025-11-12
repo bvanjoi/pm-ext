@@ -50,11 +50,11 @@ function createState(props: ProsemirrorEditorProps): EditorState {
 }
 
 export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
+	const { mounted, initView, destroyView, view } = props
+
+	const [state] = React.useState(() => createState(props))
 	const domRef = React.useRef<HTMLDivElement>(null)
 	const id = React.useId()
-
-	const { mounted, initView, destroyView, view } = props
-	const state = createState(props)
 
 	React.useEffect(() => {
 		if (!domRef.current) {

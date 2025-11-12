@@ -20,7 +20,7 @@ export function HTMLSelectorORM(): HTMLSelectorORM {
 
 export function PageQuery(page: Page) {
 	return {
-		isVisiable(selector: HTMLSelectorORM): Promise<boolean> {
+		isVisible(selector: HTMLSelectorORM): Promise<boolean> {
 			return page.isVisible(selector.value())
 		},
 	}

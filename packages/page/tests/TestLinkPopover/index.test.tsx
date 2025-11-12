@@ -9,12 +9,31 @@ test('LinkPopover', async ({ mount, page }) => {
 		'popover-content',
 	)
 
-	const component = await mount(<TestLinkPopover0 />)
+	let clicked = false
+
+	const component = await mount(
+		<TestLinkPopover0
+			onConfirm={() => {
+				clicked = true
+			}}
+		/>,
+	)
+
 	await Promise.all([
 		expect(component).toContainText('editorLink'),
-		expect(query.isVisiable(selector)).resolves.toBe(false),
+		expect(query.isVisible(selector)).resolves.toBe(false),
 	])
 
 	await component.click()
-	await expect(query.isVisiable(selector)).resolves.toBe(true)
+	expect(clicked).toBe(false)
+
+	await expect(query.isVisible(selector)).resolves.toBe(true)
+
+	const confirmBtn = HTMLSelectorORM().appendAttribute('data-slot', 'button')
+	const locator = page.locator(confirmBtn.value()).nth(1)
+	expect(await locator.innerText()).toBe('commonConfirm')
+
+	await locator.click()
+
+	expect(clicked).toBe(true)
 })
