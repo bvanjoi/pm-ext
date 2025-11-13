@@ -2,6 +2,7 @@ import type { Page } from 'playwright-core'
 
 export interface HTMLSelectorORM {
 	value(): string
+	appendId(id: string): HTMLSelectorORM
 	appendAttribute(k: string, v: string): HTMLSelectorORM
 }
 
@@ -13,6 +14,10 @@ export function HTMLSelectorORM(): HTMLSelectorORM {
 		},
 		appendAttribute(k: string, v: string): HTMLSelectorORM {
 			selector += `[${k}="${v}"]`
+			return this
+		},
+		appendId(id: string): HTMLSelectorORM {
+			selector += `#${id}`
 			return this
 		},
 	}

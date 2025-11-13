@@ -5,4 +5,5 @@ packages:
   - "packages/pm-img"
   - "packages/pm-link"
   - "packages/pm-react"
+  - "packages/utils"
   - "tools/json-format"

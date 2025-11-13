@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es2022",
+    "module": "es2022",
     "strict": true,
     "moduleResolution": "bundler",
+    "jsx": "react",
     "composite": true,
   },
   "include": [
-    "src/**/*.ts"
+    "src",
+    "tests",
   ]
 }

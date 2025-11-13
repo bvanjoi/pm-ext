@@ -11,8 +11,8 @@ import * as React from 'react'
 
 import './style.css'
 import 'prosemirror-view/style/prosemirror.css'
+import { assertValue } from '@pm-ext/utils'
 import type { EditorView } from 'prosemirror-view'
-import { assertValue } from '../../utils'
 
 interface ProsemirrorEditorProps {
 	nodes?: {

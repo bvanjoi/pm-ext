@@ -3,11 +3,14 @@
 	"version": "0.0.1",
 	"sideEffects": false,
 	"exports": {
-		".": "./dist/index.js",
+		".": {
+			"types": "./dist/src/index.d.ts",
+			"default": "./dist/index.js"
+		},
 		"./package.json": "./package.json"
 	},
 	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"types": "./dist/src/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && esbuild ./src/index.ts --bundle --outdir=dist --platform=browser && npm run build:type",
 		"build:type": "tsc --emitDeclarationOnly --outDir dist",
@@ -19,7 +22,7 @@
 		"@pm-ext/basic-setup": "workspace:*",
 		"esbuild": "^0.27.0",
 		"prosemirror-commands": "^1.7.1",
-		"prosemirror-history": "^1.4.1",
+		"prosemirror-history": "^1.5.0",
 		"prosemirror-keymap": "^1.2.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",

@@ -6,10 +6,9 @@
     "moduleResolution": "bundler",
     "declaration": true,
     "composite": true,
-    "rootDir": "./src"
   },
   "include": [
-    "src/**/*.ts"
+    "src"
   ],
   "references": [
     {

@@ -1,7 +1,8 @@
 'use client'
 
-import { AUTO_LINK_PLUGIN, LINK_SPEC } from '@pm-ext/link'
+import { AUTO_LINK_PLUGIN, insertLink, LINK_SPEC } from '@pm-ext/link'
 import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
+import { assertValue, unreachable } from '@pm-ext/utils'
 import Link from 'next/link'
 import { Plugin } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
@@ -9,7 +10,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { LinkPopover } from '@/components/ui/linkPopover'
 import { ProsemirrorEditor } from '../../../../../components/pm'
-import { assertValue, unreachable } from '../../../../../utils'
 
 function Menu() {
 	const pmView = useProseMirror()
@@ -22,9 +22,7 @@ function Menu() {
 					if (!(href && text)) {
 						return
 					}
-					const linkMark = pmView.state.schema.marks.link.create({ href })
-					const textNode = pmView.state.schema.text(text, [linkMark])
-					const tr = pmView.state.tr.replaceSelectionWith(textNode)
+					const tr = insertLink(pmView.state, href, text)
 					pmView.dispatch(tr)
 				}}
 			/>

@@ -5,7 +5,7 @@
     "strict": true,
     "moduleResolution": "bundler",
     "composite": true,
-    "rootDir": "./src"
+    "emitDeclarationOnly": true
   },
   "include": [
     "src/**/*.ts",
@@ -17,6 +17,9 @@
     },
     {
       "path": "../pm-e2e-helper/tsconfig.json"
+    },
+    {
+      "path": "../utils/tsconfig.json"
     },
   ]
 }

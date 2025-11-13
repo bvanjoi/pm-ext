@@ -1,4 +1,5 @@
 import type { AttributeSpec, MarkSpec } from 'prosemirror-model'
+import type { EditorState, Transaction } from 'prosemirror-state'
 
 export { createAutoLinkParser } from './parseLink'
 export { AUTO_LINK_PLUGIN } from './plugin'
@@ -29,4 +30,15 @@ export const LINK_SPEC: LinkMarkSpec = {
 			},
 		},
 	],
+}
+
+export function insertLink(
+	state: EditorState,
+	href: string,
+	text: string,
+): Transaction {
+	const linkMark = state.schema.marks.link.create({ href })
+	const textNode = state.schema.text(text, [linkMark])
+	const tr = state.tr.replaceSelectionWith(textNode, false)
+	return tr
 }

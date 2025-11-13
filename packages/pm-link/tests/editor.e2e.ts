@@ -1,3 +1,5 @@
+/// <reference types="@pm-ext/e2e-helper" />
+
 import { expect, test } from '@playwright/test'
 import { pageHtml } from './utils'
 

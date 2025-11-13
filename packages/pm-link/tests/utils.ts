@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import { docFromHtml, pmState } from '@pm-ext/basic-setup'
 import { AUTO_LINK_PLUGIN, LINK_SPEC } from '@pm-ext/link'
+import { assertValue } from '@pm-ext/utils'
 import { JSDOM } from 'jsdom'
 import { Plugin } from 'prosemirror-state'
 
@@ -17,7 +18,14 @@ export function state(props: Props = {}) {
 		},
 		plugins: [new Plugin(AUTO_LINK_PLUGIN)],
 		doc: initHtml
-			? schema => docFromHtml(schema, initHtml, { window: new JSDOM().window })
+			? schema => {
+					const ret = docFromHtml(schema, initHtml, {
+						window: new JSDOM().window,
+					})
+					assertValue(ret)
+
+					return ret
+				}
 			: undefined,
 		selection: props.pos,
 	})
