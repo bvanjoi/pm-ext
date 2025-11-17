@@ -19,8 +19,8 @@
 		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.17.2",
-		"@types/react": "^19.2.4",
+		"@rslib/core": "^0.18.0",
+		"@types/react": "^19.2.5",
 		"@types/react-dom": "^19.2.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",

@@ -5,7 +5,9 @@
     "strict": true,
     "moduleResolution": "bundler",
     "composite": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
     "src/**/*.ts",

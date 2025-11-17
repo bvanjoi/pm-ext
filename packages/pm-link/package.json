@@ -24,7 +24,7 @@
 		"@pm-ext/basic-setup": "workspace:*",
 		"@pm-ext/e2e-helper": "workspace:*",
 		"@pm-ext/utils": "workspace:*",
-		"@rslib/core": "^0.17.2",
+		"@rslib/core": "^0.18.0",
 		"@types/jsdom": "^27.0.0",
 		"jsdom": "^27.2.0",
 		"prosemirror-model": "^1.25.4",

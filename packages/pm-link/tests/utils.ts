@@ -23,7 +23,6 @@ export function state(props: Props = {}) {
 						window: new JSDOM().window,
 					})
 					assertValue(ret)
-
 					return ret
 				}
 			: undefined,

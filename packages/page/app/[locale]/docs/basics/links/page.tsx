@@ -1,6 +1,10 @@
 'use client'
 
-import { AUTO_LINK_PLUGIN, insertLink, LINK_SPEC } from '@pm-ext/link'
+import {
+	AUTO_LINK_PLUGIN,
+	insertTextWithLinkMark,
+	LINK_SPEC,
+} from '@pm-ext/link'
 import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import Link from 'next/link'
@@ -22,7 +26,8 @@ function Menu() {
 					if (!(href && text)) {
 						return
 					}
-					const tr = insertLink(pmView.state, href, text)
+					const pos = pmView.state.selection.from
+					const tr = insertTextWithLinkMark(pmView.state.tr, pos, text, href)
 					pmView.dispatch(tr)
 				}}
 			/>

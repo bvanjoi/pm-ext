@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test'
-import { insertLink } from '@pm-ext/link'
+import { addLinkMark, insertTextWithLinkMark } from '@pm-ext/link'
 import { assertValue } from '@pm-ext/utils'
 import type { Node as PMNode, Schema } from 'prosemirror-model'
+import { TextSelection } from 'prosemirror-state'
 import { state } from './utils'
 
 function assertLink(
@@ -25,41 +26,57 @@ function expectAutoLink(schema: Schema, node: PMNode, expectLink: string) {
 	assertLink(schema, node, expectLink, true)
 }
 
+function expectDocOnlyHasPlainText(doc: PMNode, expectText?: string) {
+	if (expectText === undefined) {
+		expect(doc.toString()).toBe('doc(p)')
+	} else {
+		expect(doc.toString()).toBe(`doc(p("${expectText}"))`)
+	}
+	const n1 = doc.nodeAt(1)
+	assertValue(n1)
+	expect(n1.marks.length).toBe(0)
+}
+
+function expectDocOnlyHasLinkText(
+	doc: PMNode,
+	expectLinkText: string,
+	expectLinkHref: string,
+	isAuto: boolean,
+) {
+	expect(doc.toString()).toBe(`doc(p(link("${expectLinkText}")))`)
+	const n1 = doc.nodeAt(1)
+	assertValue(n1)
+	expect(n1.marks.length).toBe(1)
+	if (isAuto) {
+		expectAutoLink(doc.type.schema, n1, expectLinkHref)
+	} else {
+		expectNoAutoLink(doc.type.schema, n1, expectLinkHref)
+	}
+}
+
 test('auto link should works', () => {
 	const s = state({
 		initHtml: '<p>a.co</p>',
 	})
 	// <p>a.co</p>
-	expect(s.doc.toString()).toBe('doc(p("a.co"))')
+	expectDocOnlyHasPlainText(s.doc, 'a.co')
 	{
 		const tr = s.tr.insertText('m', 5)
 		const s1 = s.apply(tr)
 		// <p><a href="a.com">a.com</a></p>
-		expect(s1.doc.toString()).toBe('doc(p(link("a.com")))')
-		const n1 = s1.doc.nodeAt(1)
-		assertValue(n1)
-		assertValue(n1.marks.length === 1)
-		expectAutoLink(s1.schema, n1, 'a.com')
-
+		expectDocOnlyHasLinkText(s1.doc, 'a.com', 'a.com', true)
 		{
 			const tr = s1.tr.delete(5, 6)
 			const s2 = s1.apply(tr)
 			// <p>a.co</p>
-			expect(s2.doc.toString()).toBe('doc(p("a.co"))')
-			const n2 = s2.doc.nodeAt(1)
-			assertValue(n2)
-			expect(n2.marks.length).toBe(0)
+			expectDocOnlyHasPlainText(s2.doc, 'a.co')
 
 			{
 				// insert again
 				const tr = s2.tr.insertText('m', 5)
 				const s3 = s2.apply(tr)
 				// <p><a href="a.com">a.com</a></p>
-				expect(s3.doc.toString()).toBe('doc(p(link("a.com")))')
-				const n1 = s3.doc.nodeAt(1)
-				assertValue(n1)
-				assertValue(n1.marks.length === 1)
-				expectAutoLink(s3.schema, n1, 'a.com')
+				expectDocOnlyHasLinkText(s3.doc, 'a.com', 'a.com', true)
 			}
 		}
 	}
@@ -69,7 +86,7 @@ test('auto link with whitespace', () => {
 	const s = state({
 		initHtml: '<p>a b.co</p>',
 	})
-	expect(s.doc.toString()).toBe('doc(p("a b.co"))')
+	expectDocOnlyHasPlainText(s.doc, 'a b.co')
 	{
 		const tr = s.tr.insertText('m', 7)
 		const s1 = s.apply(tr)
@@ -84,21 +101,39 @@ test('auto link with whitespace', () => {
 			const tr = s1.tr.delete(7, 8)
 			const s2 = s1.apply(tr)
 			// <p>a b.co</p>
-			expect(s2.doc.toString()).toBe('doc(p("a b.co"))')
+			expectDocOnlyHasPlainText(s2.doc, 'a b.co')
 		}
 	}
 })
 
-test('insert link', () => {
+test('insert text with link mark', () => {
 	const s = state()
 	expect(s.doc.toString()).toBe('doc(p)')
 	{
-		const tr = insertLink(s, 'a', 'b')
+		const tr = insertTextWithLinkMark(s.tr, 1, 'a', 'b')
 		const s1 = s.apply(tr)
-		// <p><a href="a">b</a></p>
-		expect(s1.doc.toString()).toBe('doc(p(link("b")))')
-		const n1 = s1.doc.nodeAt(1)
-		assertValue(n1)
-		expectNoAutoLink(s1.schema, n1, 'a')
+		// <p><a href="b">a</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 'a', 'b', false)
+	}
+	{
+		const tr = insertTextWithLinkMark(s.tr, 1, 'a')
+		const s1 = s.apply(tr)
+		// <p><a href="a">a</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 'a', 'a', false)
+	}
+})
+
+test('attach link mark to raw text', () => {
+	const s = state({
+		initHtml: '<p>t</p>',
+	})
+	expectDocOnlyHasPlainText(s.doc, 't')
+	{
+		const selection = TextSelection.create(s.doc, 1, 2)
+		let tr = s.tr.setSelection(selection)
+		tr = addLinkMark(tr, 'a')
+		const s1 = s.apply(tr)
+		// <p><a href="a">t</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 't', 'a', false)
 	}
 })
