@@ -137,3 +137,20 @@ test('attach link mark to raw text', () => {
 		expectDocOnlyHasLinkText(s1.doc, 't', 'a', false)
 	}
 })
+
+test('auto link should ignore normal link', () => {
+	const s = state({
+		initHtml: '<p>a</p>',
+	})
+	expectDocOnlyHasPlainText(s.doc, 'a')
+	const selection = TextSelection.create(s.doc, 1, 2)
+	const tr1 = s.tr.setSelection(selection)
+	const s1 = s.apply(addLinkMark(tr1, 'a'))
+	// <p><a href="a">a</a></p>
+	expectDocOnlyHasLinkText(s1.doc, 'a', 'a', false)
+
+	const tr2 = s1.tr.insertText('.com', 2)
+	const s2 = s1.apply(tr2)
+	// <p><a href="a">a</a>.com</p>
+	expect(s2.doc.toString()).toBe('doc(p(link("a"), ".com"))')
+})

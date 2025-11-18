@@ -2,6 +2,7 @@ import type { Node as PMNode } from 'prosemirror-model'
 import type { PluginSpec, Transaction } from 'prosemirror-state'
 import type { StepMap } from 'prosemirror-transform'
 import { type AutoLinkParser, createAutoLinkParser } from './parseLink'
+import { getLinkMarkType, isLinkMark } from './utils'
 
 function getNewStartAndNewEndFromStepMap(
 	stepMap: StepMap,
@@ -13,10 +14,13 @@ function getNewStartAndNewEndFromStepMap(
 	return ans
 }
 
-function getAllChangedNodesFromTr(
-	tr: Transaction,
-): { node: PMNode; pos: number }[] {
-	const nodes: { node: PMNode; pos: number }[] = []
+interface NodeInfo {
+	node: PMNode
+	pos: number
+}
+
+function getAllChangedNodesFromTr(tr: Transaction): NodeInfo[] {
+	const nodes: NodeInfo[] = []
 	for (let i = tr.mapping.from; i < tr.mapping.to; i += 1) {
 		const stepMap = tr.mapping.maps[i]
 		getNewStartAndNewEndFromStepMap(stepMap).forEach(([from, to]) => {
@@ -38,6 +42,10 @@ function getAllChangedNodesFromTr(
 
 export const AUTO_LINK_PLUGIN: PluginSpec<any> = {
 	appendTransaction(trs, _, newState) {
+		const linkMarkType = getLinkMarkType(newState.schema)
+		if (!linkMarkType) {
+			return
+		}
 		const nodes = trs
 			.map(tr => getAllChangedNodesFromTr(tr))
 			.filter(list => list.length > 0)
@@ -46,22 +54,32 @@ export const AUTO_LINK_PLUGIN: PluginSpec<any> = {
 			return
 		}
 		let tr = newState.tr
-		const linkMark = newState.schema.marks.link
+		const filteredNodes: NodeInfo[] = []
 		for (const { node, pos: start } of nodes) {
 			node.descendants((n, pos) => {
-				if (n.marks.find(m => m.type === linkMark && m.attrs.auto)) {
-					tr = tr.removeMark(start + pos, start + pos + n.nodeSize, linkMark)
+				if (n.marks.find(m => isLinkMark(m) && m.attrs.auto)) {
+					tr = tr.removeMark(
+						start + pos,
+						start + pos + n.nodeSize,
+						linkMarkType,
+					)
+				}
+				if (
+					n.marks.length === 0 ||
+					n.marks.every(m => !isLinkMark(m) || !m.attrs.auto)
+				) {
+					filteredNodes.push({ node: n, pos: start + pos })
 				}
 			})
 		}
 		const linkParser: AutoLinkParser = createAutoLinkParser()
-		for (const { node, pos } of nodes) {
+		for (const { node, pos } of filteredNodes) {
 			const list = linkParser(node.textContent)
 			for (const item of list) {
 				tr = tr.addMark(
 					pos + item.start,
 					pos + item.end,
-					linkMark.create({
+					linkMarkType.create({
 						href: node.textContent.slice(item.start, item.end),
 						auto: true,
 					}),

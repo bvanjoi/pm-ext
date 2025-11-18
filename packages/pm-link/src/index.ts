@@ -1,10 +1,6 @@
-import type {
-	AttributeSpec,
-	MarkSpec,
-	MarkType,
-	Schema,
-} from 'prosemirror-model'
+import type { AttributeSpec, Mark, MarkSpec, MarkType } from 'prosemirror-model'
 import type { Transaction } from 'prosemirror-state'
+import { getLinkMarkType, LINK_SPEC_SYMBOL } from './utils'
 
 export { createAutoLinkParser } from './parseLink'
 export { AUTO_LINK_PLUGIN } from './plugin'
@@ -19,7 +15,13 @@ export type LinkMarkSpec = MarkSpec & {
 	attrs: LinkSpecAttrs
 }
 
-const LINK_SPEC_SYMBOL: symbol = Symbol('@pm-ext/linkSpec')
+export type LinkMarkType = MarkType & {
+	spec: LinkMarkSpec
+}
+
+export type LinkMark = Mark & {
+	attrs: LinkSpecAttrs
+}
 
 export const LINK_SPEC: LinkMarkSpec = {
 	key: LINK_SPEC_SYMBOL,
@@ -39,17 +41,6 @@ export const LINK_SPEC: LinkMarkSpec = {
 			},
 		},
 	],
-}
-
-function getLinkMarkType(schema: Schema): MarkType | undefined {
-	return getMarkType(schema, LINK_SPEC_SYMBOL)
-}
-
-function getMarkType(schema: Schema, key: symbol) {
-	const { link } = schema.marks
-	if (link && link.spec.key === key) {
-		return link
-	}
 }
 
 export function insertTextWithLinkMark(
