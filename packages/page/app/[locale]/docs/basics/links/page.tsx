@@ -37,7 +37,6 @@ function Menu() {
 
 function LinkPMEditor() {
 	const [view, setView] = React.useState<EditorView | undefined>()
-	const [mounted, setMounted] = React.useState(false)
 
 	const initHtml =
 		'<p>Here is a link to <a href="https://google.com/">Google</a>.</p>'
@@ -53,12 +52,10 @@ function LinkPMEditor() {
 				}}
 				plugins={[new Plugin(AUTO_LINK_PLUGIN)]}
 				initHtml={initHtml}
-				mounted={mounted}
 				view={view}
 				initView={v => {
 					if (!view) {
 						setView(v)
-						setMounted(true)
 					} else {
 						unreachable()
 					}
@@ -67,7 +64,6 @@ function LinkPMEditor() {
 					if (view) {
 						assertValue(view.isDestroyed)
 						setView(undefined)
-						setMounted(false)
 					} else {
 						unreachable()
 					}

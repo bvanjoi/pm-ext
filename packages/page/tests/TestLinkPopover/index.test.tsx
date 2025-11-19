@@ -27,7 +27,7 @@ test('LinkPopover', async ({ mount, page }) => {
 		expect(page.locator(textSpan.value())).toHaveCount(0),
 	])
 
-	const locator = page.locator(confirmBtn.value()).nth(1)
+	const locator = page.locator(confirmBtn.value()).nth(0)
 	expect(await locator.innerText()).toBe('commonConfirm')
 
 	await locator.click()

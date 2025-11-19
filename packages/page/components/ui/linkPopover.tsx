@@ -40,7 +40,7 @@ export function LinkPopover(props: LinkPopoverProps): React.JSX.Element {
 
 	return (
 		<Popover>
-			<PopoverTrigger>
+			<PopoverTrigger asChild>
 				<Button className="m-1 cursor-pointer">{t('editorLink')}</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-80">

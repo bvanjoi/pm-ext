@@ -39,6 +39,9 @@
 			},
 			"correctness": {
 				"noUnusedVariables": "error"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "warn"
 			}
 		}
 	}

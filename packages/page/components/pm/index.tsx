@@ -1,9 +1,10 @@
 import { docFromHtml, pmState, pmViewFromState } from '@pm-ext/basic-setup'
-import type {
-	MarkSpec,
-	NodeSpec,
-	Node as PMNode,
-	Schema,
+import {
+	DOMSerializer,
+	type MarkSpec,
+	type NodeSpec,
+	type Node as PMNode,
+	type Schema,
 } from 'prosemirror-model'
 import type { EditorState, Plugin } from 'prosemirror-state'
 
@@ -24,7 +25,6 @@ interface ProsemirrorEditorProps {
 	plugins?: Plugin[]
 	initHtml?: string
 
-	mounted: boolean
 	view?: EditorView
 	initView?: (view: EditorView) => void
 	destroyView?: () => void
@@ -35,7 +35,13 @@ function createState(props: ProsemirrorEditorProps): EditorState {
 	let doc: ((schema: Schema) => PMNode) | undefined
 	if (initHtml) {
 		doc = (schema: Schema) => {
-			const ret = docFromHtml(schema, initHtml)
+			const options = {
+				window:
+					typeof window !== 'undefined'
+						? window
+						: new (require('jsdom').JSDOM)().window,
+			}
+			const ret = docFromHtml(schema, initHtml, options)
 			assertValue(ret)
 			return ret
 		}
@@ -49,8 +55,28 @@ function createState(props: ProsemirrorEditorProps): EditorState {
 	})
 }
 
+function ProsemirrorEditorDisplay(props: { state: EditorState }) {
+	const options = {
+		document: undefined,
+	}
+	if (typeof window === 'undefined') {
+		const jsdom = new (require('jsdom').JSDOM)()
+		options.document = jsdom.window.document
+	} else {
+		return
+	}
+	const html = DOMSerializer.fromSchema(props.state.schema).serializeNode(
+		props.state.doc,
+		options,
+	)
+	if (html.nodeType === html.ELEMENT_NODE) {
+		const { innerHTML } = html as Element
+		return <div dangerouslySetInnerHTML={{ __html: innerHTML }} />
+	}
+}
+
 export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
-	const { mounted, initView, destroyView, view } = props
+	const { initView, destroyView, view } = props
 
 	const [state] = React.useState(() => createState(props))
 	const domRef = React.useRef<HTMLDivElement>(null)
@@ -60,20 +86,34 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 		if (!domRef.current) {
 			return
 		}
+		if (domRef.current.childElementCount !== 0) {
+			return
+		}
 
-		if (!view && !mounted && initView) {
+		if (!view) {
 			const v = pmViewFromState(state, domRef.current)
 			v.focus()
-			initView(v)
+			if (initView) {
+				initView(v)
+			}
 		}
 
 		return () => {
-			if (view && mounted && destroyView) {
+			if (view) {
 				view.destroy()
-				destroyView()
+				if (destroyView) {
+					destroyView()
+				}
 			}
 		}
-	}, [mounted, state, view, initView, destroyView])
+	}, [state, view, initView, destroyView])
 
-	return <div ref={domRef} id={id} className="max-w-none p-6 min-h-64" />
+	const style = view ? {} : { display: 'none' }
+
+	return (
+		<div className="max-w-none p-6 min-h-64">
+			{view ? null : <ProsemirrorEditorDisplay state={state} />}
+			<div ref={domRef} id={id} style={style} />
+		</div>
+	)
 }
