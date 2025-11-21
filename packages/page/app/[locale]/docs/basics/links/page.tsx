@@ -1,8 +1,8 @@
 'use client'
 
 import {
-	AUTO_LINK_PLUGIN,
 	insertTextWithLinkMark,
+	LINK_PLUGIN_SPEC,
 	LINK_SPEC,
 } from '@pm-ext/link'
 import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
@@ -21,6 +21,7 @@ function Menu() {
 	return (
 		<div className="border-b border-border bg-background p-3 flex flex-wrap gap-2">
 			<LinkPopover
+				mode="insert"
 				onConfirm={(href, text) => {
 					assertValue(pmView)
 					if (!(href && text)) {
@@ -50,7 +51,7 @@ function LinkPMEditor() {
 				marks={{
 					link: LINK_SPEC,
 				}}
-				plugins={[new Plugin(AUTO_LINK_PLUGIN)]}
+				plugins={[new Plugin(LINK_PLUGIN_SPEC)]}
 				initHtml={initHtml}
 				view={view}
 				initView={v => {

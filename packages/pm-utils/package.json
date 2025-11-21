@@ -1,5 +1,5 @@
 {
-	"name": "@pm-ext/link",
+	"name": "@pm-ext/pm-utils",
 	"version": "0.0.1",
 	"sideEffects": false,
 	"type": "module",
@@ -16,24 +16,20 @@
 		"build": "rm -rf dist && rslib build",
 		"dev": "rslib build -w",
 		"format:check": "biome format",
-		"format:fix": "biome format --fix",
-		"test": "playwright test"
-	},
-	"dependencies": {
-		"@pm-ext/pm-utils": "workspace:*"
+		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.56.1",
-		"@pm-ext/basic-setup": "workspace:*",
-		"@pm-ext/e2e-helper": "workspace:*",
-		"@pm-ext/utils": "workspace:*",
 		"@rslib/core": "^0.18.0",
-		"@types/jsdom": "^27.0.0",
-		"jsdom": "^27.2.0",
+		"typescript": "^5.9.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",
-		"prosemirror-view": "^1.41.3",
-		"typescript": "^5.9.3"
+		"prosemirror-view": "^1.41.3"
+	},
+	"peerDependencies": {
+		"prosemirror-model": "^1.0.0",
+		"prosemirror-state": "^1.0.0",
+		"prosemirror-transform": "^1.0.0",
+		"prosemirror-view": "^1.0.0"
 	}
 }

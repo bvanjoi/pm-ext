@@ -1,8 +1,13 @@
 import { expect, test } from '@playwright/experimental-ct-react'
 import { HTMLSelectorORM, PageQuery } from '../utils'
-import { TestLinkPopover0 } from './fixture'
+import { TestLinkPopover0, UnexpectModeLinkPopover } from './fixture'
 
-test('LinkPopover', async ({ mount, page }) => {
+test('unexpect mode of LinkPopover', async ({ mount, page }) => {
+	const component = await mount(<UnexpectModeLinkPopover />)
+	await expect(component).toBeEmpty()
+})
+
+test('test insert mode of LinkPopover', async ({ mount, page }) => {
 	const query = PageQuery(page)
 	const popoverBtn = HTMLSelectorORM().appendAttribute(
 		'data-slot',

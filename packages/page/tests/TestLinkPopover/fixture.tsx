@@ -1,6 +1,11 @@
 import React from 'react'
 import { LinkPopover } from '../../components/ui/linkPopover'
 
+export function UnexpectModeLinkPopover() {
+	//@ts-expect-error: unexpect mode for test
+	return <LinkPopover mode="unexpect" />
+}
+
 export function TestLinkPopover0() {
 	const [href, setHref] = React.useState<string>()
 	const [text, setText] = React.useState<string>()
@@ -9,6 +14,7 @@ export function TestLinkPopover0() {
 			{typeof href === 'string' ? <p id="test-href">{href}</p> : undefined}
 			{typeof text === 'string' ? <p id="test-text">{text}</p> : undefined}
 			<LinkPopover
+				mode="insert"
 				onConfirm={(...args) => {
 					setHref(args[0])
 					setText(args[1])

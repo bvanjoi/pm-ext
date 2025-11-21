@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import { docFromHtml, pmState } from '@pm-ext/basic-setup'
-import { AUTO_LINK_PLUGIN, LINK_SPEC } from '@pm-ext/link'
+import { LINK_PLUGIN_SPEC, LINK_SPEC } from '@pm-ext/link'
 import { assertValue } from '@pm-ext/utils'
 import { JSDOM } from 'jsdom'
 import { Plugin } from 'prosemirror-state'
@@ -10,13 +10,13 @@ interface Props {
 	pos?: number
 }
 
-export function state(props: Props = {}) {
+export function linkState(props: Props = {}) {
 	const initHtml = props.initHtml
 	return pmState({
 		marks: {
 			link: LINK_SPEC,
 		},
-		plugins: [new Plugin(AUTO_LINK_PLUGIN)],
+		plugins: [new Plugin(LINK_PLUGIN_SPEC)],
 		doc: initHtml
 			? schema => {
 					const ret = docFromHtml(schema, initHtml, {

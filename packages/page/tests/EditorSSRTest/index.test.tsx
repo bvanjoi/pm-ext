@@ -8,7 +8,7 @@ async function buildAndRenderToHtml(
 ): Promise<string | undefined> {
 	const outfile = path.resolve(
 		__dirname,
-		'./tempSSRFixtureOutput',
+		'../../test-results/tempSSRFixtureOutput',
 		`${randomUUID()}.js`,
 	)
 	await esbuild.build({

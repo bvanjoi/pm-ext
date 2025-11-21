@@ -3,7 +3,7 @@ import { addLinkMark, insertTextWithLinkMark } from '@pm-ext/link'
 import { assertValue } from '@pm-ext/utils'
 import type { Node as PMNode, Schema } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
-import { state } from './utils'
+import { linkState } from './utils'
 
 function assertLink(
 	schema: Schema,
@@ -55,7 +55,7 @@ function expectDocOnlyHasLinkText(
 }
 
 test('auto link should works', () => {
-	const s = state({
+	const s = linkState({
 		initHtml: '<p>a.co</p>',
 	})
 	// <p>a.co</p>
@@ -83,7 +83,7 @@ test('auto link should works', () => {
 })
 
 test('auto link with whitespace', () => {
-	const s = state({
+	const s = linkState({
 		initHtml: '<p>a b.co</p>',
 	})
 	expectDocOnlyHasPlainText(s.doc, 'a b.co')
@@ -107,7 +107,7 @@ test('auto link with whitespace', () => {
 })
 
 test('insert text with link mark', () => {
-	const s = state()
+	const s = linkState()
 	expect(s.doc.toString()).toBe('doc(p)')
 	{
 		const tr = insertTextWithLinkMark(s.tr, 1, 'a', 'b')
@@ -124,7 +124,7 @@ test('insert text with link mark', () => {
 })
 
 test('attach link mark to raw text', () => {
-	const s = state({
+	const s = linkState({
 		initHtml: '<p>t</p>',
 	})
 	expectDocOnlyHasPlainText(s.doc, 't')
@@ -139,7 +139,7 @@ test('attach link mark to raw text', () => {
 })
 
 test('auto link should ignore normal link', () => {
-	const s = state({
+	const s = linkState({
 		initHtml: '<p>a</p>',
 	})
 	expectDocOnlyHasPlainText(s.doc, 'a')

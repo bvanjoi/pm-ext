@@ -21,6 +21,9 @@
       "path": "../pm-e2e-helper/tsconfig.json"
     },
     {
+      "path": "../pm-utils/tsconfig.json"
+    },
+    {
       "path": "../utils/tsconfig.json"
     },
   ]

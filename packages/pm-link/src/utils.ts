@@ -1,3 +1,4 @@
+import { getMarkTypeBySpecKey } from '@pm-ext/pm-utils'
 import type { Mark, MarkType, Schema } from 'prosemirror-model'
 import type { LinkMark, LinkMarkType } from './index'
 
@@ -12,12 +13,5 @@ export function isLinkMarkType(markType: MarkType): markType is LinkMarkType {
 }
 
 export function getLinkMarkType(schema: Schema): MarkType | undefined {
-	return getMarkType(schema, LINK_SPEC_SYMBOL)
-}
-
-export function getMarkType(schema: Schema, key: symbol): MarkType | undefined {
-	const { link } = schema.marks
-	if (link && link.spec.key === key) {
-		return link
-	}
+	return getMarkTypeBySpecKey(schema.marks, 'link', LINK_SPEC_SYMBOL)
 }

@@ -3,7 +3,7 @@ import type { Transaction } from 'prosemirror-state'
 import { getLinkMarkType, LINK_SPEC_SYMBOL } from './utils'
 
 export { createAutoLinkParser } from './parseLink'
-export { AUTO_LINK_PLUGIN } from './plugin'
+export { LINK_PLUGIN_SPEC } from './plugin'
 
 export type LinkSpecAttrs = {
 	href: AttributeSpec
@@ -19,8 +19,13 @@ export type LinkMarkType = MarkType & {
 	spec: LinkMarkSpec
 }
 
+export type LinkAttrs = {
+	href: string
+	auto?: boolean
+}
+
 export type LinkMark = Mark & {
-	attrs: LinkSpecAttrs
+	attrs: LinkAttrs
 }
 
 export const LINK_SPEC: LinkMarkSpec = {
