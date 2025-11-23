@@ -6,6 +6,10 @@ export function UnexpectModeLinkPopover() {
 	return <LinkPopover mode="unexpect" />
 }
 
+export function EditHrefLinkPopover0({ defaultHref }: { defaultHref: string }) {
+	return <LinkPopover mode="editHref" href={defaultHref} />
+}
+
 export function TestLinkPopover0() {
 	const [href, setHref] = React.useState<string>()
 	const [text, setText] = React.useState<string>()

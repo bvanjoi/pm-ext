@@ -2,7 +2,12 @@ import type { Node as PMNode } from 'prosemirror-model'
 import type { EditorState, PluginSpec, Transaction } from 'prosemirror-state'
 import type { StepMap } from 'prosemirror-transform'
 import { type AutoLinkParser, createAutoLinkParser } from './parseLink'
-import { getLinkMarkType, isLinkMark } from './utils'
+import {
+	addHttpProtocolPrefix,
+	ensureLinkMarkAttrs,
+	getLinkMarkType,
+	isLinkMark,
+} from './utils'
 
 function getNewStartAndNewEndFromStepMap(
 	stepMap: StepMap,
@@ -74,14 +79,14 @@ function revisitAutoLink(
 	for (const { node, pos } of filteredNodes) {
 		const list = linkParser(node.textContent)
 		for (const item of list) {
-			tr = tr.addMark(
-				pos + item.start,
-				pos + item.end,
-				linkMarkType.create({
-					href: node.textContent.slice(item.start, item.end),
-					auto: true,
-				}),
-			)
+			const href = node.textContent.slice(item.start, item.end)
+			const linkMark = linkMarkType.create({
+				originalHref: href,
+				href: addHttpProtocolPrefix(href),
+				auto: true,
+			})
+			ensureLinkMarkAttrs(linkMark)
+			tr = tr.addMark(pos + item.start, pos + item.end, linkMark)
 		}
 	}
 	return tr

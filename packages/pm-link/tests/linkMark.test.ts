@@ -5,25 +5,23 @@ import type { Node as PMNode, Schema } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
 import { linkState } from './utils'
 
+interface ExpectedLinkMarkAttrs {
+	href: string
+	originalHref: string
+	isAuto: boolean
+}
+
 function assertLink(
 	schema: Schema,
 	node: PMNode,
-	expectLink: string,
-	isAuto: boolean,
+	attrs: ExpectedLinkMarkAttrs,
 ) {
 	const linkMark = schema.marks.link
 	const mark = node.marks.find(mark => mark.type === linkMark)
 	assertValue(mark)
-	expect(mark.attrs.href).toBe(expectLink)
-	expect(mark.attrs.auto).toBe(isAuto)
-}
-
-function expectNoAutoLink(schema: Schema, node: PMNode, expectLink: string) {
-	assertLink(schema, node, expectLink, false)
-}
-
-function expectAutoLink(schema: Schema, node: PMNode, expectLink: string) {
-	assertLink(schema, node, expectLink, true)
+	expect(mark.attrs.href).toBe(attrs.href)
+	expect(mark.attrs.auto).toBe(attrs.isAuto)
+	expect(mark.attrs.originalHref).toBe(attrs.originalHref)
 }
 
 function expectDocOnlyHasPlainText(doc: PMNode, expectText?: string) {
@@ -39,19 +37,14 @@ function expectDocOnlyHasPlainText(doc: PMNode, expectText?: string) {
 
 function expectDocOnlyHasLinkText(
 	doc: PMNode,
-	expectLinkText: string,
-	expectLinkHref: string,
-	isAuto: boolean,
+	expectedLinkText: string,
+	expectedLinkAttrs: ExpectedLinkMarkAttrs,
 ) {
-	expect(doc.toString()).toBe(`doc(p(link("${expectLinkText}")))`)
+	expect(doc.toString()).toBe(`doc(p(link("${expectedLinkText}")))`)
 	const n1 = doc.nodeAt(1)
 	assertValue(n1)
 	expect(n1.marks.length).toBe(1)
-	if (isAuto) {
-		expectAutoLink(doc.type.schema, n1, expectLinkHref)
-	} else {
-		expectNoAutoLink(doc.type.schema, n1, expectLinkHref)
-	}
+	assertLink(doc.type.schema, n1, expectedLinkAttrs)
 }
 
 test('auto link should works', () => {
@@ -61,24 +54,40 @@ test('auto link should works', () => {
 	// <p>a.co</p>
 	expectDocOnlyHasPlainText(s.doc, 'a.co')
 	{
-		const tr = s.tr.insertText('m', 5)
-		const s1 = s.apply(tr)
-		// <p><a href="a.com">a.com</a></p>
-		expectDocOnlyHasLinkText(s1.doc, 'a.com', 'a.com', true)
+		const s1 = s.apply(s.tr.insertText('m', 5))
+		// <p><a href="https://a.com">a.com</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 'a.com', {
+			href: 'https://a.com',
+			originalHref: 'a.com',
+			isAuto: true,
+		})
 		{
-			const tr = s1.tr.delete(5, 6)
-			const s2 = s1.apply(tr)
+			const s2 = s1.apply(s1.tr.delete(5, 6))
 			// <p>a.co</p>
 			expectDocOnlyHasPlainText(s2.doc, 'a.co')
 
 			{
 				// insert again
-				const tr = s2.tr.insertText('m', 5)
-				const s3 = s2.apply(tr)
+				const s3 = s2.apply(s2.tr.insertText('m', 5))
 				// <p><a href="a.com">a.com</a></p>
-				expectDocOnlyHasLinkText(s3.doc, 'a.com', 'a.com', true)
+				expectDocOnlyHasLinkText(s3.doc, 'a.com', {
+					href: 'https://a.com',
+					originalHref: 'a.com',
+					isAuto: true,
+				})
 			}
 		}
+	}
+
+	{
+		const s1 = s.apply(s.tr.insertText('https://', 1))
+		expectDocOnlyHasPlainText(s1.doc, 'https://a.co')
+		const s2 = s1.apply(s1.tr.insertText('m', 13))
+		expectDocOnlyHasLinkText(s2.doc, 'https://a.com', {
+			href: 'https://a.com',
+			originalHref: 'https://a.com',
+			isAuto: true,
+		})
 	}
 })
 
@@ -95,7 +104,11 @@ test('auto link with whitespace', () => {
 		const n1 = s1.doc.nodeAt(3)
 		assertValue(n1)
 		assertValue(n1.marks.length === 1)
-		expectAutoLink(s1.schema, n1, 'b.com')
+		assertLink(s1.schema, n1, {
+			href: 'https://b.com',
+			originalHref: 'b.com',
+			isAuto: true,
+		})
 
 		{
 			const tr = s1.tr.delete(7, 8)
@@ -112,14 +125,22 @@ test('insert text with link mark', () => {
 	{
 		const tr = insertTextWithLinkMark(s.tr, 1, 'a', 'b')
 		const s1 = s.apply(tr)
-		// <p><a href="b">a</a></p>
-		expectDocOnlyHasLinkText(s1.doc, 'a', 'b', false)
+		// <p><a href="https://b">a</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 'a', {
+			href: 'https://b',
+			originalHref: 'b',
+			isAuto: false,
+		})
 	}
 	{
 		const tr = insertTextWithLinkMark(s.tr, 1, 'a')
 		const s1 = s.apply(tr)
-		// <p><a href="a">a</a></p>
-		expectDocOnlyHasLinkText(s1.doc, 'a', 'a', false)
+		// <p><a href="https://a">a</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 'a', {
+			href: 'https://a',
+			originalHref: 'a',
+			isAuto: false,
+		})
 	}
 })
 
@@ -133,8 +154,12 @@ test('attach link mark to raw text', () => {
 		let tr = s.tr.setSelection(selection)
 		tr = addLinkMark(tr, 'a')
 		const s1 = s.apply(tr)
-		// <p><a href="a">t</a></p>
-		expectDocOnlyHasLinkText(s1.doc, 't', 'a', false)
+		// <p><a href="https://a">t</a></p>
+		expectDocOnlyHasLinkText(s1.doc, 't', {
+			href: 'https://a',
+			originalHref: 'a',
+			isAuto: false,
+		})
 	}
 })
 
@@ -146,11 +171,15 @@ test('auto link should ignore normal link', () => {
 	const selection = TextSelection.create(s.doc, 1, 2)
 	const tr1 = s.tr.setSelection(selection)
 	const s1 = s.apply(addLinkMark(tr1, 'a'))
-	// <p><a href="a">a</a></p>
-	expectDocOnlyHasLinkText(s1.doc, 'a', 'a', false)
+	// <p><a href="https://a">a</a></p>
+	expectDocOnlyHasLinkText(s1.doc, 'a', {
+		href: 'https://a',
+		originalHref: 'a',
+		isAuto: false,
+	})
 
 	const tr2 = s1.tr.insertText('.com', 2)
 	const s2 = s1.apply(tr2)
-	// <p><a href="a">a</a>.com</p>
+	// <p><a href="https://a">a</a>.com</p>
 	expect(s2.doc.toString()).toBe('doc(p(link("a"), ".com"))')
 })

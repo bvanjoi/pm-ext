@@ -99,10 +99,6 @@ export function pmViewFromState(
 ): EditorView {
 	const view = new EditorView(container, {
 		state,
-		dispatchTransaction: tr => {
-			const next = view.state.apply(tr)
-			view.updateState(next)
-		},
 	})
 	return view
 }

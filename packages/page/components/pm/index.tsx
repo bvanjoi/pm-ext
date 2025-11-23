@@ -26,8 +26,9 @@ interface ProsemirrorEditorProps {
 	initHtml?: string
 
 	view?: EditorView
-	initView?: (view: EditorView) => void
-	destroyView?: () => void
+	onInitView?: (view: EditorView) => void
+	onUpdateView?: (view: EditorView) => void
+	onDestroyView?: () => void
 }
 
 function createState(props: ProsemirrorEditorProps): EditorState {
@@ -76,7 +77,7 @@ function ProsemirrorEditorDisplay(props: { state: EditorState }) {
 }
 
 export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
-	const { initView, destroyView, view } = props
+	const { onInitView, onDestroyView, onUpdateView, view } = props
 
 	const [state] = React.useState(() => createState(props))
 	const domRef = React.useRef<HTMLDivElement>(null)
@@ -92,21 +93,31 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 
 		if (!view) {
 			const v = pmViewFromState(state, domRef.current)
+			v.update({
+				...v.props,
+				dispatchTransaction: tr => {
+					const next = v.state.apply(tr)
+					v.updateState(next)
+					if (onUpdateView) {
+						onUpdateView(v)
+					}
+				},
+			})
 			v.focus()
-			if (initView) {
-				initView(v)
+			if (onInitView) {
+				onInitView(v)
 			}
 		}
 
 		return () => {
 			if (view) {
 				view.destroy()
-				if (destroyView) {
-					destroyView()
+				if (onDestroyView) {
+					onDestroyView()
 				}
 			}
 		}
-	}, [state, view, initView, destroyView])
+	}, [state, view, onInitView, onDestroyView, onUpdateView])
 
 	const style = view ? {} : { display: 'none' }
 

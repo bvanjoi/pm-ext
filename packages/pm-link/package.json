@@ -20,13 +20,13 @@
 		"test": "playwright test"
 	},
 	"dependencies": {
-		"@pm-ext/pm-utils": "workspace:*"
+		"@pm-ext/pm-utils": "workspace:*",
+		"@pm-ext/utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.56.1",
 		"@pm-ext/basic-setup": "workspace:*",
 		"@pm-ext/e2e-helper": "workspace:*",
-		"@pm-ext/utils": "workspace:*",
 		"@rslib/core": "^0.18.0",
 		"@types/jsdom": "^27.0.0",
 		"jsdom": "^27.2.0",

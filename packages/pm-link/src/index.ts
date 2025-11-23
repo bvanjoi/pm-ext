@@ -1,37 +1,21 @@
-import type { AttributeSpec, Mark, MarkSpec, MarkType } from 'prosemirror-model'
 import type { Transaction } from 'prosemirror-state'
-import { getLinkMarkType, LINK_SPEC_SYMBOL } from './utils'
+import type { LinkMarkSpec } from './types'
+import {
+	addHttpProtocolPrefix,
+	ensureLinkMarkAttrs,
+	getLinkMarkType,
+	LINK_SPEC_SYMBOL,
+} from './utils'
 
 export { createAutoLinkParser } from './parseLink'
 export { LINK_PLUGIN_SPEC } from './plugin'
-
-export type LinkSpecAttrs = {
-	href: AttributeSpec
-	auto: AttributeSpec
-}
-
-export type LinkMarkSpec = MarkSpec & {
-	key: symbol
-	attrs: LinkSpecAttrs
-}
-
-export type LinkMarkType = MarkType & {
-	spec: LinkMarkSpec
-}
-
-export type LinkAttrs = {
-	href: string
-	auto?: boolean
-}
-
-export type LinkMark = Mark & {
-	attrs: LinkAttrs
-}
+export { getLinkMark } from './utils'
 
 export const LINK_SPEC: LinkMarkSpec = {
 	key: LINK_SPEC_SYMBOL,
 	attrs: {
 		href: {},
+		originalHref: {},
 		auto: {
 			default: false,
 		},
@@ -42,7 +26,12 @@ export const LINK_SPEC: LinkMarkSpec = {
 		{
 			tag: 'a[href]',
 			getAttrs: dom => {
-				return { href: dom.getAttribute('href') }
+				const href = dom.getAttribute('href')
+				return {
+					href,
+					originalHref: href,
+					auto: false,
+				}
 			},
 		},
 	],
@@ -59,7 +48,11 @@ export function insertTextWithLinkMark(
 	if (!linkMarkType) {
 		return tr
 	}
-	const linkMark = linkMarkType.create({ href })
+	const linkMark = linkMarkType.create({
+		originalHref: href,
+		href: addHttpProtocolPrefix(href),
+	})
+	ensureLinkMarkAttrs(linkMark)
 	const textNode = schema.text(text, [linkMark])
 	return tr.insert(pos, textNode)
 }
@@ -70,7 +63,11 @@ export function addLinkMark(tr: Transaction, href: string): Transaction {
 	if (!linkMarkType) {
 		return tr
 	}
-	const linkMark = linkMarkType.create({ href })
+	const linkMark = linkMarkType.create({
+		href: addHttpProtocolPrefix(href),
+		originalHref: href,
+	})
+	ensureLinkMarkAttrs(linkMark)
 	return tr.selection.ranges.reduce(
 		(acc, range) => acc.addMark(range.$from.pos, range.$to.pos, linkMark),
 		tr,

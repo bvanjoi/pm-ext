@@ -7,7 +7,8 @@ import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 interface LabelInputProps {
 	id: string
-	onChange: (value: string) => void
+	defaultValue?: string
+	onChange?: (value: string) => void
 }
 
 function LabelInput(props: LabelInputProps) {
@@ -15,25 +16,25 @@ function LabelInput(props: LabelInputProps) {
 		<Input
 			id="href"
 			className="col-span-2 h-8"
+			defaultValue={props.defaultValue}
 			onChange={e => {
-				props.onChange(e.currentTarget.value)
+				if (props.onChange) {
+					props.onChange(e.currentTarget.value)
+				}
 			}}
 		/>
 	)
 }
 
-interface LinkPopoverBaseProps {
+interface InsertLinkPopoverProps {
+	mode: 'insert'
 	onConfirm?: (href: string, text: string) => void
 }
 
-interface InsertLinkPopoverProps extends LinkPopoverBaseProps {
-	mode: 'insert'
-}
-
-interface EditLinkPopoverProps extends LinkPopoverBaseProps {
+interface EditLinkPopoverProps {
 	mode: 'editHref'
 	href: string
-	updateHref?: (newHref: string) => void
+	onConfirm?: (newHref: string) => void
 }
 
 type LinkPopoverProps = InsertLinkPopoverProps | EditLinkPopoverProps
@@ -69,26 +70,21 @@ function InsertLinkPopoverContent(
 function EditLinkPopoverContent(
 	props: EditLinkPopoverProps,
 ): React.JSX.Element {
-	const { href, onConfirm, updateHref } = props
+	const { onConfirm } = props
+	const [herf, setHref] = React.useState<string>(props.href)
 	const { t } = useTranslation()
 
 	const onConfirmClick = () => {
 		if (onConfirm) {
-			onConfirm(href, '')
-		}
-	}
-
-	const onHrefTextChange = (newHref: string) => {
-		if (updateHref) {
-			updateHref(newHref)
+			onConfirm(herf)
 		}
 	}
 
 	return (
 		<div className="grid gap-2">
 			<div className="grid grid-cols-3 items-center gap-4">
-				<Label htmlFor="text">{t('linkPopoverTextLabel')}</Label>
-				<LabelInput id="text" onChange={onHrefTextChange} />
+				<Label htmlFor="href">{t('linkPopoverHrefLabel')}</Label>
+				<LabelInput id="href" defaultValue={herf} onChange={setHref} />
 			</div>
 			<Button className="mt-2 cursor-pointer" onClick={onConfirmClick}>
 				{t('commonConfirm')}
@@ -102,7 +98,7 @@ export function LinkPopover(props: LinkPopoverProps): React.JSX.Element {
 	const { t } = useTranslation()
 
 	if (mode !== 'insert' && mode !== 'editHref') {
-		return <></>
+		return <React.Fragment />
 	}
 
 	return (

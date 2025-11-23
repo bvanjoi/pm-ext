@@ -1,8 +1,12 @@
 import { expect, test } from '@playwright/experimental-ct-react'
 import { HTMLSelectorORM, PageQuery } from '../utils'
-import { TestLinkPopover0, UnexpectModeLinkPopover } from './fixture'
+import {
+	EditHrefLinkPopover0,
+	TestLinkPopover0,
+	UnexpectModeLinkPopover,
+} from './fixture'
 
-test('unexpect mode of LinkPopover', async ({ mount, page }) => {
+test('unexpect mode of LinkPopover', async ({ mount }) => {
 	const component = await mount(<UnexpectModeLinkPopover />)
 	await expect(component).toBeEmpty()
 })
@@ -41,5 +45,19 @@ test('test insert mode of LinkPopover', async ({ mount, page }) => {
 		expect(query.isVisible(popoverBtn)).resolves.toBe(true),
 		expect(page.locator(hrefSpan.value())).toHaveCount(1),
 		expect(page.locator(textSpan.value())).toHaveCount(1),
+	])
+})
+
+test('default value for editHref mode of LinkPopover', async ({
+	mount,
+	page,
+}) => {
+	const c = await mount(<EditHrefLinkPopover0 defaultHref="google.com" />)
+	await c.click()
+	const input = HTMLSelectorORM().appendElement('input')
+	const loc = page.locator(input.value())
+	await Promise.all([
+		expect(loc.count()).resolves.toBe(1),
+		expect(loc.first().inputValue()).resolves.toBe('google.com'),
 	])
 })
