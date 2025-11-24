@@ -19,12 +19,12 @@
 		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.18.0",
-		"typescript": "^5.9.3",
+		"@rslib/core": "^0.18.1",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",
-		"prosemirror-view": "^1.41.3"
+		"prosemirror-view": "^1.41.3",
+		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {
 		"prosemirror-model": "^1.0.0",

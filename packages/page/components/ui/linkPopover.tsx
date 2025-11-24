@@ -35,6 +35,7 @@ interface EditLinkPopoverProps {
 	mode: 'editHref'
 	href: string
 	onConfirm?: (newHref: string) => void
+	onRemove?: () => void
 }
 
 type LinkPopoverProps = InsertLinkPopoverProps | EditLinkPopoverProps
@@ -70,14 +71,27 @@ function InsertLinkPopoverContent(
 function EditLinkPopoverContent(
 	props: EditLinkPopoverProps,
 ): React.JSX.Element {
-	const { onConfirm } = props
+	const { onConfirm, onRemove } = props
 	const [herf, setHref] = React.useState<string>(props.href)
 	const { t } = useTranslation()
 
-	const onConfirmClick = () => {
-		if (onConfirm) {
-			onConfirm(herf)
+	const RemoveHrefButton = () => {
+		if (!props.href) {
+			return
 		}
+
+		return (
+			<Button
+				className="mt-2 cursor-pointer"
+				onClick={() => {
+					if (onRemove) {
+						onRemove()
+					}
+				}}
+			>
+				{t('commonRemove')}
+			</Button>
+		)
 	}
 
 	return (
@@ -86,9 +100,17 @@ function EditLinkPopoverContent(
 				<Label htmlFor="href">{t('linkPopoverHrefLabel')}</Label>
 				<LabelInput id="href" defaultValue={herf} onChange={setHref} />
 			</div>
-			<Button className="mt-2 cursor-pointer" onClick={onConfirmClick}>
+			<Button
+				className="mt-2 cursor-pointer"
+				onClick={() => {
+					if (onConfirm) {
+						onConfirm(herf)
+					}
+				}}
+			>
 				{t('commonConfirm')}
 			</Button>
+			<RemoveHrefButton />
 		</div>
 	)
 }

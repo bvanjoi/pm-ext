@@ -1,5 +1,6 @@
 {
 	"commonConfirm": "Confirm",
+	"commonRemove": "Remove",
 	"commonLanguage": "Language",
 	"commonSearch": "Search...",
 	"commonNoResults": "No results found",
@@ -13,7 +14,8 @@
 	"navigationFormatting": "Formatting",
 	"navigationImages": "Images",
 	"navigationInstallation": "Installation",
-	"navigationLinks": "Links",
+	"navigationLink": "Link",
+	"navigationImage": "Image",
 	"navigationLists": "Lists",
 	"navigationOverview": "Overview",
 	"navigationPlugins": "Plugins",

@@ -48,16 +48,29 @@ test('test insert mode of LinkPopover', async ({ mount, page }) => {
 	])
 })
 
+const inputSelector = HTMLSelectorORM().appendElement('input')
+const buttonSelector = HTMLSelectorORM().appendElement('button')
+
+test('empty href for editHref mode of LinkPopover', async ({ mount, page }) => {
+	const c = await mount(<EditHrefLinkPopover0 defaultHref="" />)
+	await expect(page.locator(buttonSelector.value()).count()).resolves.toBe(1)
+	await c.click()
+	await expect(page.locator(buttonSelector.value()).count()).resolves.toBe(2)
+})
+
 test('default value for editHref mode of LinkPopover', async ({
 	mount,
 	page,
 }) => {
 	const c = await mount(<EditHrefLinkPopover0 defaultHref="google.com" />)
+	await expect(page.locator(buttonSelector.value()).count()).resolves.toBe(1)
 	await c.click()
-	const input = HTMLSelectorORM().appendElement('input')
-	const loc = page.locator(input.value())
+	// input
+	const loc = page.locator(inputSelector.value())
 	await Promise.all([
 		expect(loc.count()).resolves.toBe(1),
 		expect(loc.first().inputValue()).resolves.toBe('google.com'),
 	])
+	// button
+	await expect(page.locator(buttonSelector.value()).count()).resolves.toBe(3)
 })

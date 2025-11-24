@@ -1,5 +1,6 @@
 {
 	"commonConfirm": "确认",
+	"commonRemove": "移除",
 	"commonLanguage": "语言",
 	"commonSearch": "搜索...",
 	"commonNoResults": "未找到结果",
@@ -13,7 +14,8 @@
 	"navigationFormatting": "文本格式化",
 	"navigationImages": "图像",
 	"navigationInstallation": "安装",
-	"navigationLinks": "链接",
+	"navigationLink": "链接",
+	"navigationImage": "图像",
 	"navigationLists": "列表",
 	"navigationOverview": "概述",
 	"navigationPlugins": "插件",

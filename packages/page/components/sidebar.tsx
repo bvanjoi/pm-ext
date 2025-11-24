@@ -20,8 +20,9 @@ export function Sidebar() {
 	const [searchQuery, setSearchQuery] = useState('')
 
 	const allItems = [
-		{ name: t('navigationLinks'), href: `/${locale}/docs/basics/links` },
-	]
+		{ name: t('navigationLink'), href: `/${locale}/docs/basics/link` },
+		{ name: t('navigationImage'), href: `/${locale}/docs/basics/image` },
+	] as const
 
 	const filteredItems = allItems.filter(item =>
 		item.name.toLowerCase().includes(searchQuery.toLowerCase()),

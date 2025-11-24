@@ -58,8 +58,7 @@ export function insertTextWithLinkMark(
 }
 
 export function addLinkMark(tr: Transaction, href: string): Transaction {
-	const { schema } = tr.doc.type
-	const linkMarkType = getLinkMarkType(schema)
+	const linkMarkType = getLinkMarkType(tr.doc.type.schema)
 	if (!linkMarkType) {
 		return tr
 	}
@@ -70,6 +69,18 @@ export function addLinkMark(tr: Transaction, href: string): Transaction {
 	ensureLinkMarkAttrs(linkMark)
 	return tr.selection.ranges.reduce(
 		(acc, range) => acc.addMark(range.$from.pos, range.$to.pos, linkMark),
+		tr,
+	)
+}
+
+export function removeLinkMark(tr: Transaction): Transaction {
+	const linkMarkType = getLinkMarkType(tr.doc.type.schema)
+	if (!linkMarkType) {
+		return tr
+	}
+	return tr.selection.ranges.reduce(
+		(acc, range) =>
+			acc.removeMark(range.$from.pos, range.$to.pos, linkMarkType),
 		tr,
 	)
 }

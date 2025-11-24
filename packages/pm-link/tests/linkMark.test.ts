@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test'
-import { addLinkMark, insertTextWithLinkMark } from '@pm-ext/link'
+import {
+	addLinkMark,
+	insertTextWithLinkMark,
+	removeLinkMark,
+} from '@pm-ext/link'
 import { assertValue } from '@pm-ext/utils'
 import type { Node as PMNode, Schema } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
@@ -76,6 +80,13 @@ test('auto link should works', () => {
 					isAuto: true,
 				})
 			}
+		}
+
+		{
+			const selection = TextSelection.create(s1.doc, 1, 6)
+			const s2 = s1.apply(removeLinkMark(s1.tr.setSelection(selection)))
+			// <p>a.com</p>
+			expectDocOnlyHasPlainText(s2.doc, 'a.com')
 		}
 	}
 

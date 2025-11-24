@@ -1,5 +1,6 @@
 export type I18nMessage = {
 	commonConfirm: string
+	commonRemove: string
 	commonLanguage: string
 	commonSearch: string
 	commonNoResults: string
@@ -13,7 +14,8 @@ export type I18nMessage = {
 	navigationFormatting: string
 	navigationImages: string
 	navigationInstallation: string
-	navigationLinks: string
+	navigationLink: string
+	navigationImage: string
 	navigationLists: string
 	navigationOverview: string
 	navigationPlugins: string
