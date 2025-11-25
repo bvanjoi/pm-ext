@@ -12,10 +12,10 @@ import * as React from 'react'
 
 import './style.css'
 import 'prosemirror-view/style/prosemirror.css'
-import { assertValue } from '@pm-ext/utils'
+import { assertValue, unreachable } from '@pm-ext/utils'
 import type { EditorView } from 'prosemirror-view'
 
-interface ProsemirrorEditorProps {
+interface ProsemirrorEditorPropsBase {
 	nodes?: {
 		[key: string]: NodeSpec
 	}
@@ -24,7 +24,9 @@ interface ProsemirrorEditorProps {
 	}
 	plugins?: Plugin[]
 	initHtml?: string
+}
 
+interface ProsemirrorEditorProps extends ProsemirrorEditorPropsBase {
 	view?: EditorView
 	onInitView?: (view: EditorView) => void
 	onUpdateView?: (view: EditorView) => void

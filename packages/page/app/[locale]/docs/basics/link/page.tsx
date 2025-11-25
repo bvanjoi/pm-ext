@@ -13,8 +13,8 @@ import { assertValue, unreachable } from '@pm-ext/utils'
 import { Plugin } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import React from 'react'
-import { PMEditorExampleLayout } from '@/components/pm/pmEditorExampleLayout'
 import { ProsemirrorEditor } from '../../../../../components/pm'
+import { PMEditorExampleLayout } from '../../../../../components/pm/pmEditorExampleLayout'
 import { LinkPopover } from '../../../../../components/ui/linkPopover'
 
 function getLinkPopoverMode(pmView: EditorView | undefined):
@@ -143,8 +143,8 @@ function LinkPMEditor() {
 	)
 }
 
-export default function LinksExample() {
-	const head = 'Links'
+export default function LinkExample() {
+	const head = 'Link'
 	const description =
 		'Add hyperlinks to your content with Prosemirror. This example shows how to add, edit, and remove links in your editor.'
 

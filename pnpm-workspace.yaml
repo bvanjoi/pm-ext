@@ -2,7 +2,7 @@ packages:
   - "packages/page"
   - "packages/pm-basic-setup"
   - "packages/pm-e2e-helper"
-  - "packages/pm-img"
+  - "packages/pm-image"
   - "packages/pm-link"
   - "packages/pm-react"
   - "packages/pm-utils"

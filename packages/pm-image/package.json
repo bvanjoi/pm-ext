@@ -1,15 +1,16 @@
 {
-	"name": "@pm-ext/img",
+	"name": "@pm-ext/image",
 	"version": "0.0.1",
 	"sideEffects": false,
+	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/src/index.d.ts",
-			"default": "./dist/index.mjs"
+			"default": "./dist/index.js"
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.mjs",
+	"main": "./dist/index.js",
 	"types": "./dist/src/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && rslib build",
@@ -18,7 +19,7 @@
 		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.18.1",
+		"@rslib/core": "^0.18.2",
 		"prosemirror-commands": "^1.7.1",
 		"prosemirror-history": "^1.5.0",
 		"prosemirror-keymap": "^1.2.3",
