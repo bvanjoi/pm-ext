@@ -1,4 +1,6 @@
+import { assertValue } from '@pm-ext/utils'
 import type { Node, NodeSpec } from 'prosemirror-model'
+import type { NodeViewConstructor } from 'prosemirror-view'
 
 export const IMAGE_SPEC: NodeSpec = {
 	toDOM: (node: Node) => [
@@ -27,4 +29,26 @@ export const IMAGE_SPEC: NodeSpec = {
 	},
 	group: 'block',
 	draggable: true,
+}
+
+export const ImageNodeViewConstructor: NodeViewConstructor = (
+	node,
+	view,
+	getPos,
+	decorations,
+) => {
+	const img = document.createElement('img')
+	img.src = node.attrs.src
+	img.alt = node.attrs.alt
+	img.title = node.attrs.title
+
+	return {
+		dom: img,
+		selectNode() {
+			img.classList.add('ProseMirror-selectednode')
+		},
+		deselectNode() {
+			img.classList.remove('ProseMirror-selectednode')
+		},
+	}
 }

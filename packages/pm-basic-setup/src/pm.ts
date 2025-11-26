@@ -13,9 +13,9 @@ import {
 	type Selection,
 	TextSelection,
 } from 'prosemirror-state'
-import { EditorView } from 'prosemirror-view'
+import { EditorView, type NodeViewConstructor } from 'prosemirror-view'
 
-export interface Props {
+export interface Config {
 	nodes?: {
 		[key: string]: NodeSpec
 	}
@@ -27,7 +27,7 @@ export interface Props {
 	selection?: number | { start: number; end: number }
 }
 
-function schema(props: Props): Schema {
+function schema(config: Config): Schema {
 	const docSchema: NodeSpec = {
 		content: 'block+',
 		toDOM: () => ['div', 0],
@@ -45,16 +45,16 @@ function schema(props: Props): Schema {
 			doc: docSchema,
 			p: pSchema,
 			text: textSchema,
-			...props.nodes,
+			...config.nodes,
 		} as const,
 		marks: {
-			...props.marks,
+			...config.marks,
 		} as const,
 	})
 }
 
-export function pmState(props: Props): EditorState {
-	const s = schema(props)
+export function pmState(config: Config): EditorState {
+	const s = schema(config)
 	// const tempDom = window.document.createElement('div')
 	// tempDom.innerHTML = props.initHtml || ''
 	// const doc = DOMParser.fromSchema(s).parse(tempDom)
@@ -65,15 +65,15 @@ export function pmState(props: Props): EditorState {
 	})
 
 	let doc: PMNode | undefined
-	if (typeof props.doc === 'function') {
-		doc = props.doc(s)
-	} else if (props.doc) {
-		doc = props.doc
+	if (typeof config.doc === 'function') {
+		doc = config.doc(s)
+	} else if (config.doc) {
+		doc = config.doc
 	}
 
 	let selection: Selection | undefined
 	if (doc) {
-		let sel = props.selection
+		let sel = config.selection
 		if (typeof sel === 'number') {
 			if (sel > doc.content.size) {
 				sel = doc.content.size
@@ -87,7 +87,7 @@ export function pmState(props: Props): EditorState {
 	const state = EditorState.create({
 		schema: s,
 		doc,
-		plugins: [keymapPlugin, history(), ...(props.plugins || [])],
+		plugins: [keymapPlugin, history(), ...(config.plugins || [])],
 		selection,
 	})
 	return state
@@ -96,15 +96,20 @@ export function pmState(props: Props): EditorState {
 export function pmViewFromState(
 	state: EditorState,
 	container: HTMLDivElement,
+	nodeViews?: { [node: string]: NodeViewConstructor },
 ): EditorView {
 	const view = new EditorView(container, {
 		state,
+		nodeViews,
 	})
 	return view
 }
 
-export function pmView(
-	props: Props & { container: HTMLDivElement },
-): EditorView {
-	return pmViewFromState(pmState(props), props.container)
+interface PMViewProps extends Config {
+	container: HTMLDivElement
+	nodeViews?: { [node: string]: NodeViewConstructor }
+}
+
+export function pmView(props: PMViewProps): EditorView {
+	return pmViewFromState(pmState(props), props.container, props.nodeViews)
 }

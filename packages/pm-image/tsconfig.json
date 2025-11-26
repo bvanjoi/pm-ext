@@ -11,5 +11,10 @@
   "include": [
     "src/**/*.ts",
     "tests/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../utils/tsconfig.json"
+    }
   ]
 }

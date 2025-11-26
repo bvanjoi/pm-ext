@@ -12,8 +12,8 @@
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
 		"@pm-ext/basic-setup": "workspace:*",
-		"@pm-ext/link": "workspace:*",
 		"@pm-ext/image": "workspace:*",
+		"@pm-ext/link": "workspace:*",
 		"@pm-ext/react": "workspace:*",
 		"@pm-ext/utils": "workspace:*",
 		"@radix-ui/react-accordion": "1.2.12",
@@ -53,7 +53,7 @@
 		"i18next-browser-languagedetector": "^8.2.0",
 		"input-otp": "1.4.2",
 		"jsdom": "27.2.0",
-		"lucide-react": "^0.554.0",
+		"lucide-react": "^0.555.0",
 		"next": "16.0.4",
 		"next-themes": "^0.4.6",
 		"prosemirror-commands": "^1.7.1",

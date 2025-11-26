@@ -12,13 +12,14 @@ import * as React from 'react'
 
 import './style.css'
 import 'prosemirror-view/style/prosemirror.css'
-import { assertValue, unreachable } from '@pm-ext/utils'
-import type { EditorView } from 'prosemirror-view'
+import { assertValue } from '@pm-ext/utils'
+import type { EditorView, NodeViewConstructor } from 'prosemirror-view'
 
 interface ProsemirrorEditorPropsBase {
 	nodes?: {
 		[key: string]: NodeSpec
 	}
+	nodeViews?: { [node: string]: NodeViewConstructor }
 	marks?: {
 		[key: string]: MarkSpec
 	}
@@ -79,7 +80,7 @@ function ProsemirrorEditorDisplay(props: { state: EditorState }) {
 }
 
 export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
-	const { onInitView, onDestroyView, onUpdateView, view } = props
+	const { onInitView, onDestroyView, onUpdateView, view, nodeViews } = props
 
 	const [state] = React.useState(() => createState(props))
 	const domRef = React.useRef<HTMLDivElement>(null)
@@ -94,7 +95,7 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 		}
 
 		if (!view) {
-			const v = pmViewFromState(state, domRef.current)
+			const v = pmViewFromState(state, domRef.current, nodeViews)
 			v.update({
 				...v.props,
 				dispatchTransaction: tr => {
@@ -119,7 +120,7 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 				}
 			}
 		}
-	}, [state, view, onInitView, onDestroyView, onUpdateView])
+	}, [state, view, nodeViews, onInitView, onDestroyView, onUpdateView])
 
 	const style = view ? {} : { display: 'none' }
 

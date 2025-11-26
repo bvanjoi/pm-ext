@@ -18,6 +18,9 @@
 		"format:check": "biome format",
 		"format:fix": "biome format --fix"
 	},
+	"dependencies": {
+		"@pm-ext/utils": "workspace:*"
+	},
 	"devDependencies": {
 		"@rslib/core": "^0.18.2",
 		"prosemirror-commands": "^1.7.1",

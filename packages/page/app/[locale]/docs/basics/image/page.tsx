@@ -1,6 +1,6 @@
 'use client'
 
-import { IMAGE_SPEC } from '@pm-ext/image'
+import { IMAGE_SPEC, ImageNodeViewConstructor } from '@pm-ext/image'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import type { EditorView } from 'prosemirror-view'
 import React from 'react'
@@ -20,6 +20,9 @@ function ImagePMEditor() {
 			<ProsemirrorEditor
 				nodes={{
 					image: IMAGE_SPEC,
+				}}
+				nodeViews={{
+					image: ImageNodeViewConstructor,
 				}}
 				initHtml={initHtml}
 				view={view}
