@@ -1,7 +1,12 @@
 'use client'
 
-import { IMAGE_SPEC, ImageNodeViewConstructor } from '@pm-ext/image'
+import {
+	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC,
+	IMAGE_SPEC,
+	ImageNodeViewConstructor,
+} from '@pm-ext/image'
 import { assertValue, unreachable } from '@pm-ext/utils'
+import { Plugin } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import React from 'react'
 import { ProsemirrorEditor } from '../../../../../components/pm'
@@ -24,6 +29,7 @@ function ImagePMEditor() {
 				nodeViews={{
 					image: ImageNodeViewConstructor,
 				}}
+				plugins={[new Plugin(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC)]}
 				initHtml={initHtml}
 				view={view}
 				onInitView={v => {
