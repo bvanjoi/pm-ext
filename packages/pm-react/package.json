@@ -25,7 +25,7 @@
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",
-		"prosemirror-view": "^1.41.3",
+		"prosemirror-view": "^1.41.4",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
 		"typescript": "^5.9.3"

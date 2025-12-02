@@ -1,9 +1,8 @@
 import { PluginKey, type PluginSpec, type Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 
-export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY = new PluginKey(
-	'IMAGE_NODE_PLACEHOLDER_PLUGIN_KEY',
-)
+export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY =
+	new PluginKey<DecorationSet>('IMAGE_NODE_PLACEHOLDER_PLUGIN_KEY')
 
 export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC: PluginSpec<DecorationSet> = {
 	key: IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY,
@@ -20,12 +19,14 @@ export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC: PluginSpec<DecorationSet> = {
 			if (meta.type === 'add' && meta.pos) {
 				const widget = document.createElement('div')
 				widget.className = 'image-node-placeholder'
-				widget.innerText = 'Loading image...'
-				const deco = Decoration.widget(meta.pos, widget)
+				const deco = Decoration.widget(meta.pos, widget, { id: meta.id })
 				return set.add(tr.doc, [deco])
 			}
 			if (meta.type === 'remove') {
-				return set
+				const deco = set.find(undefined, undefined, spec => {
+					return spec.id === meta.id
+				})
+				return set.remove(deco)
 			}
 
 			return set
@@ -40,21 +41,27 @@ export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC: PluginSpec<DecorationSet> = {
 
 export function setAddMetaForImageNodePlaceholder(
 	tr: Transaction,
+	id: string,
 	pos?: number,
 ): Transaction {
 	const meta: AddMetaForImageNodePlaceholder = {
 		type: 'add',
 		pos,
+		id,
 	}
 	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
 }
 
-type AddMetaForImageNodePlaceholder = {
+type MetaForImageNodePlaceholderBase = {
+	id: string
+}
+
+type AddMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
 	type: 'add'
 	pos?: number
 }
 
-type RemoveMetaForImageNodePlaceholder = {
+type RemoveMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
 	type: 'remove'
 }
 
@@ -70,9 +77,11 @@ export function getMetaForImageNodePlaceholder(
 
 export function setRemoveMetaForImageNodePlaceholder(
 	tr: Transaction,
+	id: string,
 ): Transaction {
 	const meta: RemoveMetaForImageNodePlaceholder = {
 		type: 'remove',
+		id,
 	}
 	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
 }
