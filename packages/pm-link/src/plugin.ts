@@ -49,7 +49,7 @@ function revisitAutoLink(
 	trs: readonly Transaction[],
 	state: EditorState,
 ): Transaction {
-	const linkMarkType = getLinkMarkType(state.schema)
+	const linkMarkType = getLinkMarkType(state.schema, 'link')
 	if (!linkMarkType) {
 		return state.tr
 	}

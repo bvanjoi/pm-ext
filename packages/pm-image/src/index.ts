@@ -1,11 +1,15 @@
-import type { Node, NodeSpec } from 'prosemirror-model'
+import type { Node } from 'prosemirror-model'
+import type { Transaction } from 'prosemirror-state'
 import type { NodeViewConstructor } from 'prosemirror-view'
 import {
 	setAddMetaForImageNodePlaceholder,
 	setRemoveMetaForImageNodePlaceholder,
 } from './plugin'
+import type { ImageNodeSpec, ImageNodeType } from './types'
+import { IMAGE_SPEC_SYMBOL } from './utils'
 
-export const IMAGE_SPEC: NodeSpec = {
+export const IMAGE_SPEC: ImageNodeSpec = {
+	key: IMAGE_SPEC_SYMBOL,
 	toDOM: (node: Node) => [
 		'img',
 		{ src: node.attrs.src, alt: node.attrs.alt, title: node.attrs.title },
@@ -86,7 +90,21 @@ export const ImageNodeViewConstructor: NodeViewConstructor = (
 	}
 }
 
+export function insertImageNodeAt(
+	tr: Transaction,
+	imageNodeType: ImageNodeType,
+	pos: number,
+	src: string,
+) {
+	const imageNode = imageNodeType.create({
+		src,
+	})
+	return tr.insert(pos, imageNode)
+}
+
 export {
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC,
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY,
 } from './plugin'
+
+export { getImageNodeType } from './utils'

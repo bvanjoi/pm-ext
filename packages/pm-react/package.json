@@ -19,15 +19,15 @@
 		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.18.2",
+		"@rslib/core": "^0.18.3",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",
 		"prosemirror-view": "^1.41.4",
-		"react": "^19.2.0",
-		"react-dom": "^19.2.0",
+		"react": "^19.2.1",
+		"react-dom": "^19.2.1",
 		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {

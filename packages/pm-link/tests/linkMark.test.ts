@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import {
 	addLinkMark,
+	getLinkMarkType,
 	insertTextWithLinkMark,
 	removeLinkMark,
 } from '@pm-ext/link'
@@ -55,6 +56,8 @@ test('auto link should works', () => {
 	const s = linkState({
 		initHtml: '<p>a.co</p>',
 	})
+	const linkMarkType = getLinkMarkType(s.schema, 'link')
+	assertValue(linkMarkType)
 	// <p>a.co</p>
 	expectDocOnlyHasPlainText(s.doc, 'a.co')
 	{
@@ -84,7 +87,8 @@ test('auto link should works', () => {
 
 		{
 			const selection = TextSelection.create(s1.doc, 1, 6)
-			const s2 = s1.apply(removeLinkMark(s1.tr.setSelection(selection)))
+			const tr = removeLinkMark(s1.tr.setSelection(selection), linkMarkType)
+			const s2 = s1.apply(tr)
 			// <p>a.com</p>
 			expectDocOnlyHasPlainText(s2.doc, 'a.com')
 		}
@@ -133,8 +137,10 @@ test('auto link with whitespace', () => {
 test('insert text with link mark', () => {
 	const s = linkState()
 	expect(s.doc.toString()).toBe('doc(p)')
+	const linkMarkType = getLinkMarkType(s.schema, 'link')
+	assertValue(linkMarkType)
 	{
-		const tr = insertTextWithLinkMark(s.tr, 1, 'a', 'b')
+		const tr = insertTextWithLinkMark(s.tr, linkMarkType, 1, 'a', 'b')
 		const s1 = s.apply(tr)
 		// <p><a href="https://b">a</a></p>
 		expectDocOnlyHasLinkText(s1.doc, 'a', {
@@ -144,7 +150,7 @@ test('insert text with link mark', () => {
 		})
 	}
 	{
-		const tr = insertTextWithLinkMark(s.tr, 1, 'a')
+		const tr = insertTextWithLinkMark(s.tr, linkMarkType, 1, 'a')
 		const s1 = s.apply(tr)
 		// <p><a href="https://a">a</a></p>
 		expectDocOnlyHasLinkText(s1.doc, 'a', {
@@ -159,11 +165,13 @@ test('attach link mark to raw text', () => {
 	const s = linkState({
 		initHtml: '<p>t</p>',
 	})
+	const linkMarkType = getLinkMarkType(s.schema, 'link')
+	assertValue(linkMarkType)
 	expectDocOnlyHasPlainText(s.doc, 't')
 	{
 		const selection = TextSelection.create(s.doc, 1, 2)
 		let tr = s.tr.setSelection(selection)
-		tr = addLinkMark(tr, 'a')
+		tr = addLinkMark(tr, linkMarkType, 'a')
 		const s1 = s.apply(tr)
 		// <p><a href="https://a">t</a></p>
 		expectDocOnlyHasLinkText(s1.doc, 't', {
@@ -178,10 +186,12 @@ test('auto link should ignore normal link', () => {
 	const s = linkState({
 		initHtml: '<p>a</p>',
 	})
+	const linkMarkType = getLinkMarkType(s.schema, 'link')
+	assertValue(linkMarkType)
 	expectDocOnlyHasPlainText(s.doc, 'a')
 	const selection = TextSelection.create(s.doc, 1, 2)
 	const tr1 = s.tr.setSelection(selection)
-	const s1 = s.apply(addLinkMark(tr1, 'a'))
+	const s1 = s.apply(addLinkMark(tr1, linkMarkType, 'a'))
 	// <p><a href="https://a">a</a></p>
 	expectDocOnlyHasLinkText(s1.doc, 'a', {
 		href: 'https://a',

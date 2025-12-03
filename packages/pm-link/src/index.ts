@@ -1,15 +1,14 @@
 import type { Transaction } from 'prosemirror-state'
-import type { LinkMarkSpec } from './types'
+import type { LinkMarkSpec, LinkMarkType } from './types'
 import {
 	addHttpProtocolPrefix,
 	ensureLinkMarkAttrs,
-	getLinkMarkType,
 	LINK_SPEC_SYMBOL,
 } from './utils'
 
 export { createAutoLinkParser } from './parseLink'
 export { LINK_PLUGIN_SPEC } from './plugin'
-export { getLinkMark } from './utils'
+export { getLinkMark, getLinkMarkType } from './utils'
 
 export const LINK_SPEC: LinkMarkSpec = {
 	key: LINK_SPEC_SYMBOL,
@@ -39,29 +38,25 @@ export const LINK_SPEC: LinkMarkSpec = {
 
 export function insertTextWithLinkMark(
 	tr: Transaction,
+	linkMarkType: LinkMarkType,
 	pos: number,
 	text: string,
 	href: string = text,
 ) {
-	const { schema } = tr.doc.type
-	const linkMarkType = getLinkMarkType(schema)
-	if (!linkMarkType) {
-		return tr
-	}
 	const linkMark = linkMarkType.create({
 		originalHref: href,
 		href: addHttpProtocolPrefix(href),
 	})
 	ensureLinkMarkAttrs(linkMark)
-	const textNode = schema.text(text, [linkMark])
+	const textNode = tr.doc.type.schema.text(text, [linkMark])
 	return tr.insert(pos, textNode)
 }
 
-export function addLinkMark(tr: Transaction, href: string): Transaction {
-	const linkMarkType = getLinkMarkType(tr.doc.type.schema)
-	if (!linkMarkType) {
-		return tr
-	}
+export function addLinkMark(
+	tr: Transaction,
+	linkMarkType: LinkMarkType,
+	href: string,
+): Transaction {
 	const linkMark = linkMarkType.create({
 		href: addHttpProtocolPrefix(href),
 		originalHref: href,
@@ -73,11 +68,10 @@ export function addLinkMark(tr: Transaction, href: string): Transaction {
 	)
 }
 
-export function removeLinkMark(tr: Transaction): Transaction {
-	const linkMarkType = getLinkMarkType(tr.doc.type.schema)
-	if (!linkMarkType) {
-		return tr
-	}
+export function removeLinkMark(
+	tr: Transaction,
+	linkMarkType: LinkMarkType,
+): Transaction {
 	return tr.selection.ranges.reduce(
 		(acc, range) =>
 			acc.removeMark(range.$from.pos, range.$to.pos, linkMarkType),

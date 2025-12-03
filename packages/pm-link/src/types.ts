@@ -1,6 +1,6 @@
 import type { AttributeSpec, Mark, MarkSpec, MarkType } from 'prosemirror-model'
 
-export type LinkSpecAttrs = {
+export type LinkMarkSpecAttrs = {
 	originalHref: AttributeSpec
 	href: AttributeSpec
 	auto: AttributeSpec
@@ -8,7 +8,7 @@ export type LinkSpecAttrs = {
 
 export type LinkMarkSpec = MarkSpec & {
 	key: symbol
-	attrs: LinkSpecAttrs
+	attrs: LinkMarkSpecAttrs
 }
 
 export type LinkMarkType = MarkType & {

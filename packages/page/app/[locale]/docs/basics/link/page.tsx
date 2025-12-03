@@ -3,6 +3,7 @@
 import {
 	addLinkMark,
 	getLinkMark,
+	getLinkMarkType,
 	insertTextWithLinkMark,
 	LINK_PLUGIN_SPEC,
 	LINK_SPEC,
@@ -66,7 +67,15 @@ function Menu() {
 					return
 				}
 				const pos = pmView.state.selection.from
-				const tr = insertTextWithLinkMark(pmView.state.tr, pos, text, href)
+				const linkMarkType = getLinkMarkType(pmView.state.schema, 'link')
+				assertValue(linkMarkType)
+				const tr = insertTextWithLinkMark(
+					pmView.state.tr,
+					linkMarkType,
+					pos,
+					text,
+					href,
+				)
 				pmView.dispatch(tr)
 			}
 			return <LinkPopover mode="insert" onConfirm={onConfirm} />
@@ -75,12 +84,16 @@ function Menu() {
 		if (linkPopoverMode.mode === 'editHref') {
 			const onConfirm = (href: string) => {
 				assertValue(pmView)
-				const tr = addLinkMark(pmView.state.tr, href)
+				const linkMarkType = getLinkMarkType(pmView.state.schema, 'link')
+				assertValue(linkMarkType)
+				const tr = addLinkMark(pmView.state.tr, linkMarkType, href)
 				pmView.dispatch(tr)
 			}
 			const onRemove = () => {
 				assertValue(pmView)
-				const tr = removeLinkMark(pmView.state.tr)
+				const linkMarkType = getLinkMarkType(pmView.state.schema, 'link')
+				assertValue(linkMarkType)
+				const tr = removeLinkMark(pmView.state.tr, linkMarkType)
 				pmView.dispatch(tr)
 			}
 			return (

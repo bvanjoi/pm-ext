@@ -22,8 +22,15 @@ export function getLinkMark(node: Node): LinkMark | undefined {
 	}
 }
 
-export function getLinkMarkType(schema: Schema): MarkType | undefined {
-	return getMarkTypeBySpecKey(schema.marks, 'link', LINK_SPEC_SYMBOL)
+export function getLinkMarkType(
+	schema: Schema,
+	name: string,
+): LinkMarkType | undefined {
+	const ty = getMarkTypeBySpecKey(schema.marks, name, LINK_SPEC_SYMBOL)
+	if (ty) {
+		assertValue(isLinkMarkType(ty))
+		return ty
+	}
 }
 
 export function addHttpProtocolPrefix(href: string): string {
