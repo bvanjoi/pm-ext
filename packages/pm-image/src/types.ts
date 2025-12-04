@@ -16,7 +16,7 @@ export type ImageNodeType = NodeType & {
 }
 
 export type ImageAttrs = {
-	src?: string
-	alt?: string
-	title?: string
+	src: string
+	alt: string
+	title: string
 }

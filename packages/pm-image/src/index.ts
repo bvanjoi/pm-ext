@@ -5,34 +5,32 @@ import {
 	setAddMetaForImageNodePlaceholder,
 	setRemoveMetaForImageNodePlaceholder,
 } from './plugin'
-import type { ImageNodeSpec, ImageNodeType } from './types'
+import type { ImageAttrs, ImageNodeSpec, ImageNodeType } from './types'
 import { IMAGE_SPEC_SYMBOL } from './utils'
 
 export const IMAGE_SPEC: ImageNodeSpec = {
 	key: IMAGE_SPEC_SYMBOL,
-	toDOM: (node: Node) => [
-		'img',
-		{ src: node.attrs.src, alt: node.attrs.alt, title: node.attrs.title },
-	],
+	toDOM: (node: Node) => {
+		return [
+			'img',
+			{ src: node.attrs.src, alt: node.attrs.alt, title: node.attrs.title },
+		]
+	},
 	parseDOM: [
 		{
 			tag: 'img[src]',
-			getAttrs: dom => {
-				const src = dom.getAttribute('src')
-				const alt = dom.getAttribute('alt')
-				const title = dom.getAttribute('title')
-				return {
-					src,
-					alt,
-					title,
-				}
+			getAttrs: (dom): ImageAttrs => {
+				const src = dom.getAttribute('src') || ''
+				const alt = dom.getAttribute('alt') || ''
+				const title = dom.getAttribute('title') || ''
+				return { src, alt, title }
 			},
 		},
 	],
 	attrs: {
-		src: { default: '' },
-		alt: { default: '' },
-		title: { default: '' },
+		src: {},
+		alt: {},
+		title: {},
 	},
 	group: 'block',
 	draggable: true,
