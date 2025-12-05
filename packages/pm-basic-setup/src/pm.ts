@@ -105,7 +105,7 @@ export function pmViewFromState(
 	return view
 }
 
-interface PMViewProps extends Config {
+export interface PMViewProps extends Config {
 	container: HTMLDivElement
 	nodeViews?: { [node: string]: NodeViewConstructor }
 }

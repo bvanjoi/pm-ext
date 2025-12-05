@@ -25,6 +25,8 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.57.0",
+		"@pm-ext/test-helper": "workspace:*",
+		"@pm-ext/e2e-helper": "workspace:*",
 		"@rslib/core": "^0.18.3",
 		"prosemirror-commands": "^1.7.1",
 		"prosemirror-history": "^1.5.0",

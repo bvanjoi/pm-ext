@@ -15,6 +15,12 @@
   "references": [
     {
       "path": "../utils/tsconfig.json"
+    },
+    {
+      "path": "../pm-test-helper/tsconfig.json"
+    },
+    {
+      "path": "../pm-e2e-helper/tsconfig.json"
     }
   ]
 }

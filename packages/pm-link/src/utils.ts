@@ -39,9 +39,3 @@ export function addHttpProtocolPrefix(href: string): string {
 	}
 	return `https://${href}`
 }
-
-export function ensureLinkMarkAttrs(linkMark: Mark) {
-	assertValue(!isNil(linkMark.attrs.originalHref))
-	assertValue(!isNil(linkMark.attrs.href))
-	assertValue(!isNil(linkMark.attrs.auto))
-}

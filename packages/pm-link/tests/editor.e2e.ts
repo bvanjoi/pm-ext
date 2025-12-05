@@ -1,12 +1,18 @@
 /// <reference types="@pm-ext/e2e-helper" />
 
 import { expect, test } from '@playwright/test'
-import { pageHtml } from './utils'
+import { pageHtml } from '@pm-ext/test-helper'
 
 test('auto link should work in website', async ({ page }) => {
-	const initHtml = '<p>a.co</p>'
-	const h = await pageHtml({ initHtml })
+	const h = await pageHtml()
 	await page.setContent(h)
-	expect(await page.content()).toContain('pm-editor')
-	expect(await page.evaluate(() => typeof window.editorAction)).toBe('object')
+	await Promise.all([
+		expect(page.content()).resolves.toContain('pm-editor'),
+		expect(page.evaluate(() => typeof window.editorAction)).resolves.toBe(
+			'object',
+		),
+		expect(page.evaluate(() => typeof window.editorAction.view)).resolves.toBe(
+			'object',
+		),
+	])
 })

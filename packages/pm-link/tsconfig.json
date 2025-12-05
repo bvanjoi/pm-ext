@@ -17,7 +17,7 @@
       "path": "../pm-basic-setup/tsconfig.json"
     },
     {
-      "path": "../pm-e2e-helper/tsconfig.json"
+      "path": "../pm-test-helper/tsconfig.json"
     },
     {
       "path": "../pm-utils/tsconfig.json"

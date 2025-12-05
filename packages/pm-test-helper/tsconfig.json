@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es2022",
+    "module": "es2022",
     "strict": true,
     "moduleResolution": "bundler",
     "composite": true,
     "declaration": true,
     "declarationMap": true,
-    "outDir": "./dist"
   },
   "include": [
-    "src/**/*.ts"
+    "./src"
+  ],
+  "references": [
+    {
+      "path": "../pm-e2e-helper/tsconfig.json"
+    }
   ]
 }

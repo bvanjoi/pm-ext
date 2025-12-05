@@ -1,7 +1,7 @@
-import { type pmState, pmView } from '@pm-ext/basic-setup'
+import { pmView } from '@pm-ext/basic-setup'
 import type { EditorView } from 'prosemirror-view'
 
-type Props = Parameters<typeof pmState>[0]
+export type Props = Omit<Parameters<typeof pmView>[0], 'container'>
 
 function setupEditor(props: Props) {
 	const tempDom = document.createElement('div')
@@ -27,7 +27,7 @@ declare global {
 	}
 }
 
-export function mount() {
+function mount() {
 	window.setupEditor = setupEditor
 }
 

@@ -1,9 +1,9 @@
 {
-	"name": "@pm-ext/e2e-helper",
+	"name": "@pm-ext/test-helper",
 	"version": "0.0.1",
 	"sideEffects": false,
-	"private": true,
 	"type": "module",
+	"private": true,
 	"exports": {
 		".": {
 			"types": "./dist/src/index.d.ts",
@@ -19,17 +19,20 @@
 		"format:check": "biome format",
 		"format:fix": "biome format --fix"
 	},
-	"dependencies": {
-		"@pm-ext/basic-setup": "workspace:*",
+	"devDependencies": {
 		"@rslib/core": "^0.18.3",
-		"prosemirror-commands": "^1.7.1",
-		"prosemirror-history": "^1.5.0",
-		"prosemirror-keymap": "^1.2.3",
+		"@types/node": "^24.10.1",
+		"@pm-ext/e2e-helper": "workspace:*",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
-		"prosemirror-view": "^1.41.4"
-	},
-	"devDependencies": {
+		"prosemirror-transform": "^1.10.5",
+		"prosemirror-view": "^1.41.4",
 		"typescript": "^5.9.3"
+	},
+	"peerDependencies": {
+		"prosemirror-model": "^1.0.0",
+		"prosemirror-state": "^1.0.0",
+		"prosemirror-transform": "^1.0.0",
+		"prosemirror-view": "^1.0.0"
 	}
 }

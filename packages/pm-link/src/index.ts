@@ -2,7 +2,6 @@ import type { Transaction } from 'prosemirror-state'
 import type { LinkMarkSpec, LinkMarkType } from './types'
 import {
 	addHttpProtocolPrefix,
-	ensureLinkMarkAttrs,
 	LINK_SPEC_SYMBOL,
 } from './utils'
 
@@ -47,7 +46,6 @@ export function insertTextWithLinkMark(
 		originalHref: href,
 		href: addHttpProtocolPrefix(href),
 	})
-	ensureLinkMarkAttrs(linkMark)
 	const textNode = tr.doc.type.schema.text(text, [linkMark])
 	return tr.insert(pos, textNode)
 }
@@ -61,7 +59,6 @@ export function addLinkMark(
 		href: addHttpProtocolPrefix(href),
 		originalHref: href,
 	})
-	ensureLinkMarkAttrs(linkMark)
 	return tr.selection.ranges.reduce(
 		(acc, range) => acc.addMark(range.$from.pos, range.$to.pos, linkMark),
 		tr,
