@@ -1,30 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from './button'
-import { Input } from './input'
 import { Label } from './label'
+import { LabelInput } from './labelInput'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
-
-interface LabelInputProps {
-	id: string
-	defaultValue?: string
-	onChange?: (value: string) => void
-}
-
-function LabelInput(props: LabelInputProps) {
-	return (
-		<Input
-			id="href"
-			className="col-span-2 h-8"
-			defaultValue={props.defaultValue}
-			onChange={e => {
-				if (props.onChange) {
-					props.onChange(e.currentTarget.value)
-				}
-			}}
-		/>
-	)
-}
 
 interface InsertLinkPopoverProps {
 	mode: 'insert'

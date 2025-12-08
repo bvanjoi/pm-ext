@@ -5,6 +5,6 @@
 	"sideEffects": false,
 	"type": "module",
 	"devDependencies": {
-		"sort-package-json": "^3.5.0"
+		"sort-package-json": "^3.5.1"
 	}
 }

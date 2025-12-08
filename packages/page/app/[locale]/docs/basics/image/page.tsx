@@ -5,12 +5,22 @@ import {
 	IMAGE_SPEC,
 	ImageNodeViewConstructor,
 } from '@pm-ext/image'
+import { ProseMirrorProvider } from '@pm-ext/react'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import { Plugin } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import React from 'react'
+import { ImagePopover } from '@/components/ui/imagePopover'
 import { ProsemirrorEditor } from '../../../../../components/pm'
 import { PMEditorExampleLayout } from '../../../../../components/pm/pmEditorExampleLayout'
+
+function Menu() {
+	return (
+		<div className="border-b border-border bg-background p-3 flex flex-wrap gap-2">
+			<ImagePopover />
+		</div>
+	)
+}
 
 function ImagePMEditor() {
 	const [, forceUpdate] = React.useReducer((x: number) => x * -1, 1)
@@ -20,8 +30,10 @@ function ImagePMEditor() {
 	const initHtml = `<p>Here is an image: <img src="${IMAGE_SRC}" alt="Example Image" /></p>`
 
 	return (
-		<>
-			<div />
+		<div>
+			<ProseMirrorProvider view={view}>
+				<Menu />
+			</ProseMirrorProvider>
 			<ProsemirrorEditor
 				nodes={{
 					image: IMAGE_SPEC,
@@ -51,7 +63,7 @@ function ImagePMEditor() {
 					}
 				}}
 			/>
-		</>
+		</div>
 	)
 }
 
