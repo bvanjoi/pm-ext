@@ -30,7 +30,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install playwright
-        run: pnpm --filter=@pm-ext/link exec playwright install --with-deps
+        run: pnpm --filter=@pm-ext/mark-link exec playwright install --with-deps
 
       - name: Build And Test
         run: npm run build && npm run test

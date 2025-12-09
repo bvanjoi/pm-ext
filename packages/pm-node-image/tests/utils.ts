@@ -1,5 +1,5 @@
 import { docFromHtml, pmState } from '@pm-ext/basic-setup'
-import { IMAGE_SPEC } from '@pm-ext/image'
+import { INLINE_IMAGE_SPEC } from '@pm-ext/node-image'
 import { assertValue } from '@pm-ext/utils'
 import { JSDOM } from 'jsdom'
 
@@ -12,7 +12,7 @@ export function imageState(props: Props = {}) {
 	const initHtml = props.initHtml
 	return pmState({
 		nodes: {
-			image: IMAGE_SPEC,
+			inlineImage: INLINE_IMAGE_SPEC,
 		},
 		doc: initHtml
 			? schema => {

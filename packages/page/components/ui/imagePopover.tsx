@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from '../../i18n/hooks'
 import { Button } from './button'
 import { Label } from './label'
 import { LabelInput } from './labelInput'
@@ -31,7 +31,7 @@ export function ImagePopover(props: ImagePopoverProps): React.JSX.Element {
 						<LabelInput id="image" onChange={setHref} />
 					</div>
 					<Button className="mt-2 cursor-pointer" onClick={onConfirm}>
-						{t('commonConfirm')}
+						{t('commonInsert')}
 					</Button>
 				</div>
 			</PopoverContent>

@@ -1,4 +1,4 @@
-import { LINK_PLUGIN_SPEC, LINK_SPEC } from '@pm-ext/link'
+import { LINK_PLUGIN_SPEC, LINK_SPEC } from '@pm-ext/mark-link'
 import { Plugin } from 'prosemirror-state'
 import ReactDOMServer from 'react-dom/server'
 import { ProsemirrorEditor } from '../../components/pm'

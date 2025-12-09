@@ -8,7 +8,7 @@ import {
 	LINK_PLUGIN_SPEC,
 	LINK_SPEC,
 	removeLinkMark,
-} from '@pm-ext/link'
+} from '@pm-ext/mark-link'
 import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import { Plugin } from 'prosemirror-state'

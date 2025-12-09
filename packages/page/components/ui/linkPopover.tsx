@@ -41,7 +41,7 @@ function InsertLinkPopoverContent(
 				<LabelInput id="text" onChange={setText} />
 			</div>
 			<Button className="mt-2 cursor-pointer" onClick={onConfirm}>
-				{t('commonConfirm')}
+				{t('commonInsert')}
 			</Button>
 		</div>
 	)

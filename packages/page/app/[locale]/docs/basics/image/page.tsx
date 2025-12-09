@@ -1,11 +1,13 @@
 'use client'
 
 import {
+	getInlineImageNodeType,
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC,
-	IMAGE_SPEC,
 	ImageNodeViewConstructor,
-} from '@pm-ext/image'
-import { ProseMirrorProvider } from '@pm-ext/react'
+	INLINE_IMAGE_SPEC,
+	insertImageNodeAt,
+} from '@pm-ext/node-image'
+import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import { Plugin } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
@@ -15,9 +17,28 @@ import { ProsemirrorEditor } from '../../../../../components/pm'
 import { PMEditorExampleLayout } from '../../../../../components/pm/pmEditorExampleLayout'
 
 function Menu() {
+	const pmView = useProseMirror()
+
 	return (
 		<div className="border-b border-border bg-background p-3 flex flex-wrap gap-2">
-			<ImagePopover />
+			<ImagePopover
+				onConfirm={href => {
+					assertValue(pmView)
+					const inlineImageNodeType = getInlineImageNodeType(
+						pmView.state.schema,
+						'inlineImage',
+					)
+					if (inlineImageNodeType) {
+						const tr = insertImageNodeAt(
+							pmView.state.tr,
+							inlineImageNodeType,
+							pmView.state.selection.from,
+							href,
+						)
+						pmView.dispatch(tr)
+					}
+				}}
+			/>
 		</div>
 	)
 }
@@ -36,10 +57,10 @@ function ImagePMEditor() {
 			</ProseMirrorProvider>
 			<ProsemirrorEditor
 				nodes={{
-					image: IMAGE_SPEC,
+					inlineImage: INLINE_IMAGE_SPEC,
 				}}
 				nodeViews={{
-					image: ImageNodeViewConstructor,
+					inlineImage: ImageNodeViewConstructor,
 				}}
 				plugins={[new Plugin(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC)]}
 				initHtml={initHtml}

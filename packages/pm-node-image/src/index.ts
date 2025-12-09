@@ -1,40 +1,10 @@
-import type { Node } from 'prosemirror-model'
 import type { Transaction } from 'prosemirror-state'
 import type { NodeViewConstructor } from 'prosemirror-view'
 import {
 	setAddMetaForImageNodePlaceholder,
 	setRemoveMetaForImageNodePlaceholder,
-} from './plugin'
-import type { ImageAttrs, ImageNodeSpec, ImageNodeType } from './types'
-import { IMAGE_SPEC_SYMBOL } from './utils'
-
-export const IMAGE_SPEC: ImageNodeSpec = {
-	key: IMAGE_SPEC_SYMBOL,
-	toDOM: (node: Node) => {
-		return [
-			'img',
-			{ src: node.attrs.src, alt: node.attrs.alt, title: node.attrs.title },
-		]
-	},
-	parseDOM: [
-		{
-			tag: 'img[src]',
-			getAttrs: (dom): ImageAttrs => {
-				const src = dom.getAttribute('src') || ''
-				const alt = dom.getAttribute('alt') || ''
-				const title = dom.getAttribute('title') || ''
-				return { src, alt, title }
-			},
-		},
-	],
-	attrs: {
-		src: {},
-		alt: {},
-		title: {},
-	},
-	group: 'block',
-	draggable: true,
-}
+} from './plugins/placeholder'
+import type { ImageNodeType } from './types'
 
 export const ImageNodeViewConstructor: NodeViewConstructor = (
 	node,
@@ -101,8 +71,11 @@ export function insertImageNodeAt(
 }
 
 export {
+	getInlineImageNodeType,
+	INLINE_IMAGE_SPEC,
+	isInlineImageNodeType,
+} from './inline'
+export {
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC,
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY,
-} from './plugin'
-
-export { getImageNodeType } from './utils'
+} from './plugins/placeholder'

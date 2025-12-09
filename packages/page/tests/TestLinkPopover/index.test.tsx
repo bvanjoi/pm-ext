@@ -17,7 +17,7 @@ test('test insert mode of LinkPopover', async ({ mount, page }) => {
 		'data-slot',
 		'popover-content',
 	)
-	const confirmBtn = HTMLSelectorORM().appendAttribute('data-slot', 'button')
+	const insertBtn = HTMLSelectorORM().appendAttribute('data-slot', 'button')
 	const hrefSpan = HTMLSelectorORM().appendId('test-href')
 	const textSpan = HTMLSelectorORM().appendId('test-text')
 
@@ -36,8 +36,8 @@ test('test insert mode of LinkPopover', async ({ mount, page }) => {
 		expect(page.locator(textSpan.value())).toHaveCount(0),
 	])
 
-	const locator = page.locator(confirmBtn.value()).nth(0)
-	expect(await locator.innerText()).toBe('commonConfirm')
+	const locator = page.locator(insertBtn.value()).nth(0)
+	expect(await locator.innerText()).toBe('commonInsert')
 
 	await locator.click()
 

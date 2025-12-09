@@ -40,7 +40,7 @@
       "path": "../pm-basic-setup/tsconfig.json"
     },
     {
-      "path": "../pm-link/tsconfig.json"
+      "path": "../pm-mark-link/tsconfig.json"
     },
     {
       "path": "../pm-react/tsconfig.json"

@@ -20,9 +20,9 @@
 		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.18.3",
-		"@types/node": "^24.10.1",
 		"@pm-ext/e2e-helper": "workspace:*",
+		"@rslib/core": "^0.18.4",
+		"@types/node": "^24.10.2",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",

@@ -1,5 +1,5 @@
 import { docFromHtml, pmState } from '@pm-ext/basic-setup'
-import { LINK_PLUGIN_SPEC, LINK_SPEC } from '@pm-ext/link'
+import { LINK_PLUGIN_SPEC, LINK_SPEC } from '@pm-ext/mark-link'
 import { assertValue } from '@pm-ext/utils'
 import { JSDOM } from 'jsdom'
 import { type EditorState, Plugin } from 'prosemirror-state'

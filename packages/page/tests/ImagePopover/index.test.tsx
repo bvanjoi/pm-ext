@@ -9,4 +9,8 @@ test('empty href for editHref mode of LinkPopover', async ({ mount, page }) => {
 	await expect(page.locator(buttonSelector.value()).count()).resolves.toBe(1)
 	await c.click()
 	await expect(page.locator(buttonSelector.value()).count()).resolves.toBe(2)
+
+	const insertBtn = HTMLSelectorORM().appendAttribute('data-slot', 'button')
+	const locator = page.locator(insertBtn.value()).nth(0)
+	expect(await locator.innerText()).toBe('commonInsert')
 })

@@ -3,7 +3,7 @@ import { assertValue, isNil } from '@pm-ext/utils'
 import type { Mark, MarkType, Node, Schema } from 'prosemirror-model'
 import type { LinkMark, LinkMarkType } from './types'
 
-export const LINK_SPEC_SYMBOL: symbol = Symbol('@pm-ext/linkSpec')
+export const LINK_SPEC_SYMBOL: symbol = Symbol('@pm-ext/mark/linkSpec')
 
 export function isLinkMark(mark: Mark): mark is LinkMark {
 	return mark.type.spec.key === LINK_SPEC_SYMBOL

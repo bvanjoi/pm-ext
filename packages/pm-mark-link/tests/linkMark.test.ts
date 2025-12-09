@@ -4,7 +4,7 @@ import {
 	getLinkMarkType,
 	insertTextWithLinkMark,
 	removeLinkMark,
-} from '@pm-ext/link'
+} from '@pm-ext/mark-link'
 import { assertValue } from '@pm-ext/utils'
 import type { Node as PMNode, Schema } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
@@ -73,16 +73,14 @@ test('auto link should works', () => {
 			// <p>a.co</p>
 			expectDocOnlyHasPlainText(s2.doc, 'a.co')
 
-			{
-				// insert again
-				const s3 = s2.apply(s2.tr.insertText('m', 5))
-				// <p><a href="a.com">a.com</a></p>
-				expectDocOnlyHasLinkText(s3.doc, 'a.com', {
-					href: 'https://a.com',
-					originalHref: 'a.com',
-					isAuto: true,
-				})
-			}
+			// insert again
+			const s3 = s2.apply(s2.tr.insertText('m', 5))
+			// <p><a href="a.com">a.com</a></p>
+			expectDocOnlyHasLinkText(s3.doc, 'a.com', {
+				href: 'https://a.com',
+				originalHref: 'a.com',
+				isAuto: true,
+			})
 		}
 
 		{
@@ -125,12 +123,9 @@ test('auto link with whitespace', () => {
 			isAuto: true,
 		})
 
-		{
-			const tr = s1.tr.delete(7, 8)
-			const s2 = s1.apply(tr)
-			// <p>a b.co</p>
-			expectDocOnlyHasPlainText(s2.doc, 'a b.co')
-		}
+		const s2 = s1.apply(s1.tr.delete(7, 8))
+		// <p>a b.co</p>
+		expectDocOnlyHasPlainText(s2.doc, 'a b.co')
 	}
 })
 
@@ -168,18 +163,16 @@ test('attach link mark to raw text', () => {
 	const linkMarkType = getLinkMarkType(s.schema, 'link')
 	assertValue(linkMarkType)
 	expectDocOnlyHasPlainText(s.doc, 't')
-	{
-		const selection = TextSelection.create(s.doc, 1, 2)
-		let tr = s.tr.setSelection(selection)
-		tr = addLinkMark(tr, linkMarkType, 'a')
-		const s1 = s.apply(tr)
-		// <p><a href="https://a">t</a></p>
-		expectDocOnlyHasLinkText(s1.doc, 't', {
-			href: 'https://a',
-			originalHref: 'a',
-			isAuto: false,
-		})
-	}
+	const selection = TextSelection.create(s.doc, 1, 2)
+	let tr = s.tr.setSelection(selection)
+	tr = addLinkMark(tr, linkMarkType, 'a')
+	const s1 = s.apply(tr)
+	// <p><a href="https://a">t</a></p>
+	expectDocOnlyHasLinkText(s1.doc, 't', {
+		href: 'https://a',
+		originalHref: 'a',
+		isAuto: false,
+	})
 })
 
 test('auto link should ignore normal link', () => {

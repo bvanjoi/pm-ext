@@ -1,4 +1,5 @@
 export type I18nMessage = {
+	commonInsert: string
 	commonConfirm: string
 	commonRemove: string
 	commonLanguage: string

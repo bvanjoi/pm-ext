@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Install playwright
-        run: pnpm --filter=@pm-ext/link exec playwright install --with-deps
+        run: pnpm --filter=@pm-ext/mark-link exec playwright install --with-deps
       - name: Build
         run: npm run build
       - name: Test
