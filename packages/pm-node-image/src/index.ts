@@ -19,9 +19,23 @@ export const ImageNodeViewConstructor: NodeViewConstructor = (
 	const id = crypto.randomUUID()
 
 	const observer = new MutationObserver(mutations => {
+		function findAddedImageElement(n: Node): boolean {
+			if (n === img) {
+				return true
+			}
+			if (n.hasChildNodes()) {
+				for (const child of n.childNodes) {
+					if (findAddedImageElement(child)) {
+						return true
+					}
+				}
+			}
+			return false
+		}
+
 		for (const mutation of mutations) {
 			for (const node of mutation.addedNodes) {
-				if (node === img) {
+				if (findAddedImageElement(node)) {
 					const tr = setAddMetaForImageNodePlaceholder(
 						view.state.tr,
 						id,
@@ -41,7 +55,7 @@ export const ImageNodeViewConstructor: NodeViewConstructor = (
 		view.dispatch(tr)
 	}
 
-	window.addEventListener('load', onLoad)
+	img.addEventListener('load', onLoad)
 
 	return {
 		dom: img,
@@ -53,7 +67,7 @@ export const ImageNodeViewConstructor: NodeViewConstructor = (
 		},
 		destroy() {
 			observer.disconnect()
-			window.removeEventListener('load', onLoad)
+			img.removeEventListener('load', onLoad)
 		},
 	}
 }

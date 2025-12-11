@@ -1,5 +1,6 @@
 import { PluginKey, type PluginSpec, type Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
+import { ImageLoading } from '../components/inlineLoading'
 
 export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY =
 	new PluginKey<DecorationSet>('IMAGE_NODE_PLACEHOLDER_PLUGIN_KEY')
@@ -17,12 +18,11 @@ export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC: PluginSpec<DecorationSet> = {
 				return set
 			}
 			if (meta.type === 'add' && meta.pos) {
-				const widget = document.createElement('div')
-				widget.className = 'image-node-placeholder'
+				const widget = ImageLoading()
 				const deco = Decoration.widget(meta.pos, widget, { id: meta.id })
 				return set.add(tr.doc, [deco])
 			}
-			if (meta.type === 'remove') {
+			if (meta.type === 'loaded') {
 				const deco = set.find(undefined, undefined, spec => {
 					return spec.id === meta.id
 				})
@@ -61,13 +61,13 @@ type AddMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
 	pos?: number
 }
 
-type RemoveMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
-	type: 'remove'
+type LoadedMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
+	type: 'loaded'
 }
 
 type ImageNodePlaceholderMeta =
 	| AddMetaForImageNodePlaceholder
-	| RemoveMetaForImageNodePlaceholder
+	| LoadedMetaForImageNodePlaceholder
 
 export function getMetaForImageNodePlaceholder(
 	tr: Transaction,
@@ -79,8 +79,8 @@ export function setRemoveMetaForImageNodePlaceholder(
 	tr: Transaction,
 	id: string,
 ): Transaction {
-	const meta: RemoveMetaForImageNodePlaceholder = {
-		type: 'remove',
+	const meta: LoadedMetaForImageNodePlaceholder = {
+		type: 'loaded',
 		id,
 	}
 	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
