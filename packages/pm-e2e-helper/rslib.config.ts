@@ -7,12 +7,14 @@ export default defineConfig({
 			format: 'esm',
 			bundle: true,
 			output: {
-				sourceMap: true,
+				sourceMap: true
 			},
-			autoExternal: false,
 			source: {
-				tsconfigPath: './tsconfig.json',
-			},
-		},
+				tsconfigPath: './tsconfig.json'
+			}
+		}
 	],
+	performance: {
+		buildCache: false
+	}
 })

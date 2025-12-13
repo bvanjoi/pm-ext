@@ -1,14 +1,14 @@
 import { expect, test } from '@playwright/test'
 import { getInlineImageNodeType, insertImageNodeAt } from '@pm-ext/node-image'
 import { assertValue } from '@pm-ext/utils'
-import { imageState } from './utils'
+import { imageStateInNode } from './utils'
 
 const MOCK_LINK_SRC = 'http://example.com/image.png'
 const MOCK_IMAGE_HTML = `<img src="${MOCK_LINK_SRC}" />`
 
-test('inline image should work', () => {
-	const s = imageState({
-		initHtml: MOCK_IMAGE_HTML,
+test('inline image should work', async () => {
+	const s = await imageStateInNode({
+		initHtml: MOCK_IMAGE_HTML
 	})
 	expect(s.doc.toString()).toBe('doc(p(inlineImage))')
 	const imageNode = s.doc.firstChild?.firstChild
@@ -19,8 +19,8 @@ test('inline image should work', () => {
 	expect(imageNode.isAtom).toBe(true)
 })
 
-test('insert inline image node should work', () => {
-	const s = imageState()
+test('insert inline image node should work', async () => {
+	const s = await imageStateInNode()
 	const imageNodeType = getInlineImageNodeType(s.schema, 'inlineImage')
 	assertValue(imageNodeType)
 	const s0 = s.apply(insertImageNodeAt(s.tr, imageNodeType, 1, MOCK_LINK_SRC))

@@ -1,11 +1,13 @@
-import fs from 'node:fs/promises'
+interface Options {
+	content: string
+}
 
-export async function pageHtml(): Promise<string> {
-	let filePath = import.meta.resolve('@pm-ext/e2e-helper')
-	if (filePath.startsWith('file://')) {
-		filePath = filePath.slice(7)
-	}
-	const content = await fs.readFile(filePath, 'utf-8')
+export async function pageHtml({ content }: Options): Promise<string> {
+	// let filePath = import.meta.resolve('@pm-ext/e2e-helper')
+	// if (filePath.startsWith('file://')) {
+	// 	filePath = filePath.slice(7)
+	// }
+	// const content = await fs.readFile(filePath, 'utf-8')
 	return `
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +20,6 @@ export async function pageHtml(): Promise<string> {
 	
 	<script>
 ${content}
-
-window.setupEditor();
 	</script>
 
 </body>

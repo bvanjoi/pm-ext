@@ -17,7 +17,7 @@ test('autoLinkParse', () => {
 
 	function equalMultipleLink(
 		input: string,
-		links: { start: number; end: number }[],
+		links: { start: number; end: number }[]
 	) {
 		expect(p(input)).toStrictEqual(links)
 	}
@@ -36,11 +36,11 @@ test('autoLinkParse', () => {
 	equalSingleLink('a.com:80a', 0, 8)
 	equalMultipleLink('a.com:80a.com', [
 		{ start: 0, end: 8 },
-		{ start: 8, end: 13 },
+		{ start: 8, end: 13 }
 	])
 	equalMultipleLink('a.com 80a.com', [
 		{ start: 0, end: 5 },
-		{ start: 6, end: 13 },
+		{ start: 6, end: 13 }
 	])
 	equalEmptyLink('http://')
 	equalEmptyLink('http://.com')

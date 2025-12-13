@@ -3,12 +3,12 @@ import {
 	addLinkMark,
 	getLinkMarkType,
 	insertTextWithLinkMark,
-	removeLinkMark,
+	removeLinkMark
 } from '@pm-ext/mark-link'
 import { assertValue } from '@pm-ext/utils'
 import type { Node as PMNode, Schema } from 'prosemirror-model'
 import { TextSelection } from 'prosemirror-state'
-import { linkState } from './utils'
+import { linkStateInNode } from './utils'
 
 interface ExpectedLinkMarkAttrs {
 	href: string
@@ -19,7 +19,7 @@ interface ExpectedLinkMarkAttrs {
 function assertLink(
 	schema: Schema,
 	node: PMNode,
-	attrs: ExpectedLinkMarkAttrs,
+	attrs: ExpectedLinkMarkAttrs
 ) {
 	const linkMark = schema.marks.link
 	const mark = node.marks.find(mark => mark.type === linkMark)
@@ -43,7 +43,7 @@ function expectDocOnlyHasPlainText(doc: PMNode, expectText?: string) {
 function expectDocOnlyHasLinkText(
 	doc: PMNode,
 	expectedLinkText: string,
-	expectedLinkAttrs: ExpectedLinkMarkAttrs,
+	expectedLinkAttrs: ExpectedLinkMarkAttrs
 ) {
 	expect(doc.toString()).toBe(`doc(p(link("${expectedLinkText}")))`)
 	const n1 = doc.nodeAt(1)
@@ -52,9 +52,9 @@ function expectDocOnlyHasLinkText(
 	assertLink(doc.type.schema, n1, expectedLinkAttrs)
 }
 
-test('auto link should works', () => {
-	const s = linkState({
-		initHtml: '<p>a.co</p>',
+test('auto link should works', async () => {
+	const s = await linkStateInNode({
+		initHtml: '<p>a.co</p>'
 	})
 	const linkMarkType = getLinkMarkType(s.schema, 'link')
 	assertValue(linkMarkType)
@@ -66,7 +66,7 @@ test('auto link should works', () => {
 		expectDocOnlyHasLinkText(s1.doc, 'a.com', {
 			href: 'https://a.com',
 			originalHref: 'a.com',
-			isAuto: true,
+			isAuto: true
 		})
 		{
 			const s2 = s1.apply(s1.tr.delete(5, 6))
@@ -79,7 +79,7 @@ test('auto link should works', () => {
 			expectDocOnlyHasLinkText(s3.doc, 'a.com', {
 				href: 'https://a.com',
 				originalHref: 'a.com',
-				isAuto: true,
+				isAuto: true
 			})
 		}
 
@@ -99,14 +99,14 @@ test('auto link should works', () => {
 		expectDocOnlyHasLinkText(s2.doc, 'https://a.com', {
 			href: 'https://a.com',
 			originalHref: 'https://a.com',
-			isAuto: true,
+			isAuto: true
 		})
 	}
 })
 
-test('auto link with whitespace', () => {
-	const s = linkState({
-		initHtml: '<p>a b.co</p>',
+test('auto link with whitespace', async () => {
+	const s = await linkStateInNode({
+		initHtml: '<p>a b.co</p>'
 	})
 	expectDocOnlyHasPlainText(s.doc, 'a b.co')
 	{
@@ -120,7 +120,7 @@ test('auto link with whitespace', () => {
 		assertLink(s1.schema, n1, {
 			href: 'https://b.com',
 			originalHref: 'b.com',
-			isAuto: true,
+			isAuto: true
 		})
 
 		const s2 = s1.apply(s1.tr.delete(7, 8))
@@ -129,8 +129,8 @@ test('auto link with whitespace', () => {
 	}
 })
 
-test('insert text with link mark', () => {
-	const s = linkState()
+test('insert text with link mark', async () => {
+	const s = await linkStateInNode()
 	expect(s.doc.toString()).toBe('doc(p)')
 	const linkMarkType = getLinkMarkType(s.schema, 'link')
 	assertValue(linkMarkType)
@@ -141,7 +141,7 @@ test('insert text with link mark', () => {
 		expectDocOnlyHasLinkText(s1.doc, 'a', {
 			href: 'https://b',
 			originalHref: 'b',
-			isAuto: false,
+			isAuto: false
 		})
 	}
 	{
@@ -151,14 +151,14 @@ test('insert text with link mark', () => {
 		expectDocOnlyHasLinkText(s1.doc, 'a', {
 			href: 'https://a',
 			originalHref: 'a',
-			isAuto: false,
+			isAuto: false
 		})
 	}
 })
 
-test('attach link mark to raw text', () => {
-	const s = linkState({
-		initHtml: '<p>t</p>',
+test('attach link mark to raw text', async () => {
+	const s = await linkStateInNode({
+		initHtml: '<p>t</p>'
 	})
 	const linkMarkType = getLinkMarkType(s.schema, 'link')
 	assertValue(linkMarkType)
@@ -171,13 +171,13 @@ test('attach link mark to raw text', () => {
 	expectDocOnlyHasLinkText(s1.doc, 't', {
 		href: 'https://a',
 		originalHref: 'a',
-		isAuto: false,
+		isAuto: false
 	})
 })
 
-test('auto link should ignore normal link', () => {
-	const s = linkState({
-		initHtml: '<p>a</p>',
+test('auto link should ignore normal link', async () => {
+	const s = await linkStateInNode({
+		initHtml: '<p>a</p>'
 	})
 	const linkMarkType = getLinkMarkType(s.schema, 'link')
 	assertValue(linkMarkType)
@@ -189,7 +189,7 @@ test('auto link should ignore normal link', () => {
 	expectDocOnlyHasLinkText(s1.doc, 'a', {
 		href: 'https://a',
 		originalHref: 'a',
-		isAuto: false,
+		isAuto: false
 	})
 
 	const tr2 = s1.tr.insertText('.com', 2)

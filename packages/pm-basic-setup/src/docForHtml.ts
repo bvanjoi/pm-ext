@@ -1,16 +1,24 @@
 import { DOMParser, type Node as PMNode, type Schema } from 'prosemirror-model'
 
+export function getWindow(w?: {
+	document: globalThis.Document
+}): { document: globalThis.Document } | undefined {
+	if (w) {
+		return w
+	}
+	if (typeof window !== 'undefined') {
+		return window
+	}
+	return
+}
+
 export function docFromHtml(
 	schema: Schema,
 	html: string,
-	options?: { window: { document: globalThis.Document } },
+	options?: { window?: { document: globalThis.Document } }
 ): PMNode | undefined {
-	let w: { document: globalThis.Document } | undefined
-	if (options) {
-		w = options.window
-	} else if (typeof window !== 'undefined') {
-		w = window
-	} else {
+	const w = getWindow(options?.window)
+	if (!w) {
 		return
 	}
 	const document = w.document

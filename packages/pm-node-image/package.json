@@ -17,7 +17,7 @@
 		"dev": "rslib build -w",
 		"format:check": "biome format",
 		"format:fix": "biome format --fix",
-		"test": "playwright test"
+		"test": "playwright clear-cache && playwright test"
 	},
 	"dependencies": {
 		"@pm-ext/pm-utils": "workspace:*",
