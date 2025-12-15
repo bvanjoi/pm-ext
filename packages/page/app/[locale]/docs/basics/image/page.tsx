@@ -3,9 +3,9 @@
 import {
 	getInlineImageNodeType,
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC,
-	ImageNodeViewConstructor,
+	ImageNodeView,
 	INLINE_IMAGE_SPEC,
-	insertImageNodeAt,
+	insertImageNodeAt
 } from '@pm-ext/node-image'
 import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
 import { assertValue, unreachable } from '@pm-ext/utils'
@@ -26,14 +26,14 @@ function Menu() {
 					assertValue(pmView)
 					const inlineImageNodeType = getInlineImageNodeType(
 						pmView.state.schema,
-						'inlineImage',
+						'inlineImage'
 					)
 					if (inlineImageNodeType) {
 						const tr = insertImageNodeAt(
 							pmView.state.tr,
 							inlineImageNodeType,
 							pmView.state.selection.from,
-							href,
+							href
 						)
 						pmView.dispatch(tr)
 					}
@@ -57,10 +57,10 @@ function ImagePMEditor() {
 			</ProseMirrorProvider>
 			<ProsemirrorEditor
 				nodes={{
-					inlineImage: INLINE_IMAGE_SPEC,
+					inlineImage: INLINE_IMAGE_SPEC
 				}}
 				nodeViews={{
-					inlineImage: ImageNodeViewConstructor,
+					inlineImage: ImageNodeView({ inline: true })
 				}}
 				plugins={[new Plugin(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC)]}
 				initHtml={initHtml}

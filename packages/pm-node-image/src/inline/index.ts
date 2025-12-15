@@ -5,24 +5,24 @@ import type { ImageNodeType } from '../types'
 import { imageSpec } from '../utils'
 
 export const INLINE_IMAGE_SPEC_SYMBOL: symbol = Symbol(
-	'@pm-ext/node/inlineImageSpec',
+	'@pm-ext/node/inlineImageSpec'
 )
 
 export const INLINE_IMAGE_SPEC = imageSpec({
 	key: INLINE_IMAGE_SPEC_SYMBOL,
 	inline: true,
-	group: 'inline',
+	group: 'inline'
 })
 
 export function isInlineImageNodeType(
-	nodeType: NodeType,
+	nodeType: NodeType
 ): nodeType is ImageNodeType {
 	return nodeType.spec.key === INLINE_IMAGE_SPEC_SYMBOL
 }
 
 export function getInlineImageNodeType(
 	schema: Schema,
-	name: string,
+	name: string
 ): ImageNodeType | undefined {
 	const ty = getNodeTypeBySpecKey(schema.nodes, name, INLINE_IMAGE_SPEC_SYMBOL)
 	if (ty) {

@@ -1,15 +1,15 @@
 import type { EditorView, NodeViewConstructor } from 'prosemirror-view'
 import {
 	setAddMetaForImageNodePlaceholder,
-	setRemoveMetaForImageNodePlaceholder,
+	setRemoveMetaForImageNodePlaceholder
 } from '../plugins/placeholder'
 
 function subscribePlaceholder(
 	view: EditorView,
 	getPos: () => number | undefined,
-	imageDOM: HTMLImageElement,
+	imageDOM: HTMLImageElement
 ) {
-	const id = crypto.randomUUID()
+	const id = Math.random().toString(36).substring(2, 15)
 	const observer = new MutationObserver(mutations => {
 		function findAddedImageElement(n: Node): boolean {
 			if (n === imageDOM) {
@@ -31,7 +31,7 @@ function subscribePlaceholder(
 					const tr = setAddMetaForImageNodePlaceholder(
 						view.state.tr,
 						id,
-						getPos(),
+						getPos()
 					)
 					view.dispatch(tr)
 					return
@@ -52,36 +52,49 @@ function subscribePlaceholder(
 		unsubscribe: () => {
 			observer.disconnect()
 			imageDOM.removeEventListener('load', onLoad)
-		},
+		}
 	}
 }
 
-export const ImageNodeViewConstructor: NodeViewConstructor = (
-	node,
-	view,
-	getPos,
-) => {
-	const imgContainer = document.createElement('div')
+interface ImageNodeViewOptions {
+	inline?: boolean
+}
 
-	const img = document.createElement('img')
-	img.src = node.attrs.src
-	img.alt = node.attrs.alt
-	img.title = node.attrs.title
+export function ImageNodeView(
+	options?: ImageNodeViewOptions
+): NodeViewConstructor {
+	const { inline = false } = options ?? {}
 
-	imgContainer.appendChild(img)
+	const ImageNodeViewConstructor: NodeViewConstructor = (
+		node,
+		view,
+		getPos
+	) => {
+		const containerElement = inline ? 'span' : 'div'
+		const imgContainer = document.createElement(containerElement)
 
-	const placeholderSubscription = subscribePlaceholder(view, getPos, img)
+		const img = document.createElement('img')
+		img.src = node.attrs.src
+		img.alt = node.attrs.alt
+		img.title = node.attrs.title
 
-	return {
-		dom: imgContainer,
-		selectNode() {
-			img.classList.add('ProseMirror-selectednode')
-		},
-		deselectNode() {
-			img.classList.remove('ProseMirror-selectednode')
-		},
-		destroy() {
-			placeholderSubscription.unsubscribe()
-		},
+		imgContainer.appendChild(img)
+
+		const placeholderSubscription = subscribePlaceholder(view, getPos, img)
+
+		return {
+			dom: imgContainer,
+			selectNode() {
+				img.classList.add('ProseMirror-selectednode')
+			},
+			deselectNode() {
+				img.classList.remove('ProseMirror-selectednode')
+			},
+			destroy() {
+				placeholderSubscription.unsubscribe()
+			}
+		}
 	}
+
+	return ImageNodeViewConstructor
 }

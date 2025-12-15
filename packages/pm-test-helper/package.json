@@ -23,9 +23,9 @@
 		"esbuild": "^0.27.1"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.18.4",
 		"@pm-ext/e2e-helper": "workspace:*",
-		"@types/node": "^25.0.1",
+		"@rslib/core": "^0.18.4",
+		"@types/node": "^25.0.2",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",

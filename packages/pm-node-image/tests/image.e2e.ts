@@ -35,3 +35,16 @@ test('focus should work', async ({ page }) => {
 		).resolves.toBeTruthy()
 	])
 })
+
+test('the container of image', async ({ page }) => {
+	const __dirname = import.meta.dirname
+	const html = await setupHtml(path.resolve(__dirname, './fixtures/index.ts'))
+
+	await page.setContent(html)
+	await expect(
+		page.evaluate(() => {
+			const img = document.querySelector('.ProseMirror img') as HTMLImageElement
+			return img?.parentElement?.tagName
+		})
+	).resolves.toBe('SPAN')
+})

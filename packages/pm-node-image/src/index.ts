@@ -5,23 +5,29 @@ export function insertImageNodeAt(
 	tr: Transaction,
 	imageNodeType: ImageNodeType,
 	pos: number,
-	src: string,
+	src: string
 ) {
 	const imageNode = imageNodeType.create({
-		src,
+		src
 	})
 	return tr.insert(pos, imageNode)
 }
 
 export {
+	BLOCK_IMAGE_SPEC,
+	getBlockImageNodeType,
+	isBlockImageNodeType
+} from './block'
+
+export {
 	getInlineImageNodeType,
 	INLINE_IMAGE_SPEC,
-	isInlineImageNodeType,
+	isInlineImageNodeType
 } from './inline'
 
 export {
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC,
-	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY,
+	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY
 } from './plugins/placeholder'
 
-export { ImageNodeViewConstructor } from './view'
+export { ImageNodeView } from './view'

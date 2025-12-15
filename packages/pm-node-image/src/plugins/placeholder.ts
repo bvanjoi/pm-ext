@@ -30,24 +30,24 @@ export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC: PluginSpec<DecorationSet> = {
 			}
 
 			return set
-		},
+		}
 	},
 	props: {
 		decorations(state) {
 			return this.getState(state)
-		},
-	},
+		}
+	}
 }
 
 export function setAddMetaForImageNodePlaceholder(
 	tr: Transaction,
 	id: string,
-	pos?: number,
+	pos?: number
 ): Transaction {
 	const meta: AddMetaForImageNodePlaceholder = {
 		type: 'add',
 		pos,
-		id,
+		id
 	}
 	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
 }
@@ -70,18 +70,18 @@ type ImageNodePlaceholderMeta =
 	| LoadedMetaForImageNodePlaceholder
 
 export function getMetaForImageNodePlaceholder(
-	tr: Transaction,
+	tr: Transaction
 ): ImageNodePlaceholderMeta | undefined {
 	return tr.getMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY)
 }
 
 export function setRemoveMetaForImageNodePlaceholder(
 	tr: Transaction,
-	id: string,
+	id: string
 ): Transaction {
 	const meta: LoadedMetaForImageNodePlaceholder = {
 		type: 'loaded',
-		id,
+		id
 	}
 	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
 }

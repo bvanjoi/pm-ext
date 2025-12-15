@@ -23,6 +23,7 @@ export function imageState(props: Props = {}) {
 	return pmState({
 		nodes: {
 			inlineImage: INLINE_IMAGE_SPEC
+			// blockImage: BLOCK_IMAGE_SPEC
 		},
 		doc: initHtml
 			? schema => {
