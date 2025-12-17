@@ -16,6 +16,8 @@ test('inline image should work', async () => {
 	expect(imageNode.attrs.src).toBe(MOCK_LINK_SRC)
 	expect(imageNode.attrs.title).toBe('')
 	expect(imageNode.attrs.alt).toBe('')
+	expect(imageNode.attrs.width).toBeUndefined()
+	expect(imageNode.attrs.height).toBeUndefined()
 	expect(imageNode.isAtom).toBe(true)
 })
 

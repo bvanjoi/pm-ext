@@ -1,9 +1,6 @@
 import type { Transaction } from 'prosemirror-state'
 import type { LinkMarkSpec, LinkMarkType } from './types'
-import {
-	addHttpProtocolPrefix,
-	LINK_SPEC_SYMBOL,
-} from './utils'
+import { addHttpProtocolPrefix, LINK_SPEC_SYMBOL } from './utils'
 
 export { createAutoLinkParser } from './parseLink'
 export { LINK_PLUGIN_SPEC } from './plugin'
@@ -15,8 +12,8 @@ export const LINK_SPEC: LinkMarkSpec = {
 		href: {},
 		originalHref: {},
 		auto: {
-			default: false,
-		},
+			default: false
+		}
 	},
 	inclusive: false,
 	toDOM: mark => ['a', { href: mark.attrs.href }, 0],
@@ -28,11 +25,11 @@ export const LINK_SPEC: LinkMarkSpec = {
 				return {
 					href,
 					originalHref: href,
-					auto: false,
+					auto: false
 				}
-			},
-		},
-	],
+			}
+		}
+	]
 }
 
 export function insertTextWithLinkMark(
@@ -40,11 +37,11 @@ export function insertTextWithLinkMark(
 	linkMarkType: LinkMarkType,
 	pos: number,
 	text: string,
-	href: string = text,
+	href: string = text
 ) {
 	const linkMark = linkMarkType.create({
 		originalHref: href,
-		href: addHttpProtocolPrefix(href),
+		href: addHttpProtocolPrefix(href)
 	})
 	const textNode = tr.doc.type.schema.text(text, [linkMark])
 	return tr.insert(pos, textNode)
@@ -53,25 +50,25 @@ export function insertTextWithLinkMark(
 export function addLinkMark(
 	tr: Transaction,
 	linkMarkType: LinkMarkType,
-	href: string,
+	href: string
 ): Transaction {
 	const linkMark = linkMarkType.create({
 		href: addHttpProtocolPrefix(href),
-		originalHref: href,
+		originalHref: href
 	})
 	return tr.selection.ranges.reduce(
 		(acc, range) => acc.addMark(range.$from.pos, range.$to.pos, linkMark),
-		tr,
+		tr
 	)
 }
 
 export function removeLinkMark(
 	tr: Transaction,
-	linkMarkType: LinkMarkType,
+	linkMarkType: LinkMarkType
 ): Transaction {
 	return tr.selection.ranges.reduce(
 		(acc, range) =>
 			acc.removeMark(range.$from.pos, range.$to.pos, linkMarkType),
-		tr,
+		tr
 	)
 }

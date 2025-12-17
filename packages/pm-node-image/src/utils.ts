@@ -16,28 +16,34 @@ export function imageSpec(options: ImageSpecOptions): ImageNodeSpec {
 		parseDOM: [
 			{
 				tag: 'img[src]',
-				getAttrs: (dom): ImageAttrs => {
-					const src = dom.getAttribute('src') || ''
-					const alt = dom.getAttribute('alt') || ''
-					const title = dom.getAttribute('title') || ''
+				getAttrs: (node): ImageAttrs => {
+					const src = node.getAttribute('src') || ''
+					const alt = node.getAttribute('alt') || ''
+					const title = node.getAttribute('title') || ''
 					return { src, alt, title }
-				},
-			},
+				}
+			}
 		],
 		toDOM: (node: Node) => {
 			return [
 				'img',
-				{ src: node.attrs.src, alt: node.attrs.alt, title: node.attrs.title },
+				{ src: node.attrs.src, alt: node.attrs.alt, title: node.attrs.title }
 			]
 		},
 		attrs: {
 			src: {},
 			alt: {
-				default: '',
+				default: ''
 			},
 			title: {
-				default: '',
+				default: ''
 			},
-		},
+			width: {
+				default: undefined
+			},
+			height: {
+				default: undefined
+			}
+		}
 	}
 }

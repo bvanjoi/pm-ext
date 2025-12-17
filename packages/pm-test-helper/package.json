@@ -20,12 +20,12 @@
 		"format:fix": "biome format --fix"
 	},
 	"dependencies": {
-		"esbuild": "^0.27.1"
+		"esbuild": "^0.27.2"
 	},
 	"devDependencies": {
 		"@pm-ext/e2e-helper": "workspace:*",
 		"@rslib/core": "^0.18.4",
-		"@types/node": "^25.0.2",
+		"@types/node": "^25.0.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",

@@ -41,10 +41,28 @@ test('the container of image', async ({ page }) => {
 	const html = await setupHtml(path.resolve(__dirname, './fixtures/index.ts'))
 
 	await page.setContent(html)
-	await expect(
-		page.evaluate(() => {
-			const img = document.querySelector('.ProseMirror img') as HTMLImageElement
-			return img?.parentElement?.tagName
-		})
-	).resolves.toBe('SPAN')
+
+	await Promise.all([
+		expect(
+			page.evaluate(() => {
+				const img = document.querySelector(
+					'.ProseMirror img'
+				) as HTMLImageElement
+				return img?.parentElement?.tagName
+			})
+		).resolves.toBe('SPAN'),
+		expect(
+			page.evaluate(() => {
+				const INLINE_IMAGE_POS = 19
+				const node = window.editorAction.nodeAt(INLINE_IMAGE_POS)
+				const { width, height } = node?.attrs || {}
+				return (
+					typeof width === 'number' &&
+					typeof height === 'number' &&
+					width > 0 &&
+					height > 0
+				)
+			})
+		).resolves.toBe(true)
+	])
 })

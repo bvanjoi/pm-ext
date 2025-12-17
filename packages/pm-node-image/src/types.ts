@@ -4,6 +4,8 @@ export type ImageNodeSpecAttrs = {
 	src: AttributeSpec
 	alt: AttributeSpec
 	title: AttributeSpec
+	width?: AttributeSpec
+	height?: AttributeSpec
 }
 
 export type ImageNodeSpec = NodeSpec & {
@@ -19,4 +21,6 @@ export type ImageAttrs = {
 	src: string
 	alt: string
 	title: string
+	width?: number
+	height?: number
 }

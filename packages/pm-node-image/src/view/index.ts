@@ -1,3 +1,4 @@
+import { assertValue } from '@pm-ext/utils'
 import type { EditorView, NodeViewConstructor } from 'prosemirror-view'
 import {
 	setAddMetaForImageNodePlaceholder,
@@ -82,6 +83,29 @@ export function ImageNodeView(
 
 		const placeholderSubscription = subscribePlaceholder(view, getPos, img)
 
+		function subscribeWidthHeight() {
+			if (
+				typeof node.attrs.width === 'number' ||
+				typeof node.attrs.height === 'number'
+			) {
+				return
+			}
+			const pos = getPos()
+			if (pos === undefined) {
+				return
+			}
+			assertValue(node.attrs.width !== 0)
+			assertValue(node.attrs.height !== 0)
+			assertValue(img.width)
+			assertValue(img.height)
+			const tr = view.state.tr
+				.setNodeAttribute(pos, 'width', img.width)
+				.setNodeAttribute(pos, 'height', img.height)
+			view.dispatch(tr)
+		}
+
+		img.addEventListener('load', subscribeWidthHeight)
+
 		return {
 			dom: imgContainer,
 			selectNode() {
@@ -92,6 +116,7 @@ export function ImageNodeView(
 			},
 			destroy() {
 				placeholderSubscription.unsubscribe()
+				img.removeEventListener('load', subscribeWidthHeight)
 			}
 		}
 	}
