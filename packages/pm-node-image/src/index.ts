@@ -30,4 +30,8 @@ export {
 	IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY
 } from './plugins/placeholder'
 
-export { ImageNodeView } from './view'
+export {
+	ImageNodeView,
+	type Subscribe,
+	type Subscription
+} from './view'

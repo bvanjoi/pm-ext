@@ -1,125 +1,60 @@
-import { assertValue } from '@pm-ext/utils'
+import type { Node } from 'prosemirror-model'
 import type { EditorView, NodeViewConstructor } from 'prosemirror-view'
-import {
-	setAddMetaForImageNodePlaceholder,
-	setRemoveMetaForImageNodePlaceholder
-} from '../plugins/placeholder'
+import { subscribeWidthHeight } from './subscribe-width-height'
 
-function subscribePlaceholder(
+export type Subscribe = (
 	view: EditorView,
 	getPos: () => number | undefined,
 	imageDOM: HTMLImageElement
-) {
-	const id = Math.random().toString(36).substring(2, 15)
-	const observer = new MutationObserver(mutations => {
-		function findAddedImageElement(n: Node): boolean {
-			if (n === imageDOM) {
-				return true
-			}
-			if (n.hasChildNodes()) {
-				for (const child of n.childNodes) {
-					if (findAddedImageElement(child)) {
-						return true
-					}
-				}
-			}
-			return false
-		}
+) => Subscription
 
-		for (const mutation of mutations) {
-			for (const node of mutation.addedNodes) {
-				if (findAddedImageElement(node)) {
-					const tr = setAddMetaForImageNodePlaceholder(
-						view.state.tr,
-						id,
-						getPos()
-					)
-					view.dispatch(tr)
-					return
-				}
-			}
-		}
-	})
-
-	observer.observe(view.dom, { childList: true, subtree: true })
-
-	function onLoad() {
-		const tr = setRemoveMetaForImageNodePlaceholder(view.state.tr, id)
-		view.dispatch(tr)
-	}
-
-	imageDOM.addEventListener('load', onLoad)
-	return {
-		unsubscribe: () => {
-			observer.disconnect()
-			imageDOM.removeEventListener('load', onLoad)
-		}
-	}
+export interface Subscription {
+	unsubscribe: () => void
 }
 
 interface ImageNodeViewOptions {
 	inline?: boolean
+	subscribePlaceholder?: Subscribe
+}
+
+function ImageNodeViewConstructor(
+	node: Node,
+	view: EditorView,
+	getPos: () => number | undefined,
+	options?: ImageNodeViewOptions
+) {
+	const { inline = false, subscribePlaceholder } = options ?? {}
+	const containerElement = inline ? 'span' : 'div'
+	const imgContainer = document.createElement(containerElement)
+
+	const img = document.createElement('img')
+	img.src = node.attrs.src
+	img.alt = node.attrs.alt
+	img.title = node.attrs.title
+
+	imgContainer.appendChild(img)
+
+	const placeholderSubscription = subscribePlaceholder?.(view, getPos, img)
+	const widthHeightSubscription = subscribeWidthHeight(view, getPos, img, node)
+
+	return {
+		dom: imgContainer,
+		selectNode() {
+			img.classList.add('ProseMirror-selectednode')
+		},
+		deselectNode() {
+			img.classList.remove('ProseMirror-selectednode')
+		},
+		destroy() {
+			placeholderSubscription?.unsubscribe()
+			widthHeightSubscription.unsubscribe()
+		}
+	}
 }
 
 export function ImageNodeView(
 	options?: ImageNodeViewOptions
 ): NodeViewConstructor {
-	const { inline = false } = options ?? {}
-
-	const ImageNodeViewConstructor: NodeViewConstructor = (
-		node,
-		view,
-		getPos
-	) => {
-		const containerElement = inline ? 'span' : 'div'
-		const imgContainer = document.createElement(containerElement)
-
-		const img = document.createElement('img')
-		img.src = node.attrs.src
-		img.alt = node.attrs.alt
-		img.title = node.attrs.title
-
-		imgContainer.appendChild(img)
-
-		const placeholderSubscription = subscribePlaceholder(view, getPos, img)
-
-		function subscribeWidthHeight() {
-			if (
-				typeof node.attrs.width === 'number' ||
-				typeof node.attrs.height === 'number'
-			) {
-				return
-			}
-			const pos = getPos()
-			if (pos === undefined) {
-				return
-			}
-			assertValue(node.attrs.width !== 0)
-			assertValue(node.attrs.height !== 0)
-			assertValue(img.width)
-			assertValue(img.height)
-			const tr = view.state.tr
-				.setNodeAttribute(pos, 'width', img.width)
-				.setNodeAttribute(pos, 'height', img.height)
-			view.dispatch(tr)
-		}
-
-		img.addEventListener('load', subscribeWidthHeight)
-
-		return {
-			dom: imgContainer,
-			selectNode() {
-				img.classList.add('ProseMirror-selectednode')
-			},
-			deselectNode() {
-				img.classList.remove('ProseMirror-selectednode')
-			},
-			destroy() {
-				placeholderSubscription.unsubscribe()
-				img.removeEventListener('load', subscribeWidthHeight)
-			}
-		}
-	}
-
-	return ImageNodeViewConstructor
+	return (node, view, getPos) =>
+		ImageNodeViewConstructor(node, view, getPos, options)
 }

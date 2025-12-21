@@ -11,7 +11,9 @@ async function setupHtml(inputPath: string): Promise<string> {
 
 test('focus should work', async ({ page }) => {
 	const __dirname = import.meta.dirname
-	const html = await setupHtml(path.resolve(__dirname, './fixtures/index.ts'))
+	const html = await setupHtml(
+		path.resolve(__dirname, './fixtures/inline-image.ts')
+	)
 
 	await page.setContent(html)
 
@@ -38,7 +40,8 @@ test('focus should work', async ({ page }) => {
 
 test('the container of image', async ({ page }) => {
 	const __dirname = import.meta.dirname
-	const html = await setupHtml(path.resolve(__dirname, './fixtures/index.ts'))
+	const casePath = path.resolve(__dirname, './fixtures/inline-image.ts')
+	const html = await setupHtml(casePath)
 
 	await page.setContent(html)
 
@@ -65,4 +68,15 @@ test('the container of image', async ({ page }) => {
 			})
 		).resolves.toBe(true)
 	])
+})
+
+test('custom onLoad should work', async ({ page }) => {
+	const __dirname = import.meta.dirname
+	const casePath = path.resolve(
+		__dirname,
+		'./fixtures/inline-image-with-custom-onLoad.ts'
+	)
+	const html = await setupHtml(casePath)
+	await page.setContent(html)
+	expect(page.title()).resolves.toBe('Image Loaded')
 })

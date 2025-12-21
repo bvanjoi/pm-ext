@@ -7,6 +7,7 @@ import {
 	INLINE_IMAGE_SPEC,
 	insertImageNodeAt
 } from '@pm-ext/node-image'
+import { subscribeInlinePlaceholder } from '@pm-ext/node-image/view/default-placeholder'
 import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import { Plugin } from 'prosemirror-state'
@@ -60,7 +61,11 @@ function ImagePMEditor() {
 					inlineImage: INLINE_IMAGE_SPEC
 				}}
 				nodeViews={{
-					inlineImage: ImageNodeView({ inline: true })
+					inlineImage: ImageNodeView({
+						inline: true,
+						subscribePlaceholder: (view, getPos, imageDOM) =>
+							subscribeInlinePlaceholder(view, getPos, imageDOM)
+					})
 				}}
 				plugins={[new Plugin(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC)]}
 				initHtml={initHtml}

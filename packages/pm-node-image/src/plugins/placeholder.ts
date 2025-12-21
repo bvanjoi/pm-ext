@@ -1,6 +1,6 @@
 import { PluginKey, type PluginSpec, type Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { ImageLoading } from '../components/inlineLoading'
+import { ImageLoading } from '../components/inline-loading'
 
 export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY =
 	new PluginKey<DecorationSet>('IMAGE_NODE_PLACEHOLDER_PLUGIN_KEY')
