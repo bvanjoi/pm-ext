@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTranslation } from '../../i18n/hooks'
+import { mockTranslate, type Translate } from '../../i18n/hooks'
 import { Button } from './button'
 import { Label } from './label'
 import { LabelInput } from './labelInput'
@@ -7,10 +7,11 @@ import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
 interface ImagePopoverProps {
 	onConfirm?: (href: string) => void
+	t?: Translate
 }
 
 export function ImagePopover(props: ImagePopoverProps): React.JSX.Element {
-	const { t } = useTranslation()
+	const { t = mockTranslate } = props
 	const [href, setHref] = React.useState<string>('')
 
 	const onConfirm = () => {

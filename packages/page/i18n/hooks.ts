@@ -1,11 +1,13 @@
-import * as i18next from 'react-i18next'
+import * as i18next from 'next-intl'
 import type { I18nMessage } from './type'
 
-type T = (key: keyof I18nMessage) => string
+export type Translate = (key: keyof I18nMessage) => string
 
-export function useTranslation(): { t: T } {
-	const { t } = i18next.useTranslation()
+export function useTranslation(): { t: Translate } {
+	const t = i18next.useTranslations()
 	return {
-		t: key => t(key),
+		t: key => t(key)
 	}
 }
+
+export const mockTranslate: Translate = key => key

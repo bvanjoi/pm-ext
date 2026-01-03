@@ -1,28 +1,32 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { mockTranslate, type Translate } from '../../i18n/hooks'
 import { Button } from './button'
 import { Label } from './label'
 import { LabelInput } from './labelInput'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
 
-interface InsertLinkPopoverProps {
+interface InsertLinkPopoverProps extends BaseLinkPopoverProps {
 	mode: 'insert'
 	onConfirm?: (href: string, text: string) => void
 }
 
-interface EditLinkPopoverProps {
+interface EditLinkPopoverProps extends BaseLinkPopoverProps {
 	mode: 'editHref'
 	href: string
 	onConfirm?: (newHref: string) => void
 	onRemove?: () => void
 }
 
+interface BaseLinkPopoverProps {
+	t?: Translate
+}
+
 type LinkPopoverProps = InsertLinkPopoverProps | EditLinkPopoverProps
 
 function InsertLinkPopoverContent(
-	props: InsertLinkPopoverProps,
+	props: InsertLinkPopoverProps
 ): React.JSX.Element {
-	const { t } = useTranslation()
+	const { t = mockTranslate } = props
 	const [herf, setHref] = React.useState<string>('')
 	const [text, setText] = React.useState<string>('')
 	const onConfirm = () => {
@@ -48,11 +52,11 @@ function InsertLinkPopoverContent(
 }
 
 function EditLinkPopoverContent(
-	props: EditLinkPopoverProps,
+	props: EditLinkPopoverProps
 ): React.JSX.Element {
 	const { onConfirm, onRemove } = props
 	const [herf, setHref] = React.useState<string>(props.href)
-	const { t } = useTranslation()
+	const { t = mockTranslate } = props
 
 	const RemoveHrefButton = () => {
 		if (!props.href) {
@@ -96,7 +100,7 @@ function EditLinkPopoverContent(
 
 export function LinkPopover(props: LinkPopoverProps): React.JSX.Element {
 	const { mode } = props
-	const { t } = useTranslation()
+	const { t = mockTranslate } = props
 
 	if (mode !== 'insert' && mode !== 'editHref') {
 		return <React.Fragment />
