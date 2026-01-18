@@ -5,11 +5,15 @@ export default defineConfig({
 		{
 			dts: true,
 			source: {
-				tsconfigPath: './tsconfig.json',
+				tsconfigPath: './tsconfig.json'
 			},
 			output: {
-				sourceMap: true,
+				sourceMap: true
 			},
-		},
+			bundle: false
+		}
 	],
+	performance: {
+		buildCache: false
+	}
 })

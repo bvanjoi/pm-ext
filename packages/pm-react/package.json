@@ -4,14 +4,12 @@
 	"sideEffects": false,
 	"type": "module",
 	"exports": {
-		".": {
-			"types": "./dist/src/index.d.ts",
-			"default": "./dist/index.js"
+		"./context": {
+			"types": "./dist/src/context.d.ts",
+			"default": "./dist/context.js"
 		},
 		"./package.json": "./package.json"
 	},
-	"main": "./dist/index.js",
-	"types": "./dist/src/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && rslib build",
 		"dev": "rslib build -w",
@@ -19,13 +17,13 @@
 		"format:fix": "biome format --fix"
 	},
 	"devDependencies": {
-		"@rslib/core": "^0.19.1",
-		"@types/react": "^19.2.7",
+		"@rslib/core": "^0.19.2",
+		"@types/react": "^19.2.8",
 		"@types/react-dom": "^19.2.3",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",
-		"prosemirror-view": "^1.41.4",
+		"prosemirror-view": "^1.41.5",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3",
 		"typescript": "^5.9.3"

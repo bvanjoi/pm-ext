@@ -24,7 +24,7 @@ export function FormattingToolbar({ view }: FormattingToolbarProps) {
 
 	const applySetBlockType = (
 		nodeType: string,
-		attrs: Record<string, any> = {},
+		attrs: Record<string, any> = {}
 	) => {
 		const node = state.schema.nodes[nodeType]
 		if (!node) return
@@ -44,12 +44,12 @@ export function FormattingToolbar({ view }: FormattingToolbarProps) {
 							level:
 								type === 'paragraph'
 									? undefined
-									: Number.parseInt(type.slice(1)),
+									: Number.parseInt(type.slice(1))
 						})
 					}
 					className={cn(
 						'px-3 py-1 text-xs font-medium rounded transition-colors',
-						'bg-muted hover:bg-muted-foreground/20',
+						'bg-muted hover:bg-muted-foreground/20'
 					)}
 				>
 					{type.toUpperCase()}
@@ -64,7 +64,7 @@ export function FormattingToolbar({ view }: FormattingToolbarProps) {
 					onClick={() => applyToggleMark(mark)}
 					className={cn(
 						'px-3 py-1 text-xs font-medium rounded transition-colors capitalize',
-						'bg-muted hover:bg-muted-foreground/20',
+						'bg-muted hover:bg-muted-foreground/20'
 					)}
 				>
 					{mark}

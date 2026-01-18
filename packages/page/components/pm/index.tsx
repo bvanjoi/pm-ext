@@ -4,11 +4,10 @@ import {
 	type MarkSpec,
 	type NodeSpec,
 	type Node as PMNode,
-	type Schema,
+	type Schema
 } from 'prosemirror-model'
 import type { EditorState, Plugin } from 'prosemirror-state'
-
-import * as React from 'react'
+import React from 'react'
 
 import './style.css'
 import 'prosemirror-view/style/prosemirror.css'
@@ -43,7 +42,7 @@ function createState(props: ProsemirrorEditorProps): EditorState {
 				window:
 					typeof window !== 'undefined'
 						? window
-						: new (require('jsdom').JSDOM)().window,
+						: new (require('jsdom').JSDOM)().window
 			}
 			const ret = docFromHtml(schema, initHtml, options)
 			assertValue(ret)
@@ -55,13 +54,13 @@ function createState(props: ProsemirrorEditorProps): EditorState {
 		marks,
 		plugins,
 		doc,
-		selection: Number.POSITIVE_INFINITY,
+		selection: Number.POSITIVE_INFINITY
 	})
 }
 
 function ProsemirrorEditorDisplay(props: { state: EditorState }) {
 	const options = {
-		document: undefined,
+		document: undefined
 	}
 	if (typeof window === 'undefined') {
 		const jsdom = new (require('jsdom').JSDOM)()
@@ -71,7 +70,7 @@ function ProsemirrorEditorDisplay(props: { state: EditorState }) {
 	}
 	const html = DOMSerializer.fromSchema(props.state.schema).serializeNode(
 		props.state.doc,
-		options,
+		options
 	)
 	if (html.nodeType === html.ELEMENT_NODE) {
 		const { innerHTML } = html as Element
@@ -104,7 +103,7 @@ export function ProsemirrorEditor(props: ProsemirrorEditorProps) {
 					if (onUpdateView) {
 						onUpdateView(v)
 					}
-				},
+				}
 			})
 			v.focus()
 			if (onInitView) {

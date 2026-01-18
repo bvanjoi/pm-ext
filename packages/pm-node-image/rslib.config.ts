@@ -12,5 +12,8 @@ export default defineConfig({
 				sourceMap: true
 			}
 		}
-	]
+	],
+	performance: {
+		buildCache: false
+	}
 })

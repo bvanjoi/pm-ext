@@ -15,7 +15,7 @@ export function CodeBlockToggle({
 	react: reactCode,
 	vue: vueCode,
 	showLineNumbers = false,
-	children,
+	children
 }: CodeBlockToggleProps) {
 	const [activeTab, setActiveTab] = useState<'react' | 'vue'>('react')
 
@@ -29,7 +29,7 @@ export function CodeBlockToggle({
 						'px-3 py-1 text-sm font-medium rounded transition-colors',
 						activeTab === 'react'
 							? 'bg-primary text-primary-foreground'
-							: 'bg-muted text-foreground hover:bg-muted hover:opacity-80',
+							: 'bg-muted text-foreground hover:bg-muted hover:opacity-80'
 					)}
 				>
 					React
@@ -40,7 +40,7 @@ export function CodeBlockToggle({
 						'px-3 py-1 text-sm font-medium rounded transition-colors',
 						activeTab === 'vue'
 							? 'bg-primary text-primary-foreground'
-							: 'bg-muted text-foreground hover:bg-muted hover:opacity-80',
+							: 'bg-muted text-foreground hover:bg-muted hover:opacity-80'
 					)}
 				>
 					Vue

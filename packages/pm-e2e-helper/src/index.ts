@@ -6,6 +6,12 @@ interface EditorAction {
 	nodeAt(pos: number): Node | null
 }
 
+declare global {
+	interface Window {
+		editorAction: EditorAction
+	}
+}
+
 export function setupEditorAction(view: EditorView) {
 	window.editorAction = {
 		focusEditor() {
@@ -14,11 +20,5 @@ export function setupEditorAction(view: EditorView) {
 		nodeAt(pos: number): Node | null {
 			return view.state.doc.nodeAt(pos)
 		}
-	}
-}
-
-declare global {
-	interface Window {
-		editorAction: EditorAction
 	}
 }

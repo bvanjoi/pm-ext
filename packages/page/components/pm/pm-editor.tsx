@@ -17,7 +17,7 @@ import {
 	insertImageNodeAt
 } from '@pm-ext/node-image'
 import { subscribeInlinePlaceholder } from '@pm-ext/node-image/view/default-placeholder'
-import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react'
+import { ProseMirrorProvider, useProseMirror } from '@pm-ext/react/context'
 import { assertValue, unreachable } from '@pm-ext/utils'
 import { Plugin } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'

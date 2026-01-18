@@ -2,6 +2,40 @@ import { PluginKey, type PluginSpec, type Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
 import { ImageLoading } from '../components/inline-loading'
 
+interface MetaForImageNodePlaceholderBase {
+	id: string
+}
+
+type AddMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
+	type: 'add'
+	pos?: number
+}
+
+type LoadedMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
+	type: 'loaded'
+}
+
+type ImageNodePlaceholderMeta =
+	| AddMetaForImageNodePlaceholder
+	| LoadedMetaForImageNodePlaceholder
+
+export function getMetaForImageNodePlaceholder(
+	tr: Transaction
+): ImageNodePlaceholderMeta | undefined {
+	return tr.getMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY)
+}
+
+export function setRemoveMetaForImageNodePlaceholder(
+	tr: Transaction,
+	id: string
+): Transaction {
+	const meta: LoadedMetaForImageNodePlaceholder = {
+		type: 'loaded',
+		id
+	}
+	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
+}
+
 export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY =
 	new PluginKey<DecorationSet>('IMAGE_NODE_PLACEHOLDER_PLUGIN_KEY')
 
@@ -47,40 +81,6 @@ export function setAddMetaForImageNodePlaceholder(
 	const meta: AddMetaForImageNodePlaceholder = {
 		type: 'add',
 		pos,
-		id
-	}
-	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)
-}
-
-type MetaForImageNodePlaceholderBase = {
-	id: string
-}
-
-type AddMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
-	type: 'add'
-	pos?: number
-}
-
-type LoadedMetaForImageNodePlaceholder = MetaForImageNodePlaceholderBase & {
-	type: 'loaded'
-}
-
-type ImageNodePlaceholderMeta =
-	| AddMetaForImageNodePlaceholder
-	| LoadedMetaForImageNodePlaceholder
-
-export function getMetaForImageNodePlaceholder(
-	tr: Transaction
-): ImageNodePlaceholderMeta | undefined {
-	return tr.getMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY)
-}
-
-export function setRemoveMetaForImageNodePlaceholder(
-	tr: Transaction,
-	id: string
-): Transaction {
-	const meta: LoadedMetaForImageNodePlaceholder = {
-		type: 'loaded',
 		id
 	}
 	return tr.setMeta(IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC_KEY, meta)

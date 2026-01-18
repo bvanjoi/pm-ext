@@ -2,7 +2,8 @@
 
 import path from 'node:path'
 import { expect, test } from '@playwright/test'
-import { bundle, pageHtml } from '@pm-ext/test-helper'
+import { bundle } from '@pm-ext/test-helper/bundle'
+import { pageHtml } from '@pm-ext/test-helper/pageHtml'
 
 async function setupHtml(inputPath: string): Promise<string> {
 	const content = await bundle(inputPath)

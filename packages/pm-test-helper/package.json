@@ -5,9 +5,13 @@
 	"type": "module",
 	"private": true,
 	"exports": {
-		".": {
-			"types": "./dist/src/index.d.ts",
-			"default": "./dist/index.js"
+		"./bundle": {
+			"types": "./dist/src/bundle.d.ts",
+			"default": "./dist/bundle.js"
+		},
+		"./pageHtml": {
+			"types": "./dist/src/pageHtml.d.ts",
+			"default": "./dist/pageHtml.js"
 		},
 		"./package.json": "./package.json"
 	},
@@ -24,12 +28,12 @@
 	},
 	"devDependencies": {
 		"@pm-ext/e2e-helper": "workspace:*",
-		"@rslib/core": "^0.19.1",
-		"@types/node": "^25.0.3",
+		"@rslib/core": "^0.19.2",
+		"@types/node": "^25.0.9",
 		"prosemirror-model": "^1.25.4",
 		"prosemirror-state": "^1.4.4",
 		"prosemirror-transform": "^1.10.5",
-		"prosemirror-view": "^1.41.4",
+		"prosemirror-view": "^1.41.5",
 		"typescript": "^5.9.3"
 	},
 	"peerDependencies": {

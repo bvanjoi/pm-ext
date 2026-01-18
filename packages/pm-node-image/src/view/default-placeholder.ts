@@ -17,21 +17,23 @@ export function defaultOnLoad(view: EditorView, id: string) {
 export type SubscribeImagePlaceholder = (
 	view: EditorView,
 	getPos: () => number | undefined,
-	imageDOM: HTMLImageElement,
+	imageDom: HTMLImageElement,
 	options?: ImagePlaceholderOptions
 ) => Subscription
 
 export const subscribeInlinePlaceholder: SubscribeImagePlaceholder = (
 	view,
 	getPos,
-	imageDOM,
+	imageDom,
 	options
 ) => {
 	const { onLoad: customOnLoad } = options || {}
-	const id = Math.random().toString(36).substring(2, 15)
+	const Radix = 36
+	const Length = 15
+	const id = Math.random().toString(Radix).substring(2, Length)
 	const observer = new MutationObserver(mutations => {
 		function findAddedImageElement(n: Node): boolean {
-			if (n === imageDOM) {
+			if (n === imageDom) {
 				return true
 			}
 			if (n.hasChildNodes()) {
@@ -66,11 +68,11 @@ export const subscribeInlinePlaceholder: SubscribeImagePlaceholder = (
 		callback(view, id)
 	}
 
-	imageDOM.addEventListener('load', onLoad)
+	imageDom.addEventListener('load', onLoad)
 	return {
 		unsubscribe: () => {
 			observer.disconnect()
-			imageDOM.removeEventListener('load', onLoad)
+			imageDom.removeEventListener('load', onLoad)
 		}
 	}
 }

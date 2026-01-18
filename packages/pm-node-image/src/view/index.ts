@@ -2,13 +2,13 @@ import type { Node } from 'prosemirror-model'
 import type { EditorView, NodeViewConstructor } from 'prosemirror-view'
 import { subscribeWidthHeight } from './subscribe-width-height'
 
-export type Subscribe = (
+type Subscribe = (
 	view: EditorView,
 	getPos: () => number | undefined,
-	imageDOM: HTMLImageElement
+	imageDom: HTMLImageElement
 ) => Subscription
 
-export interface Subscription {
+interface Subscription {
 	unsubscribe: () => void
 }
 
@@ -58,3 +58,5 @@ export function ImageNodeView(
 	return (node, view, getPos) =>
 		ImageNodeViewConstructor(node, view, getPos, options)
 }
+
+export type { Subscribe, Subscription }
