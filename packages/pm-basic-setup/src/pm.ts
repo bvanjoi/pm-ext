@@ -4,14 +4,14 @@ import { keymap } from 'prosemirror-keymap'
 import {
 	type MarkSpec,
 	type NodeSpec,
-	type Node as PMNode,
-	Schema,
+	type Node as PmNode,
+	Schema
 } from 'prosemirror-model'
 import {
 	EditorState,
 	type Plugin,
 	type Selection,
-	TextSelection,
+	TextSelection
 } from 'prosemirror-state'
 import { EditorView, type NodeViewConstructor } from 'prosemirror-view'
 
@@ -23,33 +23,33 @@ export interface Config {
 		[key: string]: MarkSpec
 	}
 	plugins?: Plugin[]
-	doc?: PMNode | ((schema: Schema) => PMNode)
+	doc?: PmNode | ((schema: Schema) => PmNode)
 	selection?: number | { start: number; end: number }
 }
 
 function schema(config: Config): Schema {
 	const docSchema: NodeSpec = {
 		content: 'block+',
-		toDOM: () => ['div', 0],
+		toDOM: () => ['div', 0]
 	}
 	const pSchema: NodeSpec = {
 		group: 'block',
 		content: 'inline*',
-		toDOM: () => ['p', 0],
+		toDOM: () => ['p', 0]
 	}
 	const textSchema: NodeSpec = {
-		group: 'inline',
+		group: 'inline'
 	}
 	return new Schema({
 		nodes: {
 			doc: docSchema,
 			p: pSchema,
 			text: textSchema,
-			...config.nodes,
+			...config.nodes
 		} as const,
 		marks: {
-			...config.marks,
-		} as const,
+			...config.marks
+		} as const
 	})
 }
 
@@ -61,10 +61,10 @@ export function pmState(config: Config): EditorState {
 	const keymapPlugin = keymap({
 		...baseKeymap,
 		'Mod-z': undo,
-		'Shift-Mod-z': redo,
+		'Shift-Mod-z': redo
 	})
 
-	let doc: PMNode | undefined
+	let doc: PmNode | undefined
 	if (typeof config.doc === 'function') {
 		doc = config.doc(s)
 	} else if (config.doc) {
@@ -88,7 +88,7 @@ export function pmState(config: Config): EditorState {
 		schema: s,
 		doc,
 		plugins: [keymapPlugin, history(), ...(config.plugins || [])],
-		selection,
+		selection
 	})
 	return state
 }
@@ -96,11 +96,11 @@ export function pmState(config: Config): EditorState {
 export function pmViewFromState(
 	state: EditorState,
 	container: HTMLDivElement,
-	nodeViews?: { [node: string]: NodeViewConstructor },
+	nodeViews?: { [node: string]: NodeViewConstructor }
 ): EditorView {
 	const view = new EditorView(container, {
 		state,
-		nodeViews,
+		nodeViews
 	})
 	return view
 }

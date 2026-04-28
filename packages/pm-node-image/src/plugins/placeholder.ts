@@ -1,6 +1,6 @@
+import { InlinePlaceholderLoading } from '@pm-ext/component-placeholder/inline-block-placeholder'
 import { PluginKey, type PluginSpec, type Transaction } from 'prosemirror-state'
 import { Decoration, DecorationSet } from 'prosemirror-view'
-import { ImageLoading } from '../components/inline-loading'
 
 interface MetaForImageNodePlaceholderBase {
 	id: string
@@ -52,7 +52,7 @@ export const IMAGE_NODE_PLACEHOLDER_PLUGIN_SPEC: PluginSpec<DecorationSet> = {
 				return set
 			}
 			if (meta.type === 'add' && meta.pos) {
-				const widget = ImageLoading()
+				const widget = InlinePlaceholderLoading()
 				const deco = Decoration.widget(meta.pos, widget, { id: meta.id })
 				return set.add(tr.doc, [deco])
 			}

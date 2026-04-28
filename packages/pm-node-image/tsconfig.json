@@ -21,6 +21,9 @@
     },
     {
       "path": "../pm-e2e-helper/tsconfig.json"
+    },
+    {
+      "path": "../pm-component-placeholder/tsconfig.json"
     }
   ]
 }

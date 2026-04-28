@@ -1,6 +1,7 @@
 packages:
   - "packages/page"
   - "packages/pm-basic-setup"
+  - "packages/pm-component-placeholder"
   - "packages/pm-e2e-helper"
   - "packages/pm-mark-link"
   - "packages/pm-node-image"

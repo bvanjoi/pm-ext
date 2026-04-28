@@ -3,7 +3,7 @@ import {
 	DOMSerializer,
 	type MarkSpec,
 	type NodeSpec,
-	type Node as PMNode,
+	type Node as PmNode,
 	type Schema
 } from 'prosemirror-model'
 import type { EditorState, Plugin } from 'prosemirror-state'
@@ -35,7 +35,7 @@ interface ProsemirrorEditorProps extends ProsemirrorEditorPropsBase {
 
 function createState(props: ProsemirrorEditorProps): EditorState {
 	const { nodes, marks, plugins, initHtml } = props
-	let doc: ((schema: Schema) => PMNode) | undefined
+	let doc: ((schema: Schema) => PmNode) | undefined
 	if (initHtml) {
 		doc = (schema: Schema) => {
 			const options = {

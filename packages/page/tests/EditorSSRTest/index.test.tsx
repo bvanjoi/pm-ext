@@ -4,12 +4,12 @@ import { expect, test } from '@playwright/experimental-ct-react'
 import esbuild from 'esbuild'
 
 async function buildAndRenderToHtml(
-	inputPath: string,
+	inputPath: string
 ): Promise<string | undefined> {
 	const outfile = path.resolve(
 		__dirname,
 		'../../test-results/tempSSRFixtureOutput',
-		`${randomUUID()}.js`,
+		`${randomUUID()}.js`
 	)
 	await esbuild.build({
 		entryPoints: [inputPath],
@@ -18,7 +18,7 @@ async function buildAndRenderToHtml(
 		format: 'esm',
 		platform: 'node',
 		logLevel: 'error',
-		external: ['jsdom'],
+		external: ['jsdom']
 	})
 	const ret = require(outfile).default
 	return ret
@@ -34,6 +34,6 @@ test('Editor with text containing a link should has correct HTML output', async 
 	const inputPath = path.resolve(__dirname, './TextWithLink.tsx')
 	const html = await buildAndRenderToHtml(inputPath)
 	expect(html).toContain(
-		'<div><p>Here is a link to <a href="https://www.google.com/">Google</a>.</p></div>',
+		'<div><p>Here is a link to <a href="https://www.google.com/">Google</a>.</p></div>'
 	)
 })

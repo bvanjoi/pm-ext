@@ -1,10 +1,10 @@
-import ReactDOMServer from 'react-dom/server'
+import ReactDomServer from 'react-dom/server'
 import { ProsemirrorEditor } from '../../components/pm'
 
-function PMEditorWithPlainText() {
+function PmEditorWithPlainText() {
 	const initHtml = '<p>Hello World</p>'
 	return <ProsemirrorEditor initHtml={initHtml} />
 }
 
-const output = ReactDOMServer.renderToString(<PMEditorWithPlainText />)
+const output = ReactDomServer.renderToString(<PmEditorWithPlainText />)
 export default output
