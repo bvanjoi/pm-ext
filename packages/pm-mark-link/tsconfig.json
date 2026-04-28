@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "strict": true,
+    "moduleResolution": "bundler",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "references": [
+    {
+      "path": "../pm-basic-setup/tsconfig.json"
+    },
+    {
+      "path": "../pm-test-helper/tsconfig.json"
+    },
+    {
+      "path": "../pm-utils/tsconfig.json"
+    },
+    {
+      "path": "../utils/tsconfig.json"
+    },
+  ]
+}

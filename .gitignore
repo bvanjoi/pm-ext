@@ -31,12 +31,13 @@ common/autoinstallers/*/.npmrc
 test-results/
 
 .turbo/
+.next/
 
 # TypeScript
 *.tsbuildinfo
 
 # Playwright cache
-playwright/.cache
+**/playwright/.cache
 
 storybook-static/
 .vercel

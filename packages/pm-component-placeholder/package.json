@@ -1,0 +1,25 @@
+{
+	"name": "@pm-ext/component-placeholder",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		"./inline-block-placeholder": {
+			"types": "./dist/src/inline-block-placeholder/index.d.ts",
+			"default": "./dist/inline-block-placeholder/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"build": "rm -rf dist && rslib build",
+		"dev": "rslib build -w",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix",
+		"test": "playwright clear-cache && playwright test"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.59.1",
+		"@rslib/core": "^0.21.3",
+		"typescript": "^6.0.3"
+	}
+}

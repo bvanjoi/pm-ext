@@ -1,0 +1,35 @@
+{
+	"name": "@pm-ext/e2e-helper",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/src/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/src/index.d.ts",
+	"scripts": {
+		"build": "rm -rf dist && rslib build",
+		"dev": "rslib build -w",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix"
+	},
+	"dependencies": {
+		"@pm-ext/basic-setup": "workspace:*",
+		"@rslib/core": "^0.21.3",
+		"prosemirror-commands": "^1.7.1",
+		"prosemirror-history": "^1.5.0",
+		"prosemirror-keymap": "^1.2.3",
+		"prosemirror-model": "^1.25.4",
+		"prosemirror-state": "^1.4.4",
+		"prosemirror-view": "^1.41.8"
+	},
+	"devDependencies": {
+		"typescript": "^6.0.3"
+	}
+}

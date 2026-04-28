@@ -1,0 +1,25 @@
+{
+	"name": "@pm-ext/utils",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/src/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/src/index.d.ts",
+	"scripts": {
+		"build": "rm -rf dist && rslib build",
+		"dev": "rslib build -w",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix"
+	},
+	"devDependencies": {
+		"@rslib/core": "^0.21.3",
+		"typescript": "^6.0.3"
+	}
+}

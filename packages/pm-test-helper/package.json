@@ -1,0 +1,45 @@
+{
+	"name": "@pm-ext/test-helper",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"type": "module",
+	"private": true,
+	"exports": {
+		"./bundle": {
+			"types": "./dist/src/bundle.d.ts",
+			"default": "./dist/bundle.js"
+		},
+		"./pageHtml": {
+			"types": "./dist/src/pageHtml.d.ts",
+			"default": "./dist/pageHtml.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/src/index.d.ts",
+	"scripts": {
+		"build": "rm -rf dist && rslib build",
+		"dev": "rslib build -w",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix"
+	},
+	"dependencies": {
+		"esbuild": "^0.28.0"
+	},
+	"devDependencies": {
+		"@pm-ext/e2e-helper": "workspace:*",
+		"@rslib/core": "^0.21.3",
+		"@types/node": "^25.6.0",
+		"prosemirror-model": "^1.25.4",
+		"prosemirror-state": "^1.4.4",
+		"prosemirror-transform": "^1.12.0",
+		"prosemirror-view": "^1.41.8",
+		"typescript": "^6.0.3"
+	},
+	"peerDependencies": {
+		"prosemirror-model": "^1.0.0",
+		"prosemirror-state": "^1.0.0",
+		"prosemirror-transform": "^1.0.0",
+		"prosemirror-view": "^1.0.0"
+	}
+}

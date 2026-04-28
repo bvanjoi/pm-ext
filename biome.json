@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.3.13/schema.json",
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"files": {
 		"includes": [
@@ -7,14 +7,16 @@
 			"!**/node_modules/**/*",
 			"!**/dist/**/*",
 			"!**/lib/**/*",
-			"!**/playwright/.cache/**/*"
+			"!**/playwright/.cache/**/*",
+			"!**/.next/**/*"
 		]
 	},
 	"javascript": {
 		"formatter": {
 			"semicolons": "asNeeded",
 			"arrowParentheses": "asNeeded",
-			"quoteStyle": "single"
+			"quoteStyle": "single",
+			"trailingCommas": "none"
 		},
 		"jsxRuntime": "reactClassic"
 	},
@@ -23,22 +25,16 @@
 		"rules": {
 			"recommended": true,
 			"style": {
-				"useExportType": "error",
-				"useImportType": "error",
-				"noParameterAssign": "error",
-				"useAsConstAssertion": "error",
-				"useDefaultParameterLast": "error",
-				"useEnumInitializers": "error",
-				"useSelfClosingElements": "error",
-				"useSingleVarDeclarator": "error",
-				"noUnusedTemplateLiteral": "error",
-				"useNumberNamespace": "error",
-				"noInferrableTypes": "error",
-				"noUselessElse": "error"
+				"recommended": true
 			},
 			"correctness": {
+				"useImportExtensions": "off",
 				"noUnusedVariables": "error"
-			}
+			},
+			"security": {
+				"recommended": true
+			},
+			"performance": "error"
 		}
 	}
 }

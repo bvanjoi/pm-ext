@@ -1,0 +1,39 @@
+{
+	"name": "@pm-ext/react",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"type": "module",
+	"exports": {
+		"./context": {
+			"types": "./dist/src/context.d.ts",
+			"default": "./dist/context.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"scripts": {
+		"build": "rm -rf dist && rslib build",
+		"dev": "rslib build -w",
+		"format:check": "biome format",
+		"format:fix": "biome format --fix"
+	},
+	"devDependencies": {
+		"@rslib/core": "^0.21.3",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"prosemirror-model": "^1.25.4",
+		"prosemirror-state": "^1.4.4",
+		"prosemirror-transform": "^1.12.0",
+		"prosemirror-view": "^1.41.8",
+		"react": "^19.2.5",
+		"react-dom": "^19.2.5",
+		"typescript": "^6.0.3"
+	},
+	"peerDependencies": {
+		"prosemirror-model": "^1.0.0",
+		"prosemirror-state": "^1.0.0",
+		"prosemirror-transform": "^1.0.0",
+		"prosemirror-view": "^1.0.0",
+		"react": ">=16.9.0",
+		"react-dom": ">=16.9.0"
+	}
+}

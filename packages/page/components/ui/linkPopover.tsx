@@ -1,0 +1,120 @@
+import React from 'react'
+import { mockTranslate, type Translate } from '../../i18n/hooks'
+import { Button } from './button'
+import { Label } from './label'
+import { LabelInput } from './labelInput'
+import { Popover, PopoverContent, PopoverTrigger } from './popover'
+
+interface InsertLinkPopoverProps extends BaseLinkPopoverProps {
+	mode: 'insert'
+	onConfirm?: (href: string, text: string) => void
+}
+
+interface EditLinkPopoverProps extends BaseLinkPopoverProps {
+	mode: 'editHref'
+	href: string
+	onConfirm?: (newHref: string) => void
+	onRemove?: () => void
+}
+
+interface BaseLinkPopoverProps {
+	t?: Translate
+}
+
+type LinkPopoverProps = InsertLinkPopoverProps | EditLinkPopoverProps
+
+function InsertLinkPopoverContent(
+	props: InsertLinkPopoverProps
+): React.JSX.Element {
+	const { t = mockTranslate } = props
+	const [herf, setHref] = React.useState<string>('')
+	const [text, setText] = React.useState<string>('')
+	const onConfirm = () => {
+		if (props.onConfirm) {
+			props.onConfirm(herf, text)
+		}
+	}
+	return (
+		<div className="grid gap-2">
+			<div className="grid grid-cols-3 items-center gap-4">
+				<Label htmlFor="href">{t('linkPopoverHrefLabel')}</Label>
+				<LabelInput id="href" onChange={setHref} />
+			</div>
+			<div className="grid grid-cols-3 items-center gap-4">
+				<Label htmlFor="text">{t('linkPopoverTextLabel')}</Label>
+				<LabelInput id="text" onChange={setText} />
+			</div>
+			<Button className="mt-2 cursor-pointer" onClick={onConfirm}>
+				{t('commonInsert')}
+			</Button>
+		</div>
+	)
+}
+
+function EditLinkPopoverContent(
+	props: EditLinkPopoverProps
+): React.JSX.Element {
+	const { onConfirm, onRemove } = props
+	const [herf, setHref] = React.useState<string>(props.href)
+	const { t = mockTranslate } = props
+
+	const RemoveHrefButton = () => {
+		if (!props.href) {
+			return
+		}
+
+		return (
+			<Button
+				className="mt-2 cursor-pointer"
+				onClick={() => {
+					if (onRemove) {
+						onRemove()
+					}
+				}}
+			>
+				{t('commonRemove')}
+			</Button>
+		)
+	}
+
+	return (
+		<div className="grid gap-2">
+			<div className="grid grid-cols-3 items-center gap-4">
+				<Label htmlFor="href">{t('linkPopoverHrefLabel')}</Label>
+				<LabelInput id="href" defaultValue={herf} onChange={setHref} />
+			</div>
+			<Button
+				className="mt-2 cursor-pointer"
+				onClick={() => {
+					if (onConfirm) {
+						onConfirm(herf)
+					}
+				}}
+			>
+				{t('commonConfirm')}
+			</Button>
+			<RemoveHrefButton />
+		</div>
+	)
+}
+
+export function LinkPopover(props: LinkPopoverProps): React.JSX.Element {
+	const { mode } = props
+	const { t = mockTranslate } = props
+
+	if (mode !== 'insert' && mode !== 'editHref') {
+		return <React.Fragment />
+	}
+
+	return (
+		<Popover>
+			<PopoverTrigger asChild>
+				<Button className="m-1 cursor-pointer">{t('editorLink')}</Button>
+			</PopoverTrigger>
+			<PopoverContent className="w-80">
+				{mode === 'insert' ? <InsertLinkPopoverContent {...props} /> : null}
+				{mode === 'editHref' ? <EditLinkPopoverContent {...props} /> : null}
+			</PopoverContent>
+		</Popover>
+	)
+}

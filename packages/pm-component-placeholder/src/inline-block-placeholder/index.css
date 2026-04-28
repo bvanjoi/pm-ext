@@ -1,0 +1,19 @@
+.inline-placeholder-loading {
+	margin: 0 4px;
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border-radius: 2px;
+	background: linear-gradient(90deg, #f0f2f5 20%, #d9dde3 50%, #f0f2f5 80%);
+	background-size: 400% 100%;
+	animation: 1.4s infinite normal none running inlinePlaceholderLoading;
+}
+
+@keyframes inlinePlaceholderLoading {
+	0% {
+		background-position-x: 100%;
+	}
+	100% {
+		background-position-x: 0%;
+	}
+}
